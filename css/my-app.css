@@ -54,13 +54,26 @@
 	border: 1px;
 
 }
-
+.content-block-inner-tel {
+	color:#AAAAAA;
+	font-weight:lighter;
+	font-size: 12px;	
+}
 .content-block-inner-miles{
 	text-align: right;
 	color:#AAAAAA;
 	font-weight:lighter;
 	font-size: 12px;
 }
+.content-block-inner-hours{
+	text-align: right;
+	color:#AAAAAA;
+	font-weight:lighter;
+	font-size: 12px;
+}
+
+
+
 .item-inner-main {
 	font-family: verdana;
 	color:#BBBBBB;
@@ -90,7 +103,6 @@
 
 .left-panel-portrait{
 	text-align: center;
-
 	padding:1px;
 }
 .left-panel-username{
@@ -99,11 +111,18 @@
 	color:#CCCCCC;
 	font-size: 24px;
 	font-family: Verdana;
-	border-bottom-width: 10px;
+	border-bottom: 1px solid #DDDDDD;
+	padding-bottom: 14px;
 }
-.left-panel-table{
-	border-color: #FFFFFF;
-	border-width: 5px;
+.left-panel-table {
+	width:100%;
+	border-color:#FFFFFF;
+	border-width:none;
+}
+.left-panel-table td{
+	border-bottom: 1px solid #DDDDDD;
+	padding-top: 13px;
+	padding-bottom: 14px;
 }
 .left-panel-list{
 	font-size: 24px;
