@@ -81,15 +81,33 @@
 	text-align: right;
 }
 
+.left-panel-portrait-img {
+	width:100px;
+	height:100px;
+	border-radius:50px;
+}
+
 
 .left-panel-portrait{
 	text-align: center;
-	padding:10px;
+
+	padding:1px;
 }
 .left-panel-username{
 	text-align: center;
-	padding:10px;
-	color:#FFFFFF;
+	padding:5px;
+	color:#CCCCCC;
+	font-size: 24px;
+	font-family: Verdana;
+	border-bottom-width: 10px;
+}
+.left-panel-table{
+	border-color: #FFFFFF;
+	border-width: 5px;
+}
+.left-panel-list{
+	font-size: 24px;
+	font-family: Verdana;	
 }
 
 
