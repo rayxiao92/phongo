@@ -12,7 +12,7 @@
 	right:5px;
 	padding-right:10px;
 	border: none;
-	font-family: Myriad Pro;
+	font-family: PT Sans;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -46,7 +46,7 @@
 .content-block-inner-request{
 	background-color: #A6CC77;
 	text-align: center;
-	
+	font-size :16px;
 	color: #FFFFFF;
 
 }
