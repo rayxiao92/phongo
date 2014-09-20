@@ -1,6 +1,6 @@
 .content-block-inner-pic {
-	width:60px;
-	height:60px;
+	width:80px;
+	height:80px;
 	vertical-align: top;
 	padding-right: 10px;
 
@@ -8,10 +8,11 @@
 .content-block-inner-text{
 	display:inline-block;
 	border-collapse: collapse;
-	width:80%;
+	left:5px;
+	right:5px;
 	padding-right:10px;
 	border: none;
-	font-family: Arial;
+	font-family: Myriad Pro;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -21,30 +22,37 @@
 }
 
 .content-block-inner-title{
-	display:inline;
 	font-size: 14px;
 	font-weight: bold;
+	width:100%;
 	color:#010101;
+}
+.content-block-inner-star{
 
 }
+.content-block-inner-return{
+	color:#AA0000;
+	font-weight: bold;
+	text-align: right;
+	font-size: 12px;
+}
+
 .content-block-inner-address{
-	display:inline;
+	
 	color:#AAAAAA;
 	font-weight:lighter;
 	font-size: 12px;
 }
+.content-block-inner-request{
+	background-color: #A6CC77;
+	text-align: center;
+	
+	color: #FFFFFF;
 
-
-.content-block-inner-dollarsign{
-	float: right;
-	display:inline;
-	color:#AAAAAA;
-	font-weight:lighter;
-	font-size: 12px;
 }
+
 .content-block-inner-miles{
-	float:; right;
-	display:inline;
+	text-align: right;
 	color:#AAAAAA;
 	font-weight:lighter;
 	font-size: 12px;
