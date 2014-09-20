@@ -15,7 +15,7 @@
 	right:5px;
 	padding-right:10px;
 	border: none;
-	font-family: PT Sans;
+	font-family: Arial;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -60,7 +60,7 @@
 	font-size: 12px;
 }
 .item-inner-main {
-	font-family: PT sans;
+	font-family: Arial;
 	color:#BBBBBB;
 	font-weight: lighter;
 }
