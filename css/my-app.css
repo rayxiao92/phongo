@@ -15,7 +15,7 @@
 	right:5px;
 	padding-right:10px;
 	border: none;
-	font-family: Arial;
+	font-family: helvetica neue;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -49,11 +49,12 @@
 .content-block-inner-request{
 	background-color: #A6CC77;
 	text-align: center;
-	font-size :16px;
+	font-size :20px;
 	color: #FFFFFF;
 	border: 1px;
 
 }
+
 .content-block-inner-miles{
 	text-align: right;
 	color:#AAAAAA;
@@ -61,9 +62,9 @@
 	font-size: 12px;
 }
 .item-inner-main {
-	font-family: Arial;
+	font-family: verdana;
 	color:#BBBBBB;
-	font-weight: lighter;
+	
 }
 .item-inner-title {
 	color:#888888;
@@ -80,6 +81,16 @@
 	text-align: right;
 }
 
+
+.left-panel-portrait{
+	text-align: center;
+	padding:10px;
+}
+.left-panel-username{
+	text-align: center;
+	padding:10px;
+	color:#FFFFFF;
+}
 
 
 
