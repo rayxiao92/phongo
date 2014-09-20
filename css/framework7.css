@@ -679,7 +679,9 @@ html:not(.watch-active-state) .toolbar a.link:active,
 .navbar {
   left: 0;
   top: 0;
-  background: #f7f7f8;
+  background: #b65042;
+  /*original*/
+  /*>background: #f7f7f8;<*/
   border-bottom: 1px solid #c4c4c4;
 }
 html.retina.ios-gt-7 .navbar {

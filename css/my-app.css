@@ -3,27 +3,49 @@
 	height:60px;
 	vertical-align: top;
 	padding-right: 10px;
-	padding-top: 4px;
+
 }
 .content-block-inner-text{
 	display:inline-block;
-	padding-top: 4px;
-	width:72%;
+	border-collapse: collapse;
+	width:80%;
+	padding-right:10px;
 	border: none;
-	font-family: Helvetica;
-	width:72%;
+	font-family: Arial;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+.content-block-inner-text tr td{
+	border-collapse: collapse;
+}
+
 .content-block-inner-title{
 	display:inline;
 	font-size: 14px;
 	font-weight: bold;
+	color:#010101;
 
 }
 .content-block-inner-address{
 	display:inline;
-	font-size: 10px;
+	color:#AAAAAA;
+	font-weight:lighter;
+	font-size: 12px;
+}
 
+
+.content-block-inner-dollarsign{
+	float: right;
+	display:inline;
+	color:#AAAAAA;
+	font-weight:lighter;
+	font-size: 12px;
+}
+.content-block-inner-miles{
+	float:; right;
+	display:inline;
+	color:#AAAAAA;
+	font-weight:lighter;
+	font-size: 12px;
 }
