@@ -1,0 +1,29 @@
+.content-block-inner-pic {
+	width:50px;
+	height:50px;
+	vertical-align: top;
+	padding-right: 10px;
+	padding-top: 4px;
+}
+.content-block-inner-text{
+	display:inline-block;
+	padding-top: 4px;
+	width:72%;
+	border: none;
+	font-family: Helvetica;
+	width:72%;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.content-block-inner-title{
+	display:inline;
+	font-size: 16px;
+	font-weight: bold;
+
+}
+.content-block-inner-address{
+	display:inline;
+	font-size: 14px;
+
+}
