@@ -29,7 +29,7 @@ body {
   width: 100%;
   -webkit-text-size-adjust: 100%;
   background: #fff;
-  overflow: hidden;
+  overflow: visible;
 }
 @media all and (width: 1024px) and (height: 691px) and (orientation: landscape) {
   html,
@@ -356,7 +356,7 @@ p {
   -webkit-overflow-scrolling: touch;
 }
 .view {
-  overflow: hidden;
+  overflow: visible;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -366,7 +366,7 @@ p {
   position: relative;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
   background: #000;
 }
 .page {
@@ -378,7 +378,7 @@ p {
   top: 0;
   width: 100%;
   height: 100%;
-  /*overflow: hidden;*/
+  overflow: visible;
   background: #efeff4;
   -webkit-transform: translate3d(0, 0, 0);
   -ms-transform: translate3d(0, 0, 0);
@@ -693,7 +693,7 @@ html.retina.ios-gt-7 .navbar {
   text-align: center;
   margin: 0;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;
   white-space: nowrap;
   line-height: 44px;
@@ -761,7 +761,7 @@ html.retina.ios-gt-7 .toolbar {
   position: relative;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow: visible;
 }
 .tabbar {
   color: #929292;
@@ -1017,7 +1017,7 @@ html.retina.ios-gt-7 .toolbar {
   box-sizing: border-box;
   border-bottom: 1px solid #b4b4b4;
   padding: 0 8px;
-  overflow: hidden;
+  overflow: visible;
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -1355,7 +1355,7 @@ i.icon.icon-plus {
 }
 .content-block-title {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   margin: 0;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -1572,7 +1572,7 @@ html.retina.ios-gt-7 .content-block-inner {
   flex-shrink: 1;
   white-space: nowrap;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;
   max-width: 100%;
 }
@@ -1607,7 +1607,7 @@ html.retina.ios-gt-7 .content-block-inner {
 }
 .list-block .smart-select .item-after {
   max-width: 70%;
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;
   position: relative;
 }
@@ -1668,7 +1668,7 @@ html:not(.watch-active-state) .list-block .item-link:active .item-inner,
   color: #8f8f94;
 }
 .list-block .swipeout {
-  overflow: hidden;
+  overflow: visible;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
 }
@@ -1762,7 +1762,7 @@ html:not(.watch-active-state) .list-block .item-link:active .item-inner,
 .list-block .item-subtitle {
   font-size: 15px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   white-space: nowrap;
   max-width: 100%;
   text-overflow: ellipsis;
@@ -1772,7 +1772,7 @@ html:not(.watch-active-state) .list-block .item-link:active .item-inner,
   color: #8e8e93;
   line-height: 21px;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   height: 42px;
   text-overflow: ellipsis;
   -webkit-line-clamp: 2;
@@ -1837,7 +1837,7 @@ html:not(.watch-active-state) .list-block .item-link:active .item-inner,
   position: relative;
   max-width: 100%;
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow: visible;
   color: #8e8e93;
 }
 .list-block .list-group-title {
@@ -2114,7 +2114,7 @@ html.android .label-switch input[type="checkbox"] + .checkbox:before {
   height: 29px;
   white-space: nowrap;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   text-overflow: ellipsis;
   font-size: 14px;
   font-family: inherit;
@@ -2188,7 +2188,7 @@ html:not(.watch-active-state) .button.button-fill:active,
 .range-slider {
   width: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   padding-left: 3px;
   padding-right: 3px;
   margin-left: -1px;
@@ -2386,7 +2386,7 @@ html:not(.watch-active-state) .list-block .accordion-item-toggle:active > .item-
 }
 .accordion-item-content {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   height: 0;
   font-size: 14px;
   -webkit-transition-duration: 300ms;
@@ -2483,7 +2483,7 @@ html.ios .popup-overlay.modal-overlay-visible {
 }
 .modal-buttons {
   height: 44px;
-  overflow: hidden;
+  overflow: visible;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
@@ -2506,7 +2506,7 @@ html.ios .popup-overlay.modal-overlay-visible {
   position: relative;
   white-space: nowrap;
   text-overflow: ellipsis;
-  overflow: hidden;
+  overflow: visible;
   cursor: pointer;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -2731,7 +2731,7 @@ input.modal-text-input.modal-text-input-double + input.modal-text-input {
   left: -26px;
   top: 0;
   z-index: 100;
-  overflow: hidden;
+  overflow: visible;
 }
 .popover-angle:after {
   content: ' ';
@@ -3034,7 +3034,7 @@ body.panel-closing .views {
 .tabs-animated-wrap {
   position: relative;
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   height: 100%;
 }
 .tabs-animated-wrap > .tabs {
@@ -3453,7 +3453,7 @@ html.with-statusbar-overlay body .panel {
 /* === Slider === */
 .slider-container {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   width: 100%;
   height: 100%;
 }
@@ -3672,7 +3672,7 @@ body > .photo-browser .toolbar {
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: visible;
   background: #fff;
   -webkit-transition-duration: 400ms;
   transition-duration: 400ms;
@@ -3696,7 +3696,7 @@ body > .photo-browser .toolbar {
   width: 100%;
   height: 100%;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
