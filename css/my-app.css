@@ -1,3 +1,6 @@
+.content-block-inner-main{
+	padding-top: 10px;
+}
 .content-block-inner-pic {
 	width:80px;
 	height:80px;
@@ -50,10 +53,37 @@
 	color: #FFFFFF;
 
 }
-
 .content-block-inner-miles{
 	text-align: right;
 	color:#AAAAAA;
 	font-weight:lighter;
 	font-size: 12px;
 }
+.item-inner-main {
+	font-family: PT sans;
+	color:#BBBBBB;
+	font-weight: lighter;
+}
+.item-inner-title {
+	color:#888888;
+}
+.item-inner-price {
+	color:#888888;
+	text-align: right;
+}
+.item-inner-type {
+	font-size:12px;
+}
+.item-inner-data {
+	font-size:12px;
+	text-align: right;
+}
+
+
+
+
+
+
+
+
+
