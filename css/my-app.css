@@ -1,6 +1,6 @@
 .content-block-inner-pic {
-	width:50px;
-	height:50px;
+	width:60px;
+	height:60px;
 	vertical-align: top;
 	padding-right: 10px;
 	padding-top: 4px;
@@ -18,12 +18,12 @@
 }
 .content-block-inner-title{
 	display:inline;
-	font-size: 16px;
+	font-size: 14px;
 	font-weight: bold;
 
 }
 .content-block-inner-address{
 	display:inline;
-	font-size: 14px;
+	font-size: 10px;
 
 }
