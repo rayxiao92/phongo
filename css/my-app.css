@@ -4,9 +4,8 @@
 .content-block-inner-pic {
 	width:80px;
 	height:80px;
+	border-radius: 40px;
 	vertical-align: top;
-	padding-right: 10px;
-
 }
 .content-block-inner-text{
 	display:inline-block;
@@ -47,8 +46,9 @@
 	font-size: 12px;
 }
 .content-block-inner-request{
-	background-color: #A6CC77;
+	background-color: #8ac007;
 	text-align: center;
+	border-radius: 5px;
 	font-size :20px;
 	color: #FFFFFF;
 	border: 1px;
