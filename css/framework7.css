@@ -749,8 +749,10 @@ html.retina.ios-gt-7 .navbar {
   left: 0;
   bottom: 0;
   /*original setting
-  background: #f7f7f8;*/
-  background: #b65042;
+  background: #f7f7f8;
+  */
+  background: transparent;
+  /*background: #b65042;*/
   border-top: 1px solid #c4c4c4;
 }
 html.retina.ios-gt-7 .toolbar {
@@ -4932,4 +4934,7 @@ a.bg-red,
 }
 .border-red {
   border-color: #ff3b30;
+}
+.border-no {
+  border:none;
 }
