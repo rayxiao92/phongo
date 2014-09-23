@@ -46,15 +46,7 @@
 	font-weight:lighter;
 	font-size: 12px;
 }
-.content-block-inner-request{
-	background-color: #8ac007;
-	text-align: center;
-	border-radius: 5px;
-	font-size :20px;
-	color: #FFFFFF;
-	border: 1px;
 
-}
 .content-block-inner-tel {
 	color:#AAAAAA;
 	font-weight:lighter;
@@ -133,6 +125,32 @@
 }
 
 
+.toolbar-inner-table {
+	width:100%;
+}
+.toolbar-inner-left {
+	width:15%;
+}
+.toolbar-inner-right {
+	width:15%;
+}
+
+.toolbar-inner-request-table {
+	width:70%;
+	margin-left:auto;
+	margin-right:auto;
+	background-color: #8ac007;
+	text-align: center;
+	border-radius: 5px;
+	font-size :20px;
+	color: #FFFFFF;
+	border: 1px;
+}
+
+.toolbar-inner-request-table-button {
+	display:inline;
+	text-align: center;
+}
 
 
 

@@ -82,7 +82,7 @@
           <!-- Page, data-page contains page name-->
           <div data-page="index" class="page">
             <!-- Scrollable page content-->
-            <div class="page-content">
+            <div class="page-content"> 
               <div class="content-block">
                 <div class="content-block-inner">
                   <table class="content-block-inner-main">
@@ -126,18 +126,13 @@
                         </table>
                       </td>
                     </tr>
-                    <tr>
-                      <td class="content-block-inner-request" colspan="2">
-                              Request a table, now!
-                      </td>
-                    </tr>
                   </table>
                 </div>
               </div>
-              
+
               <div class="content-block-title">We guess you might like...</div>
               <div class="list-block">
-                <ul>
+                <!--<ul>
                   <li>
                       <div class="item-content">
                         <div class="item-inner">
@@ -206,7 +201,41 @@
                             </tr>
                           </table>
                         </div>
+
                       </div></li>
+
+                </ul>-->
+                <ul>
+                  <li class="swipeout">
+                    <div class="swipeout-content item-content">
+                      <!--<div class="item-media">...</div>-->
+                      <div class="item-inner">
+                          <table class="item-inner-main" width=100%>
+                            <tr>
+                              <td class="item-inner-title">
+                                Fried Tuna
+                              </td>
+                              <td class="item-inner-price">
+                                $59
+                              </td>
+                            </tr>
+                            <tr>
+                              <td class="item-inner-type">
+                                Seafood
+                              </td>
+                              <td class="item-inner-data">
+                                1,804 likes
+                              </td>
+                            </tr>
+                          </table>
+
+
+                      </div>
+                    </div>
+                    <div class="swipeout-actions-right">
+                      <a href="#" class="action1">Action 1</a>
+                    </div>
+                  </li>
                 </ul>
               </div>
               <div class="content-block-title">Menu</div>
@@ -243,7 +272,23 @@
         </div>
         <!-- Bottom Toolbar-->
         <div class="toolbar">
-          <div class="toolbar-inner"><a href="#" class="link">Link 1</a><a href="#" class="link">Link 2</a></div>
+          <div class="toolbar-inner">
+            <table class="toolbar-inner-table">
+              <tr>
+                <td class="toolbar-inner-left">
+                  <a href="#" class="link">Link 1</a>
+                </td>
+                <td class="toolbar-inner-request-table">
+                  <div class="toolbar-inner-request-table-button">
+                    <a href="#" class = "link">Request a table now</a>
+                  </div>
+                </td>
+                <td class="toolbar-inner-right">
+                  <a href="#" class="link">Link 2</a></div>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
     </div>
