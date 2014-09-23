@@ -129,11 +129,11 @@
 	width:100%;
 }
 .toolbar-inner-left {
-	width:15%;
+	width:10%;
 	background-color: transparent;
 }
 .toolbar-inner-right {
-	width:15%;
+	width:10%;
 	background-color: transparent;
 }
 
@@ -145,6 +145,7 @@
 .toolbar-inner-request-table-button {
 	text-align: center;
 	background-color: #8ac007;
+	border-radius: 10px;
 }
 .toolbar-inner-request-table-button a{
 	display: inline;
