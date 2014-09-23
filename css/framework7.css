@@ -1713,7 +1713,9 @@ html:not(.watch-active-state) .list-block .item-link:active .item-inner,
 .list-block .swipeout-actions-right a {
   padding: 0 30px;
   color: #fff;
+  /*original grey*/
   background: #c7c7cc;
+  /*background: #8AC007;*/
   display: -webkit-box;
   display: -ms-flexbox;
   display: -webkit-flex;
