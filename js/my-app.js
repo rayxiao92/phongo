@@ -1,5 +1,9 @@
 // Initialize your app
-var myApp = new Framework7();
+//var myApp = new Framework7();
+var myApp = new Framework7({
+    swipePanel: 'left',
+    pushState: true
+});
 
 // Export selectors engine
 var $$ = Dom7;
@@ -17,6 +21,13 @@ myApp.onPageInit('about', function (page) {
         createContentPage();
     });
 });
+
+//add order
+
+function addCurrentOrder(id) {
+    alert(id)
+}
+
 
 // Generate dynamic page
 var dynamicPageIndex = 0;
