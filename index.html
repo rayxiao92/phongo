@@ -66,7 +66,7 @@
     <!-- Views-->
     <div class="views">
       <!-- Your main view, should have "view-main" class-->
-      <div class="view view-main">
+      <div class="view view-main" >
         <!-- Top Navbar-->
         <div class="navbar">
           <div class="navbar-inner">
@@ -76,7 +76,7 @@
                       <span>Back</span>
                   </a>
               </div>
-              <div class="center color-white">Tamper Cafe at Boston ave</div>
+              <div class="center"><a href="#" class="color-white">Tamper Cafe at Boston ave</a></div>
               <div class="right color-white">
                   <a href="#" class="link color-white">
                       <i class="icon icon-bars color-white"></i>
@@ -85,13 +85,15 @@
           </div>
         </div>
         <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        
         <div class="pages navbar-through toolbar-through">
           <!-- Page, data-page contains page name-->
           <div data-page="index" class="page">
             <!-- Scrollable page content-->
             <div class="page-content" > 
-              <div class="content-block">
+              <div class="content-block card">
                 <div class="content-block-inner">
+
                   <table class="content-block-inner-main">
                     <tr>
                       <td >
@@ -136,7 +138,7 @@
                 </div>
               </div>
               <div class="content-block-title">We guess you might like...</div>
-              <div class="list-block media-list">
+              <div class="list-block media-list card">
                 <ul>
                   <li class="swipeout">
                     <div class="swipeout-content item-content">
@@ -198,7 +200,7 @@
                 </ul>
               </div>
               <div class="content-block-title">Menu</div>
-              <div class="list-block accordion-list">
+              <div class="list-block accordion-list card">
                 <ul>
                   <li class="accordion-item"><a href="#" class="item-content item-link">
                     <div class="item-inner">
@@ -360,6 +362,24 @@
                 </td>
               </tr>
             </table>
+          </div>
+        </div>
+      </div>
+      <div class="view view-restaurant" style="display:none">
+                <div class="navbar">
+          <div class="navbar-inner">
+              <div class="left">
+                  <a href="#" class="link color-white">
+                      <i class="icon icon-back color-white"></i>
+                      <span>Back</span>
+                  </a>
+              </div>
+              <div class="center"></div>
+              <div class="right color-white">
+                  <a href="#" class="link color-white">
+                      <i class="icon icon-bars color-white"></i>
+                  </a>
+              </div>
           </div>
         </div>
       </div>

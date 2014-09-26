@@ -106,7 +106,7 @@
 	color:#CCCCCC;
 	font-size: 24px;
 	font-family: Verdana;
-	border-bottom: 1px solid #DDDDDD;
+	border-bottom: 1px solid #404040;
 	padding-bottom: 3px;
 }
 .left-panel-table {
@@ -115,9 +115,11 @@
 	border-width:none;
 }
 .left-panel-table td{
-	border-bottom: 1px solid #DDDDDD;
+	border-bottom: 1px solid #404040;
+	border-collapse: collapse;
 	padding-top: 13px;
 	padding-bottom: 13px;
+
 }
 .left-panel-list{
 	font-size: 24px;
@@ -152,6 +154,10 @@
 	text-align: center;
 	color:#FFF;
 	background-color: #8ac007;
+}
+
+.card {
+	margin: 0 10px 10px 10px;
 }
 
 
