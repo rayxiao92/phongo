@@ -52,10 +52,15 @@ function loadmenu(menuArray){
     }
     console.log(style)
     for ( i in style ) {
+        //
+        // Single food style
+        //
         ul_list = document.getElementById("menulist").getElementsByTagName("ul")[0]
         var li_list = createHTMLElement(li_list, 'li', "accordion-item", ul_list)
+        
         var a_style_title = createHTMLElement(a_style_title, 'a', "item-content item-link", li_list)
-        a_style_title.href = "#"
+        a_style_title.href = "#"+i
+        a_style_title.name = i
         var div_item_inner = createHTMLElement(div_item_inner, 'div', "item-inner", a_style_title)
         var div_item_title = createHTMLElement(div_item_title, 'div', "item-title", div_item_inner)
         div_item_title.innerHTML = i
@@ -63,10 +68,13 @@ function loadmenu(menuArray){
         var div_list_block = createHTMLElement(div_list_block, 'div', "list-block media-list", div_accordion_item_content)
         var ul_list_2 = createHTMLElement(ul_list_2, 'ul', "" , div_list_block)
         for ( j in style[i] ) {
+            //
+            // Single dish
+            //
             var li_swipe_out = createHTMLElement(li_swipe_out, 'li', "swipeout", ul_list_2)
             var div_swipe_out = createHTMLElement(div_swipe_out, 'div', "swipeout-content item-content", li_swipe_out)
-            var div_picture = createHTMLElement(div_picture, 'div', "item-media", div_swipe_out)
-            div_picture.innerHTML = '<img src'+ style[i][j]["picture"] + ' width="80" >'
+            var div_picture = createHTMLElement(div_picture, 'div', "item-media border-round", div_swipe_out)
+            div_picture.innerHTML = '<img src'+ '"..."' + ' width="80" height="80">'
             var div_item_inner = createHTMLElement(div_item_inner, 'div', "item-inner", div_swipe_out)
             var div_item_title_row = createHTMLElement(div_item_title_row, 'div', "item-title-row", div_item_inner)
             var div_item_title_dish = createHTMLElement(div_item_title_dish, 'div', "item-title", div_item_title_row)
@@ -77,18 +85,22 @@ function loadmenu(menuArray){
             div_item_subtitle.innerHTML = i
             var div_item_text = createHTMLElement(div_item_text, 'div', "item-text", div_item_inner)
             div_item_text.innerHTML = "lol"
-
-            var div_swipe_out_right = createHTMLElement(div_swipe_out_right, 'div', "swipeout-actions-right", div_swipe_out)
+            //
+            // Swipe action
+            //
+            var div_swipe_out_right = createHTMLElement(div_swipe_out_right, 'div', "swipeout-actions-right", li_swipe_out)
             var addaction = createHTMLElement(addaction, 'a', "action1 bg-green", div_swipe_out_right)
             addaction.innerHTML = "Add"
-            var div_swipe_out_left = createHTMLElement(div_swipe_out_left, 'div', "swipeout-actions-left", div_swipe_out)
+            addaction.href = "#"
+            var div_swipe_out_left = createHTMLElement(div_swipe_out_left, 'div', "swipeout-actions-left", li_swipe_out)
             var nextaction = createHTMLElement(nextaction, 'a', "action1 bg-red",div_swipe_out_left)
             nextaction.innerHTML = "Nope..."
+            nextaction.href = "#"
         }   
     }
     console.log(menulist)
 }
-
+// Use JS to create HTML element
 function createHTMLElement (name, element, classname, parent){
     var name = document.createElement(element)
     name.className = classname
