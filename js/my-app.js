@@ -1,5 +1,7 @@
 //var singlerestaurant = '{"restaurant":"Tamper Cafe", "restaurantid":"0075", "star":"5", "fit":"88", "address":"340 Boston Ave", "distance":"0.3", "phone":"617-800-1234", "recommend":[{"dishid":"1234", "title":"Salmon Sushi","type":"sushi","fit":"97","description":"This is not bad","price":"15"}, {"dishid":"1235", "title":"Yellowtail","type":"sushi","fit":"93","description":"This is not bad, too","price":"13"}, {"dishid":"1236", "title":"Udon","type":"Noodle","fit":"71","description":"LOL udon","price":"11"} ] "menu":[{"dishid":"1234", "title":"Salmon Sushi","type":"sushi","fit":"97","description":"This is not bad","price":"15"}, {"dishid":"1235", "title":"Yellowtail","type":"sushi","fit":"93","description":"This is not bad, too","price":"13"}, {"dishid":"1236", "title":"Udon","type":"Noodle","fit":"71","description":"LOL udon","price":"11"} ] } '
 var singlerestaurant = '{"restaurant": "Tamper Cafe", "restaurantid": "0075", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }'// Initialize your app
+var currentorder = ''
+var currentpage_id = "home_page"
 //var myApp = new Framework7();
 var myApp = new Framework7({
     swipePanel: 'left',
@@ -25,42 +27,132 @@ var mainView = myApp.addView('.view-main', {
 // });
 
 //add order
-
-
-function loaddata() {
-    restaurant_array=JSON.parse(singlerestaurant)
-    console.log(restaurant_array)
-    // Get restaurant name on navbar
-    document.getElementById("navbartitle").innerHTML='<a href="#" class="color-white">'+
-    restaurant_array["restaurant"]+
-    '</a>'
-
-    //load top three
-
-    //load menu
-    loadmenu(restaurant_array["menu"])
+function switchpage(page) {
+    console.log(page)
+    document.getElementById(currentpage_id).style.display = "none"
+    document.getElementById(page+"_page").style.display = "block"
+    currentpage_id = page+"_page"
+    myApp.closePanel()
+    console.log(currentpage_id)
 }
 
+function loaddata() {
+    if (currentpage_id == "restaurant_page"){
+        restaurant_array=JSON.parse(singlerestaurant)
+        console.log(restaurant_array)
+        // Get restaurant name on navbar
+        document.getElementById("navbartitle").innerHTML='<a href="#" class="color-white">'+
+        restaurant_array["restaurant"]+
+        '</a>'
+        //load restaurant info card
+        loadrestaurantcard(restaurant_array)
+        //load top three
+        loadtopthree(restaurant_array["menu"])
+        //load menu
+        loadmenu(restaurant_array["menu"])
+    }
+    if (currentpage_id == "home_page") {
+        
+    }
+}
+function loadrestaurantcard(restaurantarray) { 
+    document.getElementById("restaurantcard").innerHTML=""
+    console.log(document.getElementById("restaurantcard").innerHTML)
+    document.getElementById("restaurantcard").innerHTML+="" +
+'                <div class="content-block-inner">' +
+'                  <div class="row">' +
+'                    <div class="col-25">' +
+'                      <img class="content-block-inner-pic" src = "logo.jpg"/>' +
+'                    </div>' +
+'                    <div class="col-75 left-padding-10">' +
+'                      <div class="row">' +
+'                        <div class="font-bold font-size16">' + restaurantarray["restaurant"]+
+'                        </div>' +
+'                      </div>' +
+'                      <div class="row">' +
+'                        <div class="col-50">' +
+'                          <img width="80" height="16" src = "new_result.png"/ >' +
+'                        </div>' +
+'                        <div class="col-50 text-right color-red font-bold"> Score: ' + restaurantarray["fit"]+
+'                        </div>' +
+'                      </div>' +
+'                      <div class="row  color-gray">' +
+'                        <div class="col-67 color-gray">' + restaurantarray["address"] +
+'                        </div>' +
+'                        <div class="col-33 color-gray text-right">' + restaurantarray["distance"] +" mi"+
+'                        </div>' +
+'                      </div>' +
+'                      <div class="row">' +
+'                        <div class="text-right color-gray">' + restaurantarray["phone"] +
+'                        </div>' +
+'                      </div>' +
+'                    </div>' +
+'                  </div>' +
+'                </div>' 
+
+
+}
+function loadtopthree(menuArray) {
+    console.log(menuArray)
+    menuArray.sort(function(a,b) {return (a.fit > b.fit) ? -1 : ((b.fit > a.fit) ? 1 : 0);})
+    ul_list = document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML
+    ul_list = ""
+    for (i = 0; i < 3; i++) {
+        ul_list +=    '<li class="swipeout"> ' +
+                        '<div class="swipeout-content item-content"> ' +
+                         '<div class="item-media"><img src="..." width="80"></div> ' +
+                         '<div class="item-inner"> ' +
+                           '<div class="item-title-row"> ' +
+                             '<div class="item-title">' + menuArray[i]["title"] + '</div> ' +
+                            '<div class="item-after">$ ' + menuArray[i]["price"] +'</div> ' +
+                            '</div> ' +
+                            '<div class="item-title-row"> ' +
+                              '<div class="item-subtitle">' + menuArray[i]["type"] + '</div> ' +
+                              '<div class="item-after">' + menuArray[i]["fit"] + "%" + '</div> ' +
+                            '</div> ' +
+                            '<div class="item-text">' + menuArray[i]["description"] + '</div> ' +
+                          '</div> ' +
+                        '</div> ' +
+                        '<div class="swipeout-actions-right"> ' +
+                          '<a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a> ' +
+                        '</div> ' +
+                        '<div class="swipeout-actions-left"> ' +
+                          '<a href="#" class="action1 bg-red">Nah...next</a> ' +
+                        '</div> ' +
+                      '</li> '
+    }
+    document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML = ul_list
+}
 function loadmenu(menuArray){
     var style = {}
-    console.log(menuArray)
+    var list = []
+    index = 0
     for ( i in menuArray ) {
         if ( !(menuArray[i]["type"] in style)) {
             style[menuArray[i]["type"]]=[]
         }
         style[menuArray[i]["type"]].push(menuArray[i])
     }
-    console.log(style)
+    document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML=""
     for ( i in style ) {
         //
         // Single food style
         //
         ul_list = document.getElementById("menulist").getElementsByTagName("ul")[0]
+ 
         var li_list = createHTMLElement(li_list, 'li', "accordion-item", ul_list)
         
         var a_style_title = createHTMLElement(a_style_title, 'a', "item-content item-link", li_list)
-        a_style_title.href = "#"+i
-        a_style_title.name = i
+        a_style_title.id = i
+        list.push(i)
+        // // solution 
+        // // http://developer.appcelerator.com/question/84241/dynamically-assign-listener-to-button
+        // document.getElementById(i).addEventListener('click', 
+        //     function(i) {
+        //         console.log(i.y)
+        //         window.scroll(0, -i.y)
+        //     }, false);
+
         var div_item_inner = createHTMLElement(div_item_inner, 'div', "item-inner", a_style_title)
         var div_item_title = createHTMLElement(div_item_title, 'div', "item-title", div_item_inner)
         div_item_title.innerHTML = i
@@ -84,7 +176,7 @@ function loadmenu(menuArray){
             var div_item_subtitle = createHTMLElement(div_item_subtitle, 'div', "item-subtitle", div_item_inner)
             div_item_subtitle.innerHTML = i
             var div_item_text = createHTMLElement(div_item_text, 'div', "item-text", div_item_inner)
-            div_item_text.innerHTML = "lol"
+            div_item_text.innerHTML = style[i][j]["description"]
             //
             // Swipe action
             //
@@ -98,7 +190,6 @@ function loadmenu(menuArray){
             nextaction.href = "#"
         }   
     }
-    console.log(menulist)
 }
 // Use JS to create HTML element
 function createHTMLElement (name, element, classname, parent){
