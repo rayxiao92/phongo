@@ -34,6 +34,7 @@ function switchpage(page) {
     currentpage_id = page+"_page"
     myApp.closePanel()
     console.log(currentpage_id)
+    loaddata()
 }
 
 function loaddata() {
@@ -52,7 +53,7 @@ function loaddata() {
         loadmenu(restaurant_array["menu"])
     }
     if (currentpage_id == "home_page") {
-        
+
     }
 }
 function loadrestaurantcard(restaurantarray) { 
