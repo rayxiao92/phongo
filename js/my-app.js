@@ -1,6 +1,9 @@
 //var singlerestaurant = '{"restaurant":"Tamper Cafe", "restaurantid":"0075", "star":"5", "fit":"88", "address":"340 Boston Ave", "distance":"0.3", "phone":"617-800-1234", "recommend":[{"dishid":"1234", "title":"Salmon Sushi","type":"sushi","fit":"97","description":"This is not bad","price":"15"}, {"dishid":"1235", "title":"Yellowtail","type":"sushi","fit":"93","description":"This is not bad, too","price":"13"}, {"dishid":"1236", "title":"Udon","type":"Noodle","fit":"71","description":"LOL udon","price":"11"} ] "menu":[{"dishid":"1234", "title":"Salmon Sushi","type":"sushi","fit":"97","description":"This is not bad","price":"15"}, {"dishid":"1235", "title":"Yellowtail","type":"sushi","fit":"93","description":"This is not bad, too","price":"13"}, {"dishid":"1236", "title":"Udon","type":"Noodle","fit":"71","description":"LOL udon","price":"11"} ] } '
-var singlerestaurant = '{"restaurant": "Tamper Cafe", "restaurantid": "0075", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }'// Initialize your app
+//var singlerestaurant = '{"restaurant": "Tamper Cafe", "restaurantid": "0075", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }'// Initialize your app
+var single_restaurant_array =""
 var currentorder = ''
+var multiplerestaurant = '[{"restaurant": "Tampee Cafe", "restaurantid": "abcd", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }, {"restaurant": "Tamper Cafe", "restaurantid": "abce", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] } ]'
+var prepage_id = ""
 var currentpage_id = "home_page"
 //var myApp = new Framework7();
 var myApp = new Framework7({
@@ -27,10 +30,14 @@ var mainView = myApp.addView('.view-main', {
 // });
 
 //add order
+function back(){
+    switchpage(prepage_id.substring(0, prepage_id.length - 5))
+}
 function switchpage(page) {
     console.log(page)
     document.getElementById(currentpage_id).style.display = "none"
     document.getElementById(page+"_page").style.display = "block"
+    prepage_id = currentpage_id
     currentpage_id = page+"_page"
     myApp.closePanel()
     console.log(currentpage_id)
@@ -39,21 +46,61 @@ function switchpage(page) {
 
 function loaddata() {
     if (currentpage_id == "restaurant_page"){
-        restaurant_array=JSON.parse(singlerestaurant)
-        console.log(restaurant_array)
+        console.log(single_restaurant_array)
+        //console.log(restaurant_array)
         // Get restaurant name on navbar
         document.getElementById("navbartitle").innerHTML='<a href="#" class="color-white">'+
-        restaurant_array["restaurant"]+
+        single_restaurant_array["restaurant"]+
         '</a>'
         //load restaurant info card
-        loadrestaurantcard(restaurant_array)
+        loadrestaurantcard(single_restaurant_array)
         //load top three
-        loadtopthree(restaurant_array["menu"])
+        loadtopthree(single_restaurant_array["menu"])
         //load menu
-        loadmenu(restaurant_array["menu"])
+        loadmenu(single_restaurant_array["menu"])
     }
     if (currentpage_id == "home_page") {
+        rest_list = JSON.parse(multiplerestaurant)
+        loadrestaurantlist(rest_list)
+    }
+}
+function viewrestaurant(id){
 
+    //currentpage_id = "restaurant_page"
+    restaurant_list = JSON.parse(multiplerestaurant)
+
+    single_restaurant_array = restaurant_list[id]
+
+    switchpage("restaurant")
+}
+function loadrestaurantlist(restaurant_array) {
+    console.log(restaurant_array)
+    document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML=""
+    for (i in restaurant_array) {
+        id = restaurant_array[i]["restaurantid"]
+        document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+=""+
+       '<li onclick="viewrestaurant('+ i +')"> ' +
+        '<div class="swipeout-content item-content"> ' +
+         '<div class="item-media"><img src="..." width="80"></div> ' +
+         '<div class="item-inner"> ' +
+           '<div class="item-title-row"> ' +
+             '<div class="item-title">' + 
+                restaurant_array[i]["restaurant"] + 
+             '</div> ' +
+             '<div class="item-after">$ ' + 
+                "lol" +
+             '</div> ' +
+           '</div> ' +
+           '<div class="item-title-row"> ' +
+             '<div class="item-subtitle">' + restaurant_array[i]["styl"] + '</div> ' +
+             '<div class="item-after">' + restaurant_array[i]["fit"] + "%" + '</div> ' +
+           '</div> ' +
+           '<div class="item-text">' + 
+                "lol" + 
+           '</div> ' +
+          '</div> ' +
+        '</div> ' +
+       '</li> '
     }
 }
 function loadrestaurantcard(restaurantarray) { 

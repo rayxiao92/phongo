@@ -66,7 +66,7 @@
         <div class="navbar">
           <div class="navbar-inner">
               <div class="left">
-                  <a href="#" class="link color-white">
+                  <a onclick="back()" class="link color-white">
                       <i class="icon icon-back color-white"></i>
                       <span>Back</span>
                   </a>
@@ -290,155 +290,33 @@
                 <!--Probably dont need this-->
               </div>
               <div class="content-block-title">
-                <!--Probably dont need this-->
+                Restaurant
               </div>
-              <div class="list-block media-list card border-round" id = "restaurant_list">
-                <ul>
-                </ul>
-              </div>
-              <div class="content-block-title" name="menu">Menu</div>
-              <div class="list-block accordion-list card" id="menulist">
-                <ul>
-                  <li class="accordion-item">
-                    <a href="#" class="item-content item-link">
-                      <div class="item-inner">
-                        <div class="item-title">Seafood</div>
-                      </div>
-                    </a>
-                    <div class="accordion-item-content">
-                     <div class="list-block media-list">
-                        <ul>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Salmon</div>
-                                  <div class="item-after">$15</div>
-                                </div>
-                                <div class="item-subtitle">Sushi</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Yellowtail</div>
-                                  <div class="item-after">$16</div>
-                                </div>
-                                <div class="item-subtitle">Sushi</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Udon</div>
-                                  <div class="item-after">$11</div>
-                                </div>
-                                <div class="item-subtitle">Noodle</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                  <li class="accordion-item"><a href="#" class="item-content item-link">
-                    <div class="item-inner">
-                      <div class="item-title">Beef</div>
-                    </div></a>
-                    <div class="accordion-item-content">
-                     <div class="list-block media-list">
-                        <ul>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Salmon</div>
-                                  <div class="item-after">$15</div>
-                                </div>
-                                <div class="item-subtitle">Sushi</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Yellowtail</div>
-                                  <div class="item-after">$16</div>
-                                </div>
-                                <div class="item-subtitle">Sushi</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Udon</div>
-                                  <div class="item-after">$11</div>
-                                </div>
-                                <div class="item-subtitle">Noodle</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                
-                </ul>
+              <div class="list-block media-list card border-round" id = "restaurant_list">                
+                  <ul>
+                           <li class="swipeout">
+        <div class="swipeout-content item-content">
+         <div class="item-media"><img src="..." width="80"></div>
+         <div class="item-inner">
+           <div class="item-title-row">
+             <div class="item-title">' + rest_list[i]["restaurant"] + '</div>
+            <div class="item-after">$ ' + "lol" +'</div>
+            </div>
+            <div class="item-title-row">
+              <div class="item-subtitle">' + rest_list[i]["styl"] + '</div>
+              <div class="item-after">' + rest_list[i]["fit"] + "%" + '</div>
+            </div>
+            <div class="item-text">' + "lol" + '</div>
+          </div>
+        </div>
+        <div class="swipeout-actions-right">
+          <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>
+        </div>
+        <div class="swipeout-actions-left">
+          <a href="#" class="action1 bg-red">Nah...next</a>
+        </div>
+      </li>
+                  </ul>
               </div>
             </div>
           </div>
@@ -452,9 +330,6 @@
                   <!--<a href="#" class="link color-blue">Link 1</a>-->
                 </td>
                 <td class="toolbar-inner-request-table">
-                  <div class="toolbar-inner-request-table-button">
-                    <a href="#">Request a table now</a>
-                  </div>
                 </td>
                 <td class="toolbar-inner-right">
 
