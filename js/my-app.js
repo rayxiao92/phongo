@@ -178,7 +178,7 @@ function nextdish(id){
                           '</div> ' +
                         '</div> ' +
                         '<div class="swipeout-actions-right"> ' +
-                          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red">nah</a> ' +
+                          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red"></a> ' +
                           '<a href="#" onclick="nextdish('+toprec_index+')" class="swipeout-delete swipeout-overswipe">Nope! </a>'
                         '</div> ' +
                         '<div class="swipeout-actions-left"> ' +
@@ -210,7 +210,7 @@ function loadtopthree(menuArray) {
                           '</div> ' +
                         '</div> ' +
                         '<div class="swipeout-actions-right"> ' +
-                //          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red">nah</a> ' +
+                          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red"></a> ' +
                           '<a href="#" onclick="nextdish('+toprec_index+')" class="swipeout-delete swipeout-overswipe">Nope! </a>'
                         '</div> ' +
                         '<div class="swipeout-actions-left"> ' +
