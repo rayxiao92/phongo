@@ -30,17 +30,32 @@ var mainView = myApp.addView('.view-main', {
 // });
 
 //add order
+
+function removeClass(className, e) {
+    var classes = className.split(' ');
+    console.log(e.classList)
+    for (var i = 0; i < classes.length; i++) {
+        e.classList.remove(classes[i]);
+    }
+    return e;
+}
+function addClass(className, e) {
+    var classes = className.split(' ');
+    for (var i = 0; i < classes.length; i++) {
+        e.classList.remove(classes[i]);
+    }
+    return e;
+}
+
 function back(){
     switchpage(prepage_id.substring(0, prepage_id.length - 5))
 }
 function switchpage(page) {
-    console.log(page)
-    document.getElementById(currentpage_id).style.display = "none"
-    document.getElementById(page+"_page").style.display = "block"
-    prepage_id = currentpage_id
+        prepage_id = currentpage_id
     currentpage_id = page+"_page"
+    document.getElementById(prepage_id).style.display = "none"
+    document.getElementById(currentpage_id).style.display = "block"
     myApp.closePanel()
-    console.log(currentpage_id)
     loaddata()
 }
 
@@ -74,7 +89,6 @@ function viewrestaurant(id){
     switchpage("restaurant")
 }
 function loadrestaurantlist(restaurant_array) {
-    console.log(restaurant_array)
     document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML=""
     for (i in restaurant_array) {
         id = restaurant_array[i]["restaurantid"]
@@ -141,7 +155,6 @@ function loadrestaurantcard(restaurantarray) {
 
 }
 function loadtopthree(menuArray) {
-    console.log(menuArray)
     menuArray.sort(function(a,b) {return (a.fit > b.fit) ? -1 : ((b.fit > a.fit) ? 1 : 0);})
     ul_list = document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML
     ul_list = ""
