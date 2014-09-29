@@ -1,10 +1,12 @@
 //var singlerestaurant = '{"restaurant":"Tamper Cafe", "restaurantid":"0075", "star":"5", "fit":"88", "address":"340 Boston Ave", "distance":"0.3", "phone":"617-800-1234", "recommend":[{"dishid":"1234", "title":"Salmon Sushi","type":"sushi","fit":"97","description":"This is not bad","price":"15"}, {"dishid":"1235", "title":"Yellowtail","type":"sushi","fit":"93","description":"This is not bad, too","price":"13"}, {"dishid":"1236", "title":"Udon","type":"Noodle","fit":"71","description":"LOL udon","price":"11"} ] "menu":[{"dishid":"1234", "title":"Salmon Sushi","type":"sushi","fit":"97","description":"This is not bad","price":"15"}, {"dishid":"1235", "title":"Yellowtail","type":"sushi","fit":"93","description":"This is not bad, too","price":"13"}, {"dishid":"1236", "title":"Udon","type":"Noodle","fit":"71","description":"LOL udon","price":"11"} ] } '
 //var singlerestaurant = '{"restaurant": "Tamper Cafe", "restaurantid": "0075", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }'// Initialize your app
 var single_restaurant_array =""
+var toprec_index=0
 var currentorder = ''
 var multiplerestaurant = '[{"restaurant": "Tampee Cafe", "restaurantid": "abcd", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }, {"restaurant": "Tamper Cafe", "restaurantid": "abce", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] } ]'
 var prepage_id = ""
 var currentpage_id = "home_page"
+var sorted_menu= ""
 //var myApp = new Framework7();
 var myApp = new Framework7({
     swipePanel: 'left',
@@ -154,31 +156,65 @@ function loadrestaurantcard(restaurantarray) {
 
 
 }
-function loadtopthree(menuArray) {
-    menuArray.sort(function(a,b) {return (a.fit > b.fit) ? -1 : ((b.fit > a.fit) ? 1 : 0);})
+function nextdish(id){
+
+    console.log(sorted_menu)
+    elem = document.getElementById("recommend"+id)
+    console.log(document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML)
     ul_list = document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML
-    ul_list = ""
-    for (i = 0; i < 3; i++) {
-        ul_list +=    '<li class="swipeout"> ' +
-                        '<div class="swipeout-content item-content"> ' +
+    ul_list += '<li class="swipeout"> ' +
+                        '<div class="swipeout-content item-content" id = "recommend' + toprec_index+'"> ' +
                          '<div class="item-media"><img src="..." width="80"></div> ' +
                          '<div class="item-inner"> ' +
                            '<div class="item-title-row"> ' +
-                             '<div class="item-title">' + menuArray[i]["title"] + '</div> ' +
-                            '<div class="item-after">$ ' + menuArray[i]["price"] +'</div> ' +
+                             '<div class="item-title">' + sorted_menu[toprec_index]["title"] + '</div> ' +
+                            '<div class="item-after">$ ' + sorted_menu[toprec_index]["price"] +'</div> ' +
                             '</div> ' +
                             '<div class="item-title-row"> ' +
-                              '<div class="item-subtitle">' + menuArray[i]["type"] + '</div> ' +
-                              '<div class="item-after">' + menuArray[i]["fit"] + "%" + '</div> ' +
+                              '<div class="item-subtitle">' + sorted_menu[toprec_index]["type"] + '</div> ' +
+                              '<div class="item-after">' + sorted_menu[toprec_index]["fit"] + "%" + '</div> ' +
                             '</div> ' +
-                            '<div class="item-text">' + menuArray[i]["description"] + '</div> ' +
+                            '<div class="item-text">' + sorted_menu[toprec_index]["description"] + '</div> ' +
                           '</div> ' +
                         '</div> ' +
                         '<div class="swipeout-actions-right"> ' +
-                          '<a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a> ' +
+                          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red">nah</a> ' +
+                          '<a href="#" onclick="nextdish('+toprec_index+')" class="swipeout-delete swipeout-overswipe">Nope! </a>'
                         '</div> ' +
                         '<div class="swipeout-actions-left"> ' +
-                          '<a href="#" class="action1 bg-red">Nah...next</a> ' +
+                          '<a href="#" onclick="order('+toprec_index+')" class="action1 bg-green">hmmm</a> ' +
+                        '</div> ' +
+                      '</li> '
+    document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML = ul_list  
+        toprec_index++          
+}
+function loadtopthree(menuArray) {
+    menuArray.sort(function(a,b) {return (a.fit > b.fit) ? -1 : ((b.fit > a.fit) ? 1 : 0);})
+    sorted_menu = menuArray
+    ul_list = document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML
+    ul_list = ""
+    for (toprec_index = 0; toprec_index < 2; toprec_index++) {
+        ul_list +=    '<li class="swipeout"> ' +
+                        '<div class="swipeout-content item-content" id = "recommend' + toprec_index+'"> ' +
+                         '<div class="item-media"><img src="..." width="80"></div> ' +
+                         '<div class="item-inner"> ' +
+                           '<div class="item-title-row"> ' +
+                             '<div class="item-title">' + menuArray[toprec_index]["title"] + '</div> ' +
+                            '<div class="item-after">$ ' + menuArray[toprec_index]["price"] +'</div> ' +
+                            '</div> ' +
+                            '<div class="item-title-row"> ' +
+                              '<div class="item-subtitle">' + menuArray[toprec_index]["type"] + '</div> ' +
+                              '<div class="item-after">' + menuArray[toprec_index]["fit"] + "%" + '</div> ' +
+                            '</div> ' +
+                            '<div class="item-text">' + menuArray[toprec_index]["description"] + '</div> ' +
+                          '</div> ' +
+                        '</div> ' +
+                        '<div class="swipeout-actions-right"> ' +
+                //          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red">nah</a> ' +
+                          '<a href="#" onclick="nextdish('+toprec_index+')" class="swipeout-delete swipeout-overswipe">Nope! </a>'
+                        '</div> ' +
+                        '<div class="swipeout-actions-left"> ' +
+                          '<a href="#" onclick="order('+toprec_index+')" class="action1 bg-green">hmmm</a> ' +
                         '</div> ' +
                       '</li> '
     }
