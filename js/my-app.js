@@ -156,37 +156,11 @@ function loadrestaurantcard(restaurantarray) {
 
 
 }
+
+
 function nextdish(id){
 
-    console.log(sorted_menu)
-    elem = document.getElementById("recommend"+id)
-    console.log(document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML)
-    ul_list = document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML
-    ul_list += '<li class="swipeout"> ' +
-                        '<div class="swipeout-content item-content" id = "recommend' + toprec_index+'"> ' +
-                         '<div class="item-media"><img src="..." width="80"></div> ' +
-                         '<div class="item-inner"> ' +
-                           '<div class="item-title-row"> ' +
-                             '<div class="item-title">' + sorted_menu[toprec_index]["title"] + '</div> ' +
-                            '<div class="item-after">$ ' + sorted_menu[toprec_index]["price"] +'</div> ' +
-                            '</div> ' +
-                            '<div class="item-title-row"> ' +
-                              '<div class="item-subtitle">' + sorted_menu[toprec_index]["type"] + '</div> ' +
-                              '<div class="item-after">' + sorted_menu[toprec_index]["fit"] + "%" + '</div> ' +
-                            '</div> ' +
-                            '<div class="item-text">' + sorted_menu[toprec_index]["description"] + '</div> ' +
-                          '</div> ' +
-                        '</div> ' +
-                        '<div class="swipeout-actions-right"> ' +
-                          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red"></a> ' +
-                          '<a href="#" onclick="nextdish('+toprec_index+')" class="swipeout-delete swipeout-overswipe">Nope! </a>'
-                        '</div> ' +
-                        '<div class="swipeout-actions-left"> ' +
-                          '<a href="#" onclick="order('+toprec_index+')" class="action1 bg-green">hmmm</a> ' +
-                        '</div> ' +
-                      '</li> '
-    document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML = ul_list  
-        toprec_index++          
+     
 }
 function loadtopthree(menuArray) {
     menuArray.sort(function(a,b) {return (a.fit > b.fit) ? -1 : ((b.fit > a.fit) ? 1 : 0);})
@@ -210,11 +184,11 @@ function loadtopthree(menuArray) {
                           '</div> ' +
                         '</div> ' +
                         '<div class="swipeout-actions-right"> ' +
-                          '<a href="#" onclick="nextdish('+toprec_index+')" class="action1 bg-red"></a> ' +
-                          '<a href="#" onclick="nextdish('+toprec_index+')" class="swipeout-delete swipeout-overswipe">Nope! </a>'
+                         '<a href="#"  class="action1 bg-red"></a> ' +
+                          '<a href="#"  class="swipeout-delete swipeout-overswipe nextdish">Nope! </a>'
                         '</div> ' +
                         '<div class="swipeout-actions-left"> ' +
-                          '<a href="#" onclick="order('+toprec_index+')" class="action1 bg-green">hmmm</a> ' +
+                          '<a href="#"  class="action1 bg-green">hmmm</a> ' +
                         '</div> ' +
                       '</li> '
     }
@@ -325,3 +299,35 @@ function createContentPage() {
     );
 	return;
 }
+
+$$('.swipeout-delete').on('click', function () {
+    console.log(sorted_menu)
+    elem = document.getElementById("recommend"+id)
+    console.log(document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML)
+    ul_list = document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML
+    ul_list += '<li class="swipeout"> ' +
+                        '<div class="swipeout-content item-content" id = "recommend' + toprec_index+'"> ' +
+                         '<div class="item-media"><img src="..." width="80"></div> ' +
+                         '<div class="item-inner"> ' +
+                           '<div class="item-title-row"> ' +
+                             '<div class="item-title">' + sorted_menu[toprec_index]["title"] + '</div> ' +
+                            '<div class="item-after">$ ' + sorted_menu[toprec_index]["price"] +'</div> ' +
+                            '</div> ' +
+                            '<div class="item-title-row"> ' +
+                              '<div class="item-subtitle">' + sorted_menu[toprec_index]["type"] + '</div> ' +
+                              '<div class="item-after">' + sorted_menu[toprec_index]["fit"] + "%" + '</div> ' +
+                            '</div> ' +
+                            '<div class="item-text">' + sorted_menu[toprec_index]["description"] + '</div> ' +
+                          '</div> ' +
+                        '</div> ' +
+                        '<div class="swipeout-actions-right"> ' +
+                         '<a href="#"  class="action1 bg-red"></a> ' +
+                          '<a href="#"  class="swipeout-delete swipeout-overswipe nextdish">Nope! </a>'
+                        '</div> ' +
+                        '<div class="swipeout-actions-left"> ' +
+                          '<a href="#"  class="action1 bg-green">hmmm</a> ' +
+                        '</div> ' +
+                      '</li> '
+    document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML = ul_list  
+    toprec_index++     
+});
