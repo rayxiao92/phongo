@@ -3,15 +3,17 @@
 var single_restaurant_array =""
 var toprec_index=0
 var currentorder = ''
-var multiplerestaurant = '[{"restaurant": "Tampee Cafe", "restaurantid": "abcd", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }, {"restaurant": "Tamper Cafe", "restaurantid": "abce", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] } ]'
+//var multiplerestaurant = '[{"restaurant": "Tampee Cafe", "restaurantid": "abcd", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }, {"restaurant": "Tamper Cafe", "restaurantid": "abce", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] } ]'
+var multiplerestaurant = '{"status": "success", "http_status": 200, "venues": [{"locu_id": "006c651feb434affb3a7", "name": "The Hideout", "categories": [{"str_id": "bars", "name": "Bars"}, {"str_id": "nightlife", "name": "Nightlife"}, {"str_id": "pubs", "name": "Pubs"}]}, {"name": "Bistro 5", "open_hours": {"tuesday": [["17:00", "22:00"]], "friday": [["17:00", "22:00"]], "saturday": [["17:00", "22:00"]], "thursday": [["17:00", "22:00"]], "wednesday": [["17:00", "22:00"]]}, "locu_id": "00a5e98b8536c95f37ae", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "french", "name": "French"}]}, {"locu_id": "00aecdec64ae0cad364d", "name": "Crazy Dough\'s Pizza", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "pizza", "name": "Pizza"}]}, {"name": "Wet Paint Nail Spa", "open_hours": {"sunday": [["12:00", "18:00"]], "monday": [["14:00", "20:00"]], "tuesday": [["11:00", "20:00"]], "friday": [["10:00", "19:00"]], "wednesday": [["10:00", "19:00"]], "thursday": [["10:00", "19:00"]], "saturday": [["10:00", "16:00"]]}, "locu_id": "00da445483aa635f000c", "categories": [{"str_id": "spas", "name": "Day Spas"}, {"str_id": "beautysvc", "name": "Beauty & Spas"}]}, {"name": "Good Food Cafe", "open_hours": {"sunday": [["08:00", "14:00"]], "tuesday": [["06:00", "14:00"]], "friday": [["06:00", "14:00"]], "wednesday": [["06:00", "14:00"]], "thursday": [["06:00", "14:00"]], "saturday": [["07:00", "14:00"]]}, "locu_id": "010717df18f8a9c82c87", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "food", "name": "Food"}]}, {"locu_id": "013eedec51353f9ea3b9", "name": "The Painted Burro", "categories": [{"str_id": "mexican", "name": "Mexican"}, {"str_id": "restaurants", "name": "Restaurants"}]}, {"locu_id": "0153014354ee1e232418", "name": "The western front", "categories": [{"str_id": "bars", "name": "Bars"}, {"str_id": "divebars", "name": "Dive Bars"}, {"str_id": "nightlife", "name": "Nightlife"}]}, {"locu_id": "0162c81b75b56b1e5a2a", "name": "Mix Flavor Brazilian Grill", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "brazilian", "name": "Brazilian"}]}, {"name": "Precinct", "open_hours": {"sunday": [["11:30", "01:00"]], "monday": [["16:00", "01:00"]], "tuesday": [["16:00", "01:00"]], "friday": [["16:00", "02:00"]], "wednesday": [["16:00", "01:00"]], "thursday": [["16:00", "01:00"]], "saturday": [["11:30", "02:00"]]}, "locu_id": "01e46fc0d651a11f50d5", "categories": [{"str_id": "bars", "name": "Bars"}, {"str_id": "pubs", "name": "Pubs"}, {"str_id": "nightlife", "name": "Nightlife"}]}, {"locu_id": "020a51b770fe1ef36db0", "name": "Brunello Bistro", "categories": [{"str_id": "restaurants", "name": "Restaurants"}]}, {"locu_id": "02120f7addb1dda387d0", "name": "Tavern", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "tradamerican", "name": "Traditional American"}]}, {"name": "Taipei Tokyo Cafe", "open_hours": {"sunday": [["12:00", "09:00"]], "monday": [["11:00", "21:30"]], "tuesday": [["11:00", "21:30"]], "friday": [["11:00", "22:00"]], "wednesday": [["11:00", "21:30"]], "thursday": [["11:00", "21:30"]], "saturday": [["11:00", "22:00"]]}, "locu_id": "023a607fd75c6aac6589", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "japanese", "name": "Japanese"}]}, {"locu_id": "02d2ac37bf2c353f090f", "name": "Cafe Deia", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "coffee", "name": "Coffee & Tea"}, {"str_id": "food", "name": "Food"}, {"str_id": "breakfast_brunch", "name": "Breakfast & Brunch"}]}, {"locu_id": "031a574209edf1e0ccc2", "name": "Tenoch Mexican Taqueria", "categories": [{"str_id": "mexican", "name": "Mexican"}, {"str_id": "restaurants", "name": "Restaurants"}]}, {"name": "Starbucks", "open_hours": {"sunday": [["06:00", "21:00"]], "monday": [["05:30", "21:00"]], "tuesday": [["05:30", "21:00"]], "friday": [["05:30", "21:00"]], "wednesday": [["05:30", "21:00"]], "thursday": [["05:30", "21:00"]], "saturday": [["06:00", "21:00"]]}, "locu_id": "036334e8fff0c1fddc72", "categories": [{"str_id": "coffee", "name": "Coffee & Tea"}, {"str_id": "food", "name": "Food"}]}, {"locu_id": "03926df0bf70ec18c4d9", "name": "Sarma", "categories": [{"str_id": "other", "name": "Other"}]}, {"locu_id": "03998286559a065bbe52", "name": "Nick\'s Kitchen", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "hotdog", "name": "Hot Dogs"}]}, {"locu_id": "03cc11c0207197c9a896", "name": "Prime Turbine", "categories": [{"str_id": "appliances", "name": "Appliances"}, {"str_id": "shopping", "name": "Shopping"}, {"str_id": "homeandgarden", "name": "Home & Garden"}]}, {"name": "Nails & Co", "open_hours": {"sunday": [["10:00", "16:00"]], "monday": [["10:00", "20:00"]], "tuesday": [["10:00", "20:00"]], "friday": [["10:00", "20:00"]], "wednesday": [["10:00", "20:00"]], "thursday": [["10:00", "20:00"]], "saturday": [["09:00", "19:00"]]}, "locu_id": "03f549e535e818749eb7", "categories": [{"str_id": "beautysvc", "name": "Beauty & Spas"}]}, {"locu_id": "03fed3765a31aea48dbc", "name": "Chipotle Mexican Grill", "categories": [{"str_id": "other", "name": "Other"}]}, {"locu_id": "04018e63b6f2a5eb300a", "name": "Brazilian Ipanema Hair Salon", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "brazilian", "name": "Brazilian"}]}, {"name": "Asmara", "open_hours": {"sunday": [["17:00", "22:30"]], "friday": [["11:30", "15:00"], ["17:00", "23:30"]], "thursday": [["17:00", "22:30"]], "saturday": [["11:30", "23:30"]], "monday": [["11:30", "15:00"], ["17:00", "22:30"]]}, "locu_id": "04057d9e97ddcf762636", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "ethiopian", "name": "Ethiopian"}]}, {"locu_id": "04701ec2d80e374ace0b", "name": "Sal\'s Beauty Salon", "categories": [{"str_id": "beautysvc", "name": "Beauty & Spas"}]}, {"locu_id": "04747545f9fa08932c3e", "name": "A Taste of Sahara", "categories": [{"str_id": "restaurants", "name": "Restaurants"}]}, {"locu_id": "047ae97bc0458970f1c1", "name": "Greenhouse Cafe", "categories": [{"str_id": "restaurants", "name": "Restaurants"}, {"str_id": "food", "name": "Food"}]}]}'
 var prepage_id = ""
 var currentpage_id = "login_page"
 var sorted_menu= ""
 var login_number=0
 //var myApp = new Framework7();
 var myApp = new Framework7({
-    swipePanel: 'left',
-    pushState: true
+    swipePanel: 'right',
+    pushState: true, 
+    swipebackPage: true
 });
 
 // Export selectors engine
@@ -38,20 +40,41 @@ var mainView = myApp.addView('.view-main', {
 *************************************/
 
 function login() {
-    console.log(login_number)
-    login_number+=1;
-    if (login_number == 1){
-        document.getElementById("login-content-prompt").style.visibility = "visible"
-        document.getElementById("login-content-prompt").innerHTML = '<span style="width:35px; height:35px" class="preloader preloader-white"></span>'
-        
-    } else {        
+    // turn on the waiting icon
+    document.getElementById("login-content-prompt").style.visibility = "visible"
+    document.getElementById("login-content-prompt").innerHTML = '<span style="width:35px; height:35px" class="preloader preloader-white"></span>'
+
+    //get email address
+    var email = document.getElementById("username-input").value
+    var pw = document.getElementById("pw-input").value
+    credentials = {
+        "email": email,
+        "pw":pw
+    }
+    //$.post('http://lit-sands-2824.herokuapp.com/',credentials);
+
+
+    var request = new XMLHttpRequest();
+    request.open("GET", 'http://lit-sands-2824.herokuapp.com/', true);
+    request.send(null);
+    // once there is a feedback, switch page
+    request.onreadystatechange = function(){
+        if (request.readyState == 4 && request.status == 200) {
+            switchpage("home")
+    }
+}
+
+
+}
+function checkpassword(request){
+    if (request.readyState == 4 && request.status == 200) {
         switchpage("home")
     }
-    console.log("haha")
 }
 
 function wrongpassword() {
-    document.getElementById("login-content-prompt").style.visibility = "visible"}
+    document.getElementById("login-content-prompt").style.visibility = "visible"
+}
 
 /*************************************
 **                                  **
@@ -94,8 +117,27 @@ function loaddata() {
         loadmenu(single_restaurant_array["menu"])
     }
     if (currentpage_id == "home_page") {
+        query = '{'+
+'              "api_key" : "ecc4cdde72c7e50c9f859a71d3408cfa2db8eb8f",'+
+'              "fields" : [ "name", "location", "contact" ],'+
+'              "venue_queries" : ['+
+'                {'+
+'                  "location" : {'+
+'                    "geo" : {'+
+'                      "$in_lat_lng_radius" : [42.4069, -71.1198, 5000]'+
+'                    }'+
+'                  }'+
+'                }'+
+'              ]'+
+'        }'
+        //console.log(query)
+        
+
+
         rest_list = JSON.parse(multiplerestaurant)
-        loadrestaurantlist(rest_list)
+        console.log(rest_list["venues"])
+
+        loadrestaurantlist(rest_list["venues"])
     }
 }
 
@@ -128,14 +170,14 @@ function loadrestaurantlist(restaurant_array) {
          '<div class="item-inner"> ' +
            '<div class="item-title-row"> ' +
              '<div class="item-title">' + 
-                restaurant_array[i]["restaurant"] + 
+                restaurant_array[i]["name"] + 
              '</div> ' +
              '<div class="item-after">$ ' + 
                 "lol" +
              '</div> ' +
            '</div> ' +
            '<div class="item-title-row"> ' +
-             '<div class="item-subtitle">' + restaurant_array[i]["styl"] + '</div> ' +
+             '<div class="item-subtitle">' + restaurant_array[i]["categories"][0]["name"] + '</div> ' +
              '<div class="item-after">' + restaurant_array[i]["fit"] + "%" + '</div> ' +
            '</div> ' +
            '<div class="item-text">' + 
