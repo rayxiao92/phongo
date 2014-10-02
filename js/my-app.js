@@ -7,6 +7,7 @@ var multiplerestaurant = '[{"restaurant": "Tampee Cafe", "restaurantid": "abcd",
 var prepage_id = ""
 var currentpage_id = "login_page"
 var sorted_menu= ""
+var login_number=0
 //var myApp = new Framework7();
 var myApp = new Framework7({
     swipePanel: 'left',
@@ -21,9 +22,6 @@ var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true
 });
-
-var vid = document.getElementById("vid");
-vid.playbackRate = 0.2;
 
 // // Callbacks to run specific code for specific pages, for example for About page:
 // myApp.onPageInit('about', function (page) {
@@ -40,12 +38,20 @@ vid.playbackRate = 0.2;
 *************************************/
 
 function login() {
-    switchpage("home")
+    console.log(login_number)
+    login_number+=1;
+    if (login_number == 1){
+        document.getElementById("login-content-prompt").style.visibility = "visible"
+        document.getElementById("login-content-prompt").innerHTML = '<span style="width:35px; height:35px" class="preloader preloader-white"></span>'
+        
+    } else {        
+        switchpage("home")
+    }
+    console.log("haha")
 }
 
 function wrongpassword() {
-    document.getElementById("login-content-prompt").style.display = "block"
-}
+    document.getElementById("login-content-prompt").style.visibility = "visible"}
 
 /*************************************
 **                                  **
@@ -58,13 +64,19 @@ function back(){
     switchpage(prepage_id.substring(0, prepage_id.length - 5))
 }
 function switchpage(page) {
-        prepage_id = currentpage_id
+    //set pageid
+    prepage_id = currentpage_id
     currentpage_id = page+"_page"
+    //display previous page and show current one
     document.getElementById(prepage_id).style.display = "none"
     document.getElementById(currentpage_id).style.display = "block"
+    //close the panel if it's open
     myApp.closePanel()
+    //load data! 
     loaddata()
 }
+
+
 
 function loaddata() {
     if (currentpage_id == "restaurant_page"){
