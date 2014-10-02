@@ -337,14 +337,37 @@
         
         <div class="pages navbar-through toolbar-through">
           <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page">
+          <div data-page="index" class="page" >
             <!-- Scrollable page content-->
-            <div class="page-content" >
+            <div class="page-content bg-pred" >
               <div class="content-block">
-                <video autoplay loop id="bgvid">
-                  <source src="movie.mp4" type="video/mp4">
-                </video>
-                <div id = "logintitle">Phongo</div>
+
+                <div class = "content-login">
+                  <div class ="login-content-title div-center color-pwhite">
+                    Phongo
+                  </div>
+                  <div class = "login-content-username">
+                    <input id="username-input" autofocus="true"class="login-input-box div-center bg-pred color-pwhite" placeholder="email"></input>
+                  </div>
+                  <div class="div-line color-pwhite"></div>
+                  <div class = "login-content-password ">
+                    <input id="pw-input" class="login-input-box div-center bg-pred color-pwhite" placeholder="password" type="password"></input>
+                  </div>
+                  <div id ="login-content-prompt" class="color-pwhite" style="display:none">
+                    。 傻逼 输错密码了
+                  </div>
+                  <div class="login-button-area row">
+                    <div class="col-50">
+                      <a onclick="login()" class="button button-big button-red login-button">login</a>
+                    </div>
+                    <div class="col-50">
+                      <a href="#" class="button button-big button-green login-button">register</a>
+                    </div>
+                  </div>     
+                  
+                </div>
+                
+
                 <!--Probably dont need this-->
               </div>
 

@@ -5,7 +5,7 @@ var toprec_index=0
 var currentorder = ''
 var multiplerestaurant = '[{"restaurant": "Tampee Cafe", "restaurantid": "abcd", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] }, {"restaurant": "Tamper Cafe", "restaurantid": "abce", "star": "5", "fit": "88", "address": "340 Boston Ave", "distance": "0.3", "phone": "617-800-1234", "recommend": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ], "menu": [{"dishid": "1234", "title": "Salmon Sushi", "type": "sushi", "fit": "97", "description": "This is not bad", "price": "15"}, {"dishid": "1235", "title": "Yellowtail", "type": "sushi", "fit": "93", "description": "This is not bad, too", "price": "13"}, {"dishid": "1236", "title": "Udon", "type": "Noodle", "fit": "71", "description": "LOL udon", "price": "11"} ] } ]'
 var prepage_id = ""
-var currentpage_id = "home_page"
+var currentpage_id = "login_page"
 var sorted_menu= ""
 //var myApp = new Framework7();
 var myApp = new Framework7({
@@ -22,6 +22,8 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+var vid = document.getElementById("vid");
+vid.playbackRate = 0.2;
 
 // // Callbacks to run specific code for specific pages, for example for About page:
 // myApp.onPageInit('about', function (page) {
@@ -31,23 +33,19 @@ var mainView = myApp.addView('.view-main', {
 //     });
 // });
 
+
+
+function login() {
+    switchpage("restaurant")
+}
+
+function wrongpassword() {
+    document.getElementById("login-content-prompt").style.display = "block"
+}
+
+
 //add order
 
-function removeClass(className, e) {
-    var classes = className.split(' ');
-    console.log(e.classList)
-    for (var i = 0; i < classes.length; i++) {
-        e.classList.remove(classes[i]);
-    }
-    return e;
-}
-function addClass(className, e) {
-    var classes = className.split(' ');
-    for (var i = 0; i < classes.length; i++) {
-        e.classList.remove(classes[i]);
-    }
-    return e;
-}
 
 function back(){
     switchpage(prepage_id.substring(0, prepage_id.length - 5))
