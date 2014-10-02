@@ -36,7 +36,7 @@ vid.playbackRate = 0.2;
 
 
 function login() {
-    switchpage("restaurant")
+    switchpage("home")
 }
 
 function wrongpassword() {
