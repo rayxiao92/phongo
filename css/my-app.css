@@ -161,7 +161,7 @@
 /*** Login page ***/
 
 .content-login {
-	width:70%;
+	width:90%;
 	margin:0 auto;
 	text-align: center;
 }
@@ -172,6 +172,7 @@
 	text-align: center;
 }
 .login-input-box {
+	text-transform: lowercase;
 	border:none;
 	font-size: 16px;
 	padding-top: 10px;

@@ -33,7 +33,11 @@ vid.playbackRate = 0.2;
 //     });
 // });
 
-
+/*************************************
+**                                  **
+**      Here comes the login page   **
+**                                  **
+*************************************/
 
 function login() {
     switchpage("home")
@@ -43,8 +47,11 @@ function wrongpassword() {
     document.getElementById("login-content-prompt").style.display = "block"
 }
 
-
-//add order
+/*************************************
+**                                  **
+**          Universal shit          **
+**                                  **
+*************************************/
 
 
 function back(){
@@ -79,6 +86,13 @@ function loaddata() {
         loadrestaurantlist(rest_list)
     }
 }
+
+/*************************************
+**                                  **
+**      Here comes the home page    **
+**                                  **
+*************************************/
+
 function viewrestaurant(id){
 
     //currentpage_id = "restaurant_page"
@@ -88,6 +102,9 @@ function viewrestaurant(id){
 
     switchpage("restaurant")
 }
+//
+/*** This function loads the restaurant list on home page ***/
+//
 function loadrestaurantlist(restaurant_array) {
     document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML=""
     for (i in restaurant_array) {
@@ -117,6 +134,17 @@ function loadrestaurantlist(restaurant_array) {
        '</li> '
     }
 }
+/*************************************
+**                                  **
+**  Here comes the restaurant page  **
+**                                  **
+*************************************/
+
+
+
+//
+/*** This function loads the restaurant info on restaurant page ***/
+//
 function loadrestaurantcard(restaurantarray) { 
     document.getElementById("restaurantcard").innerHTML=""
     console.log(document.getElementById("restaurantcard").innerHTML)
@@ -155,11 +183,17 @@ function loadrestaurantcard(restaurantarray) {
 
 }
 
-
+//
+/*** This function should load next dish if users did not like it ***/
+//
 function nextdish(id){
 
      
 }
+
+//
+/*** This function load the top 3 recommendation ***/
+//
 function loadtopthree(menuArray) {
     menuArray.sort(function(a,b) {return (a.fit > b.fit) ? -1 : ((b.fit > a.fit) ? 1 : 0);})
     sorted_menu = menuArray
@@ -192,6 +226,11 @@ function loadtopthree(menuArray) {
     }
     document.getElementById("recommendationlist").getElementsByTagName("ul")[0].innerHTML = ul_list
 }
+
+//
+/*** This function load the menu ***/
+//
+
 function loadmenu(menuArray){
     var style = {}
     var list = []
