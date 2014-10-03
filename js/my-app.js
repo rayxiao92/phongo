@@ -164,28 +164,49 @@ function loadrestaurantlist(restaurant_array) {
     for (i in restaurant_array) {
         id = restaurant_array[i]["restaurantid"]
         document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+=""+
-       '<li onclick="viewrestaurant('+ i +')"> ' +
-        '<div class="swipeout-content item-content"> ' +
-         '<div class="item-media"><img src="..." width="80"></div> ' +
-         '<div class="item-inner"> ' +
-           '<div class="item-title-row"> ' +
-             '<div class="item-title">' + 
-                restaurant_array[i]["name"] + 
-             '</div> ' +
-             '<div class="item-after">$ ' + 
-                "lol" +
-             '</div> ' +
-           '</div> ' +
-           '<div class="item-title-row"> ' +
-             '<div class="item-subtitle">' + restaurant_array[i]["categories"][0]["name"] + '</div> ' +
-             '<div class="item-after">' + restaurant_array[i]["fit"] + "%" + '</div> ' +
-           '</div> ' +
-           '<div class="item-text">' + 
-                "lol" + 
-           '</div> ' +
-          '</div> ' +
-        '</div> ' +
-       '</li> '
+        '<li onclick="viewrestaurant('+ i +')"> ' +
+            '<a class="item-link item-content"> ' +
+                '<div class = "row">' + 
+                    '<div class = "col-25">' + 
+                        '<img src="..." width="60">' + 
+                    '</div>' + 
+                    '<div class = "col-75">' +
+                        '<div class = "row font-size12">'+ 
+                            restaurant_array[i]["name"] + 
+                        '</div>' +
+                        '<div class = "row font-size10">'+ 
+                            restaurant_array[i]["name"] + 
+                        '</div>' +
+                        '<div class = "row font-size10"">'+ 
+                            restaurant_array[i]["name"] + 
+                        '</div>' +     
+                        '<div class = "row font-size10"">'+ 
+                            restaurant_array[i]["name"] + 
+                        '</div>' +                       
+                    '</div>' +
+                '</div>' + 
+            '</a>' + 
+        '</li>'
+
+
+
+     // //    '<div class="item-media"><img src="..." width="60"></div> ' +
+     //     '<div class="item-inner"> ' +
+     //       '<div class="item-title-row"> ' +
+     //         '<div class="item-title font-size14">' + 
+     //            restaurant_array[i]["name"] + 
+     //         '</div> ' +
+     //         '<div class="item-after">$ ' + 
+     //            "lol" +
+     //         '</div> ' +
+     //       '</div> ' +
+           
+     //        '<div class="item-subtitle font-size12">' + restaurant_array[i]["categories"][0]["name"] + '</div> ' +
+     //        '<div class="item-after font-size12">' + restaurant_array[i]["fit"] + "%" + '</div> ' +
+     //       '</div> ' +
+     //      '</div> ' +
+     //    '</div> ' +
+     //   '</li> '
     }
 }
 /*************************************
