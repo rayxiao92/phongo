@@ -162,30 +162,42 @@ function viewrestaurant(id){
 function loadrestaurantlist(restaurant_array) {
     document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML=""
     for (i in restaurant_array) {
-        id = restaurant_array[i]["restaurantid"]
+        randomnumber = Math.random()
+        if (randomnumber< 0.1) {
+            dollarsign = "$"
+        } else if (randomnumber< 0.45){
+            dollarsign ="$$"
+        } else if (randomnumber< 0.85){
+            dollarsign ="$$$"
+        } else {
+            dollarsign = "$$$$"
+        }
+
         document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+=""+
         '<li onclick="viewrestaurant('+ i +')"> ' +
-            '<a class="item-link item-content"> ' +
-                '<div class = "row">' + 
+            '<div class="item-content"> ' +
+                '<div class = "row fullwidth">' + 
                     '<div class = "col-25">' + 
-                        '<img src="..." width="70">' + 
+                        '<img src="logo.png" width="70">' + 
                     '</div>' + 
-                    '<div class = "col-75">' +
-                        '<div class = "row font-size16">'+ 
+                    '<div class = "col-75 ">' +
+                        '<div class = "row font-size16 fullwidth">'+ 
                             restaurant_array[i]["name"] + 
                         '</div>' +
-                        '<div class = "row font-size12">'+ 
-                            restaurant_array[i]["name"] + 
+                        '<div class = "row font-size12 fullwidth">'+ 
+                            '***** | '+  dollarsign +' | ' + Math.round(Math.random()*100,2) + '% return' +
                         '</div>' +
-                        '<div class = "row font-size12"">'+ 
-                            restaurant_array[i]["name"] + 
-                        '</div>' +     
-                        '<div class = "row font-size12"">'+ 
-                            restaurant_array[i]["name"] + 
+                        '<div class = "row fullwidth">'
+                            for (j in restaurant_array[i]["categories"]) {
+                                document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+='<p class = "small-tag bg-pred font-size12 color-pwhite">'+restaurant_array[i]["categories"][j]["name"]+'</p> '
+                            }
+                        document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+='</div>' +     
+                        '<div class = "row font-size12 fullwidth">'+ 
+                            //restaurant_array[i]["locu_id"] + 
                         '</div>' +                       
                     '</div>' +
                 '</div>' + 
-            '</a>' + 
+            '</div>' + 
         '</li>'
 
 

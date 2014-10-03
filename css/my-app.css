@@ -263,3 +263,9 @@
 .font-verdana{
 	font-family: Verdana;
 }
+.fullwidth {
+	width:100%;
+}
+.small-tag {
+	display:inline;
+}
