@@ -168,19 +168,19 @@ function loadrestaurantlist(restaurant_array) {
             '<a class="item-link item-content"> ' +
                 '<div class = "row">' + 
                     '<div class = "col-25">' + 
-                        '<img src="..." width="60">' + 
+                        '<img src="..." width="70">' + 
                     '</div>' + 
                     '<div class = "col-75">' +
+                        '<div class = "row font-size16">'+ 
+                            restaurant_array[i]["name"] + 
+                        '</div>' +
                         '<div class = "row font-size12">'+ 
                             restaurant_array[i]["name"] + 
                         '</div>' +
-                        '<div class = "row font-size10">'+ 
-                            restaurant_array[i]["name"] + 
-                        '</div>' +
-                        '<div class = "row font-size10"">'+ 
+                        '<div class = "row font-size12"">'+ 
                             restaurant_array[i]["name"] + 
                         '</div>' +     
-                        '<div class = "row font-size10"">'+ 
+                        '<div class = "row font-size12"">'+ 
                             restaurant_array[i]["name"] + 
                         '</div>' +                       
                     '</div>' +
