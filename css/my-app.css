@@ -274,4 +274,10 @@
 	margin-right : 10px;
 	float:left;
 }
+.padding-left-no {
+	padding-left: none;
+}
+.item-inner-star{
+	display: inline;
+}
 
