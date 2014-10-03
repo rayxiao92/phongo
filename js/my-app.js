@@ -176,8 +176,8 @@ function loadrestaurantlist(restaurant_array) {
         }
 
         innertxt+=""+
-        '<li onclick="viewrestaurant('+ i +')"> ' +
-            '<div class="item-content"> ' +
+        '<li class="item-content " onclick="viewrestaurant('+ i +')"> ' +
+            '<div class="item-inner">'+
                 '<div class = "row fullwidth">' + 
                     '<div class = "col-25">' + 
                         '<img src="logo.png" width="70">' + 
@@ -187,18 +187,18 @@ function loadrestaurantlist(restaurant_array) {
                             restaurant_array[i]["name"] + 
                         '</div>' +
                         '<div class = "row font-size12 fullwidth">'+ 
-                            '***** | '+  dollarsign +' | ' + Math.round(Math.random()*100,2) + '% return' +
+                            '*****  '+  dollarsign +' | ' + Math.round(Math.random()*100,2) + '% return' +
                         '</div>' +
-                        '<div class = "row fullwidth font-size12">'
+                        '<div class = "row fullwidth font-size12 float-left bg-green"><ul class = "float-left bg-red">'
                             for (j in restaurant_array[i]["categories"]) {
                                 if (j < 3){
-                                    innertxt+='<span class = "small-tag bg-pred color-pwhite">'+restaurant_array[i]["categories"][j]["name"]+'</span>'
+                                    innertxt+='<li class = "small-tag bg-pred color-pwhite">'+restaurant_array[i]["categories"][j]["name"]+'</li>'
                                 }
                             }
-                        innertxt+='</div>'+                 
+                            innertxt+='</ul></div>'+             
                     '</div>' +
                 '</div>' + 
-            '</div>' + 
+            '</div>'
         '</li>'
 
     }
