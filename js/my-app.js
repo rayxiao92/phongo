@@ -160,7 +160,9 @@ function viewrestaurant(id){
 /*** This function loads the restaurant list on home page ***/
 //
 function loadrestaurantlist(restaurant_array) {
+
     document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML=""
+    var innertxt =""
     for (i in restaurant_array) {
         randomnumber = Math.random()
         if (randomnumber< 0.1) {
@@ -173,7 +175,7 @@ function loadrestaurantlist(restaurant_array) {
             dollarsign = "$$$$"
         }
 
-        document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+=""+
+        innertxt+=""+
         '<li onclick="viewrestaurant('+ i +')"> ' +
             '<div class="item-content"> ' +
                 '<div class = "row fullwidth">' + 
@@ -187,21 +189,20 @@ function loadrestaurantlist(restaurant_array) {
                         '<div class = "row font-size12 fullwidth">'+ 
                             '***** | '+  dollarsign +' | ' + Math.round(Math.random()*100,2) + '% return' +
                         '</div>' +
-                        '<div class = "row fullwidth">'
+                        '<div class = "row fullwidth font-size12">'
                             for (j in restaurant_array[i]["categories"]) {
-                                document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+='<p class = "small-tag bg-pred font-size12 color-pwhite">'+restaurant_array[i]["categories"][j]["name"]+'</p> '
+                                if (j < 3){
+                                    innertxt+='<span class = "small-tag bg-pred color-pwhite">'+restaurant_array[i]["categories"][j]["name"]+'</span>'
+                                }
                             }
-                        document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML+='</div>' +     
-                        '<div class = "row font-size12 fullwidth">'+ 
-                            //restaurant_array[i]["locu_id"] + 
-                        '</div>' +                       
+                        innertxt+='</div>'+                 
                     '</div>' +
                 '</div>' + 
             '</div>' + 
         '</li>'
 
-
-
+    }
+    document.getElementById("restaurant_list").getElementsByTagName("ul")[0].innerHTML = innertxt
      // //    '<div class="item-media"><img src="..." width="60"></div> ' +
      //     '<div class="item-inner"> ' +
      //       '<div class="item-title-row"> ' +
@@ -219,7 +220,7 @@ function loadrestaurantlist(restaurant_array) {
      //      '</div> ' +
      //    '</div> ' +
      //   '</li> '
-    }
+    
 }
 /*************************************
 **                                  **

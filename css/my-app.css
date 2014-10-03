@@ -265,7 +265,9 @@
 }
 .fullwidth {
 	width:100%;
+	text-align: left;
 }
 .small-tag {
 	display:inline;
+	border-radius: 6px;
 }
