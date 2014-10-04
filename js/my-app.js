@@ -11,7 +11,6 @@ var sorted_menu= ""
 var login_number=0
 //var myApp = new Framework7();
 var myApp = new Framework7({
-    swipePanel: 'right',
     pushState: true, 
     swipebackPage: true
 });
@@ -359,7 +358,7 @@ function loadmenu(menuArray){
                         if (!section_name)      {section_name = ""}
                         if (!subsection_name)   {subsection_name = ""}
                         if (!description)       {description = ""}
-                        innertxt +='<li class="swipeout">'+
+                        innertxt +='<li class="swipeout ">'+
     '                                <div class="swipeout-content item-content">'+
     '                                  <div class="item-inner">'+
     '                                    <div class="item-title-row">'+
