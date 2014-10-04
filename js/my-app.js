@@ -148,10 +148,7 @@ function loaddata() {
 *************************************/
 
 function viewrestaurant(id){
-
-    //currentpage_id = "restaurant_page"
     rest_list = JSON.parse(multiplerestaurant)
-    //console.log(rest_list["venues"])
     single_restaurant_array = rest_list["venues"][id]
     console.log(single_restaurant_array)
     switchpage("restaurant")
@@ -174,13 +171,12 @@ function loadrestaurantlist(restaurant_array) {
         } else {
             dollarsign = "$$$$"
         }
-
         innertxt+=""+
         '<li class="item-content " onclick="viewrestaurant('+ i +')"> ' +
             '<div class="item-inner">'+
                 '<div class = "row fullwidth">' + 
                     '<div class = "col-25">' + 
-                        '<img src="bistro.jpg"  height = "70"width="70">' + 
+                        '<img src="fake_restaurant_photo/1.jpg"  height = "70"width="70">' + 
                     '</div>' + 
                     '<div class = "col-75 ">' +
                         '<div class = "row font-size16 fullwidth">'+ 
@@ -243,7 +239,7 @@ function loadrestaurantcard(restaurantarray) {
 '                <div class="content-block-inner">' +
                     '<div class = "row fullwidth">' + 
                         '<div class = "col-25">' + 
-                            '<img src="bistro.jpg" width="70" height = "70">' + 
+                            '<img src="fake_restaurant_photo/1.jpg" width="70" height = "70">' + 
                         '</div>' + 
                         '<div class = "col-75 ">' +
                             '<div class = "row font-size16 fullwidth">'+ 
