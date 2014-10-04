@@ -343,8 +343,10 @@ function loadmenu(menuArray){
 
             for (j in menuArray[i]["sections"]){
                 for (k in menuArray[i]["sections"][j]["subsections"]){
-                    for (l= 1 ; l < menuArray[i]["sections"][j]["subsections"][k]["contents"].length ; l++){
-
+                    for (l= 1 ; l < menuArray[i]["sections"][j]["subsections"][k]["contents"].length; l++){
+                        if (l > 2 ){
+                            break;
+                        }
                         var price = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["price"]
                         var name = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["name"]
                         var section_name = menuArray[i]["sections"][j]["section_name"] 
