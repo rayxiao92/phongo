@@ -178,7 +178,7 @@ function loadrestaurantlist(restaurant_array) {
                     '<div class = "col-25">' + 
                         '<img src="fake_restaurant_photo/1.jpg"  height = "70"width="70">' + 
                     '</div>' + 
-                    '<div class = "col-75 ">' +
+                    '<div class = "col-75 left-padding-10">' +
                         '<div class = "row font-size16 fullwidth">'+ 
                             restaurant_array[i]["name"] + 
                         '</div>' +
@@ -239,29 +239,32 @@ function loadrestaurantcard(restaurantarray) {
 '                <div class="content-block-inner">' +
                     '<div class = "row fullwidth">' + 
                         '<div class = "col-25">' + 
-                            '<img src="fake_restaurant_photo/1.jpg" width="70" height = "70">' + 
+                            '<img src="fake_restaurant_photo/1.jpg" width="80" height = "80">' + 
                         '</div>' + 
-                        '<div class = "col-75 ">' +
+                        '<div class = "col-75 left-padding-10">' +
                             '<div class = "row font-size16 fullwidth">'+ 
                                 restaurantarray["name"] + 
                             '</div>' +
-                            '<div class = "row font-size12 fullwidth">'+ 
+                            '<div class = "row font-size14 fullwidth">'+ 
                                 '<img class = "item-inner-star" src = "five-stars.png" height="14">' +' | '+  dollarsign +' | ' + Math.round(Math.random()*100,2) + '% return' +
                             '</div>' +
-                            '<div class = "row fullwidth font-size12 "><div class = "col-100"><ul class = "padding-left-no padding-top-no ul-no-bullet ">'
+                            '<div class = "row fullwidth font-size14 "><div class = "col-100"><ul class = "padding-left-no padding-top-no ul-no-bullet ">'
                                 for (j in restaurantarray["categories"]) {
                                     if (j < 3){
                                         innertxt+='<li class = "small-tag bg-pred color-pwhite padding-top-no">'+restaurantarray["categories"][j]["name"]+'</li>'
                                     }
                                 }
                                 innertxt+='</ul></div></div>'+ 
-                            '<div class = "row font-size12 fullwidth">'+ 
+                            '<div class = "row font-size14 fullwidth">'+ 
                                 'hell'+ 
                             '</div>' + 
                         '</div>' +
                     '</div>' + 
 '                </div>' 
     document.getElementById("restaurantcard").innerHTML=innertxt
+
+
+
 
 }
 
