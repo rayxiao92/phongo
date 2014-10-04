@@ -329,23 +329,22 @@ function loadmenu(menuArray){
     if (menuArray.length > 1) {
         for ( i in menuArray ) {
             //console.log(menuArray[i]["menu_name"])
-            var innertxt= ""+
+
+            counter = 0
+            for (j in menuArray[i]["sections"]){
+                var innertxt= ""+
     '                <li class="accordion-item">'+
     '                    <a href="#" class="item-content item-link">'+
     '                        <div class="item-inner">'+
-    '                            <div class="item-title">'+menuArray[i]["menu_name"]+'</div>'+
+    '                            <div class="item-title">'+menuArray[i]["menu_name"]+' - '+ menuArray[i]["sections"][j]["section_name"]  + '</div>'+
     '                            </div>'+
     '                        </a>'+
     '                        <div class="accordion-item-content">'+
     '                         <div class="list-block media-list">'+
     '                            <ul>'
-            counter = 0
-            for (j in menuArray[i]["sections"]){
                 for (k in menuArray[i]["sections"][j]["subsections"]){
                     for (l= 1 ; l < menuArray[i]["sections"][j]["subsections"][k]["contents"].length; l++){
-                        if (counter > 10) {
-                            break;
-                        }
+
                         var price = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["price"]
                         var name = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["name"]
                         var section_name = menuArray[i]["sections"][j]["section_name"] 
@@ -374,14 +373,14 @@ function loadmenu(menuArray){
     '                                  <a href="#" class="action1 bg-red">Nah...next</a>'+
     '                                </div>'+
     '                              </li>'
-                        counter++
+           
                         
                     }
                 }
-
-            }
             innertxt+="</ul></div></div></a></li>"  
             document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML+=innertxt
+            }
+ 
         }
           
     }
