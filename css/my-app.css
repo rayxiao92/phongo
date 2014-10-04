@@ -281,6 +281,7 @@
 }
 .padding-top-no {
 	padding-top:0px;
+	margin-top: 0px;
 }
 .border-top-solid {
 	border-top: solid;

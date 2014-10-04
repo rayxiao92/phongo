@@ -252,7 +252,7 @@ function loadrestaurantcard(restaurantarray) {
                             '<div class = "row font-size12 fullwidth">'+ 
                                 '<img class = "item-inner-star" src = "five-stars.png" height="14">' +' | '+  dollarsign +' | ' + Math.round(Math.random()*100,2) + '% return' +
                             '</div>' +
-                            '<div class = "row fullwidth font-size12 float-left "><div class = "col-100 bg-green"><ul class = "padding-left-no padding-top-no ul-no-bullet bg-red">'
+                            '<div class = "row fullwidth font-size12 "><div class = "col-100"><ul class = "padding-left-no padding-top-no ul-no-bullet ">'
                                 for (j in restaurantarray["categories"]) {
                                     if (j < 3){
                                         innertxt+='<li class = "small-tag bg-pred color-pwhite padding-top-no">'+restaurantarray["categories"][j]["name"]+'</li>'
