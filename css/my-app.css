@@ -42,7 +42,6 @@
 }
 
 .content-block-inner-address{
-	
 	color:#AAAAAA;
 	font-weight:lighter;
 	font-size: 12px;
@@ -256,10 +255,6 @@
 	width: 100%;
 	border-width: 2px;
 }
-.border-bottom {
-	border-bottom: solid;
-	border-bottom-width: 1px;
-}
 .font-verdana{
 	font-family: Verdana;
 }
@@ -280,4 +275,12 @@
 .item-inner-star{
 	display: inline;
 }
+.ul-no-bullet {
+	list-style: none;
+	padding: 0px; 	
+}
+.padding-top-no {
+	padding-top:0px;
+}
+
 
