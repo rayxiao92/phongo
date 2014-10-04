@@ -329,8 +329,6 @@ function loadmenu(menuArray){
     if (menuArray.length > 1) {
         for ( i in menuArray ) {
             //console.log(menuArray[i]["menu_name"])
-
-            counter = 0
             for (j in menuArray[i]["sections"]){
                 var innertxt= ""+
     '                <li class="accordion-item">'+
@@ -344,7 +342,9 @@ function loadmenu(menuArray){
     '                            <ul>'
                 for (k in menuArray[i]["sections"][j]["subsections"]){
                     for (l= 1 ; l < menuArray[i]["sections"][j]["subsections"][k]["contents"].length; l++){
-
+                        if (l > 2 ){
+                            break
+                        }
                         var price = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["price"]
                         var name = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["name"]
                         var section_name = menuArray[i]["sections"][j]["section_name"] 
@@ -372,13 +372,11 @@ function loadmenu(menuArray){
     '                                <div class="swipeout-actions-left">'+
     '                                  <a href="#" class="action1 bg-red">Nah...next</a>'+
     '                                </div>'+
-    '                              </li>'
-           
-                        
+    '                              </li>'       
                     }
                 }
-            innertxt+="</ul></div></div></a></li>"  
-            document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML+=innertxt
+                innertxt+="</ul></div></div></a></li>"  
+                document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML+=innertxt
             }
  
         }
