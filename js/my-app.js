@@ -328,10 +328,12 @@ function loadmenu(menuArray){
     // m for options
     if (menuArray.length > 1) {
         for ( i in menuArray ) {
+            flag = 0
+            bordertop = ' border-top-solid'
             //console.log(menuArray[i]["menu_name"])
             for (j in menuArray[i]["sections"]){
                 var innertxt= ""+
-    '                <li class="accordion-item">'+
+    '                <li class="accordion-item' +  bordertop + '">'+
     '                    <a href="#" class="item-content item-link">'+
     '                        <div class="item-inner">'+
     '                            <div class="item-title">'+menuArray[i]["menu_name"]+' - '+ menuArray[i]["sections"][j]["section_name"]  + '</div>'+
@@ -377,6 +379,10 @@ function loadmenu(menuArray){
                 }
                 innertxt+="</ul></div></div></a></li>"  
                 document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML+=innertxt
+                if (flag == 0){
+                    bordertop = ""
+                    flag =1
+                }
             }
  
         }
