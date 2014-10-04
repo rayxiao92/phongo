@@ -321,6 +321,7 @@ function loadmenu(menuArray){
     console.log(menuArray)
     var innertxt =""
     index = 0
+    document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML = ""
     // i for menu
     // j for sections
     // k for subsections
@@ -329,7 +330,7 @@ function loadmenu(menuArray){
     if (menuArray.length > 1) {
         for ( i in menuArray ) {
             //console.log(menuArray[i]["menu_name"])
-            innertxt+= 
+            innertxt= ""+
     '                <li class="accordion-item">'+
     '                    <a href="#" class="item-content item-link">'+
     '                        <div class="item-inner">'+
@@ -354,7 +355,7 @@ function loadmenu(menuArray){
                         if (!section_name)      {section_name = ""}
                         if (!subsection_name)   {subsection_name = ""}
                         if (!description)       {description = ""}
-                        innertxt+='<li class="swipeout">'+
+                        innertxt +='<li class="swipeout">'+
     '                                <div class="swipeout-content item-content">'+
     '                                  <div class="item-inner">'+
     '                                    <div class="item-title-row">'+
@@ -377,11 +378,11 @@ function loadmenu(menuArray){
                 }
             }
             innertxt+="</ul></div></div></a></li>"  
+            document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML+=innertxt
         }
           
     }
 
-    document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML=innertxt
 }
 // Use JS to create HTML element
 function createHTMLElement (name, element, classname, parent){
