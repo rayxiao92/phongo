@@ -180,7 +180,7 @@ function loadrestaurantlist(restaurant_array) {
             '<div class="item-inner">'+
                 '<div class = "row fullwidth">' + 
                     '<div class = "col-25">' + 
-                        '<img src="logo.png" width="70">' + 
+                        '<img src="bistro.jpg"  height = "70"width="70">' + 
                     '</div>' + 
                     '<div class = "col-75 ">' +
                         '<div class = "row font-size16 fullwidth">'+ 
@@ -243,7 +243,7 @@ function loadrestaurantcard(restaurantarray) {
 '                <div class="content-block-inner">' +
                     '<div class = "row fullwidth">' + 
                         '<div class = "col-25">' + 
-                            '<img src="logo.png" width="70">' + 
+                            '<img src="bistro.jpg" width="70" height = "70">' + 
                         '</div>' + 
                         '<div class = "col-75 ">' +
                             '<div class = "row font-size16 fullwidth">'+ 
