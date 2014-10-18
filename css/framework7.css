@@ -1769,7 +1769,7 @@ html:not(.watch-active-state) .list-block .item-link:active .item-inner,
   margin-right: -1px;
 }
 .list-block .item-subtitle {
-  font-size: 15px;
+  /*font-size: 15px;*/
   position: relative;
   overflow: hidden;
   white-space: nowrap;
@@ -1777,7 +1777,8 @@ html:not(.watch-active-state) .list-block .item-link:active .item-inner,
   text-overflow: ellipsis;
 }
 .list-block .item-text {
-  font-size: 15px;
+  /*font-size: 15px;*/
+  
   color: #8e8e93;
   line-height: 21px;
   position: relative;

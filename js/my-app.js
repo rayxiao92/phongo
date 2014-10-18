@@ -361,14 +361,14 @@ function loadmenu(menuArray){
                         innertxt +='<li class="swipeout ">'+
     '                                <div class="swipeout-content item-content">'+
     '                                  <div class="item-inner">'+
-    '                                    <div class="item-title-row">'+
-    '                                      <div class="item-title">'+ name+'</div>'+
+    '                                    <div class="item-title-row font-size14">'+
+    '                                      <div class="item-title font-size14">'+ name+'</div>'+
     '                                      <div class="item-after font-size14">$ '+ price+'</div>'+
     '                                    </div>'+
-    '                                    <div class="item-subtitle">'+ section_name +' '+ subsection_name +'</div>'+
-    '                                    <div class="item-title-row">'+
-    '                                      <div class="item-text">'+ description +'</div>'+
-    '                                      <div class="item-after font-size14"> '+ '<a href="#" class="button button-fill color-green button-round ">order</a>'+
+    '                                    <div class="item-title font-size12">'+ section_name +' '+ subsection_name +'</div>'+
+    '                                    <div class="item-title-row font-size12">'+
+    '                                      <div class="item-text font-size12">'+ description +'</div>'+
+    '                                      <div class="item-after font-size12"> '+ '<a href="#" class="button button-fill color-pred button-round ">order</a>'+
     '                                    </div>' +
     '                                  </div>'+
     '                                </div>'+
