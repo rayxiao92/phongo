@@ -245,7 +245,7 @@ function loadrestaurantcard(restaurantarray) {
                                 restaurantarray["name"] + 
                             '</div>' +
                             '<div class = "row font-size14 fullwidth">'+ 
-                                '<img class = "item-inner-star" src = "five-stars.png" height="14">' +' | '+  dollarsign +' | ' + Math.round(Math.random()*100,2) + '% return' +
+                                '<img class = "item-inner-star" src = "five-stars.png" height="14">' + Math.round(Math.random()*100,2) + '% return' +
                             '</div>' +
                             '<div class = "row fullwidth font-size14 "><div class = "col-100"><ul class = "padding-left-no padding-top-no ul-no-bullet ">'
                                 for (j in restaurantarray["categories"]) {
@@ -345,9 +345,9 @@ function loadmenu(menuArray){
     '                            <ul>'
                 for (k in menuArray[i]["sections"][j]["subsections"]){
                     for (l= 1 ; l < menuArray[i]["sections"][j]["subsections"][k]["contents"].length; l++){
-                        if (l > 2 ){
-                            break
-                        }
+                        // if (l > 2 ){
+                        //     break
+                        // }
                         var price = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["price"]
                         var name = menuArray[i]["sections"][j]["subsections"][k]["contents"][l]["name"]
                         var section_name = menuArray[i]["sections"][j]["section_name"] 
@@ -363,10 +363,13 @@ function loadmenu(menuArray){
     '                                  <div class="item-inner">'+
     '                                    <div class="item-title-row">'+
     '                                      <div class="item-title">'+ name+'</div>'+
-    '                                      <div class="item-after">$ '+ price+'</div>'+
+    '                                      <div class="item-after font-size14">$ '+ price+'</div>'+
     '                                    </div>'+
     '                                    <div class="item-subtitle">'+ section_name +' '+ subsection_name +'</div>'+
-    '                                    <div class="item-text">'+ description +'</div>'+
+    '                                    <div class="item-title-row">'+
+    '                                      <div class="item-text">'+ description +'</div>'+
+    '                                      <div class="item-after font-size14"> '+ '<a href="#" class="button button-fill color-green button-round ">order</a>'+
+    '                                    </div>' +
     '                                  </div>'+
     '                                </div>'+
     '                                <div class="swipeout-actions-right">'+
@@ -378,7 +381,8 @@ function loadmenu(menuArray){
     '                              </li>'       
                     }
                 }
-                innertxt+="</ul></div></div></a></li>"  
+                innertxt+="</ul></div></div></a></li>"
+                console.log(innertxt.length)
                 document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML+=innertxt
                 if (flag == 0){
                     flag =1
