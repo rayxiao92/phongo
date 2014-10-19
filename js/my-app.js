@@ -334,15 +334,9 @@ function loadmenu(menuArray){
             //console.log(menuArray[i]["menu_name"])
             for (j in menuArray[i]["sections"]){
                 var innertxt= ""+
-    '                <li class="accordion-item">'+
-    '                    <a href="#" class="item-content item-link">'+
-    '                        <div class="item-inner ' +  bordertop + '  ">'+
-    '                            <div class="item-title">'+menuArray[i]["menu_name"]+' - '+ menuArray[i]["sections"][j]["section_name"]  + '</div>'+
-    '                            </div>'+
-    '                        </a>'+
-    '                        <div class="accordion-item-content">'+
-    '                         <div class="list-block media-list">'+
-    '                            <ul>'
+    '                <div class="list-group ' +  bordertop + '  ">'+
+    '                    <ul>'+
+    '                        <li class="list-group-title">'+menuArray[i]["menu_name"]+' - '+ menuArray[i]["sections"][j]["section_name"]  + '</li>'
                 for (k in menuArray[i]["sections"][j]["subsections"]){
                     for (l= 1 ; l < menuArray[i]["sections"][j]["subsections"][k]["contents"].length; l++){
                         // if (l > 2 ){
@@ -358,8 +352,8 @@ function loadmenu(menuArray){
                         if (!section_name)      {section_name = ""}
                         if (!subsection_name)   {subsection_name = ""}
                         if (!description)       {description = ""}
-                        innertxt +='<li class="swipeout ">'+
-    '                                <div class="swipeout-content item-content">'+
+                        innertxt +='<li>'+
+    '                                <div class="item-content">'+
     '                                  <div class="item-inner">'+
     '                                    <div class="item-title-row font-size14">'+
     '                                      <div class="item-title font-size14">'+ name+'</div>'+
@@ -372,16 +366,10 @@ function loadmenu(menuArray){
     '                                    </div>' +
     '                                  </div>'+
     '                                </div>'+
-    '                                <div class="swipeout-actions-right">'+
-    '                                  <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>'+
-    '                                </div>'+
-    '                                <div class="swipeout-actions-left">'+
-    '                                  <a href="#" class="action1 bg-red">Nah...next</a>'+
-    '                                </div>'+
     '                              </li>'       
                     }
                 }
-                innertxt+="</ul></div></div></a></li>"
+                innertxt+="</ul></div>"
                 console.log(innertxt.length)
                 document.getElementById("menulist").getElementsByTagName("ul")[0].innerHTML+=innertxt
                 if (flag == 0){
