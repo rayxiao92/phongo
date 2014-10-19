@@ -296,3 +296,8 @@
 	border-top-width: 1px;
 	border-top-color: #B8B7BC;
 }
+
+
+#notificationbar{
+	z-index: 10;
+}

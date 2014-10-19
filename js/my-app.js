@@ -18,11 +18,16 @@ var myApp = new Framework7({
 // Export selectors engine
 var $$ = Dom7;
 
+
+
+
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true
 });
+// var restaurantView = myApp.addView('.view-restaurant');
+
 
 // // Callbacks to run specific code for specific pages, for example for About page:
 // myApp.onPageInit('about', function (page) {
@@ -315,6 +320,18 @@ function loadtopthree(menuArray) {
 /*** This function load the menu ***/
 //
 
+
+function add_dish(){
+	//document.getElementById("notificationbar").style.display = inline-block;
+	// console.log("~~~")
+	myApp.closeNotification("notificationElement") 
+    myApp.addNotification({
+        title: 'Framework7',
+        message: 'This is a simple notification message with title and message'
+    });
+
+}
+
 function loadmenu(menuArray){
     console.log(menuArray)
     index = 0
@@ -362,7 +379,7 @@ function loadmenu(menuArray){
     '                                    <div class="item-title font-size12">'+ section_name +' '+ subsection_name +'</div>'+
     '                                    <div class="item-title-row font-size12">'+
     '                                      <div class="item-text font-size12">'+ description +'</div>'+
-    '                                      <div class="item-after font-size12"> '+ '<a href="#" class="button button-fill color-pred button-round ">order</a>'+
+    '                                      <div class="item-after font-size12"> '+ '<a href="#" onclick = "add_dish()" class="button  notification-default">order</a>'+
     '                                    </div>' +
     '                                  </div>'+
     '                                </div>'+

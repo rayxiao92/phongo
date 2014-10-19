@@ -16,10 +16,39 @@
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
     <!-- Panels overlay-->
+    <div class="notifications list-block media-list">
+      <ul>
+      <!-- Single notification item -->
+        <li class="notification-item">
+          <div class="item-content">
+            <div class="item-media">
+              <!-- Notification media -->
+            </div>
+            <div class="item-inner">
+              <div class="item-title-row">
+                <div class="item-title">
+                  <!-- Notification title -->
+                </div>
+                <div class="item-after">
+                    <!-- Notification close icon -->
+                    <a href="#" class="close-notification"></a>
+                </div>
+              </div>
+              <div class="item-subtitle">
+                <!-- Notification subtitle -->
+              </div>
+              <div class="item-text">
+                <!-- Notification message -->
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>   
     <div class="panel-overlay"></div>
     <!-- Left panel with reveal effect-->
     <div class="panel panel-right panel-reveal">
-      <div class="content-block">
+      <div class="content-block">   
         <div class="left-panel-portrait">
           <img class="left-panel-portrait-img"  src = "port.jpg"/>
         </div>
@@ -302,7 +331,6 @@
             <!-- Scrollable page content-->
             <div class="page-content bg-pred" >
               <div class="content-block">
-
                 <div class = "content-login">
                   <div class ="login-content-title div-center color-pwhite">
                     Phongo
@@ -327,13 +355,9 @@
                       <a onclick="wrongpassword()" class="button button-big button-green login-button">register</a>
                     </div>
                   </div>     
-                  
                 </div>
-                
-
                 <!--Probably dont need this-->
               </div>
-
             </div>
           </div>
         </div>
@@ -348,7 +372,6 @@
                 <td class="toolbar-inner-request-table">
                 </td>
                 <td class="toolbar-inner-right">
-
                 </td>
               </tr>
             </table>
