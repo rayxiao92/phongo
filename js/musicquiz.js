@@ -192,6 +192,9 @@ function select_choice (choice){
 		console.log(correct)
 		once = 1
 		score += 10000 - dif
+		percent = score / 10000
+		console.log(percent)
+		document.getElementById("scorebar").style.width = percent
 		d_start = d_end
 		interval  = setInterval(gameloop, 10000); 
 	} else {
@@ -200,7 +203,7 @@ function select_choice (choice){
 		score *= 0.7
 
 	}
-	document.getElementById("scoreboard").innerHTML = "Score: " + score
+	document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
 }
 function loaddata() {
 
