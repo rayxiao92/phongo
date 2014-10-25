@@ -14,6 +14,8 @@ var login_number=0
 var ithgame = 0
 var track_url
 var track_list
+var d_start
+var d_end
 var original_color;
 //var myApp = new Framework7();
 var myApp = new Framework7({
@@ -148,7 +150,7 @@ function select_choice (choice){
 	select = document.getElementById("button"+choice).innerHTML
 
 	if (select == correct){
-		score += 10
+		
 		clearInterval(interval)
 		ithgame ++
 		a.pause()
@@ -158,8 +160,10 @@ function select_choice (choice){
 		a = document.getElementById("audiosupport")
 		a.src = track_url[ithgame]
 		// a = new Audio(track_url[i])
-		 a.play()
-
+		a.play()
+		d_end = new Date();
+		var dif = d_end.getTime() - d_start.getTime()
+		console.log("dif "+ dif)
 		fake_number = new Array()
 		var fake_number1 = getRandomInt(0,49);
 		while (ithgame == fake_number1) {
@@ -187,11 +191,13 @@ function select_choice (choice){
 		correct = track_list[ithgame]["name"]
 		console.log(correct)
 		once = 1
-		//interval  = setInterval(gameloop, 10000); 
+		score += 10000 - dif
+		d_start = d_end
+		interval  = setInterval(gameloop, 10000); 
 	} else {
 		original_color=  document.getElementById("button"+choice).style.backgroundColor
 		document.getElementById("button"+choice).style.backgroundColor = "red"
-		score -= 3
+		score *= 0.7
 
 	}
 	document.getElementById("scoreboard").innerHTML = "Score: " + score
@@ -245,7 +251,8 @@ function loaddata() {
 		a.src = track_url[ithgame]
 		// a = new Audio(track_url[i])
 		a.play()
-
+		d_start = new Date()
+		//console.log(d_start.getSeconds())
 		fake_number = new Array()
 		var fake_number1 = getRandomInt(0,49);
 		while (ithgame == fake_number1) {
@@ -282,6 +289,7 @@ function loaddata() {
 function gameloop(){
 					ithgame++
 					a.pause()
+					d_start = new Date()
 					console.log(ithgame)
 					console.log("here")
 					// a = new Audio(track_url[i])
