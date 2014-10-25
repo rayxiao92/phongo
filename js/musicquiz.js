@@ -13,6 +13,7 @@ var sorted_menu= ""
 var login_number=0
 var ithgame = 0
 var track_url
+var track_list
 var original_color;
 //var myApp = new Framework7();
 var myApp = new Framework7({
@@ -146,8 +147,6 @@ function playSound(url) {
 function select_choice (choice){
 	select = document.getElementById("button"+choice).innerHTML
 
-	console.log(select)
-	console.log(correct)
 	if (select == correct){
 		score += 10
 		clearInterval(interval)
@@ -183,17 +182,16 @@ function select_choice (choice){
 		array = shuffleArray(array)
 		console.log(array)
 		for (j = 0; j < 4 ; j++) {
-			document.getElementById("button"+array[j]).innerHTML = track_list[fake_number[array[j]]]["name"]
+			document.getElementById("button"+array[j]).innerHTML = track_list[fake_number[j]]["name"]
 		}
 		correct = track_list[ithgame]["name"]
 		console.log(correct)
 		once = 1
-
-
-		interval  = setInterval(gameloop, 10000); 
+		//interval  = setInterval(gameloop, 10000); 
 	} else {
 		original_color=  document.getElementById("button"+choice).style.backgroundColor
 		document.getElementById("button"+choice).style.backgroundColor = "red"
+		score -= 3
 
 	}
 	document.getElementById("scoreboard").innerHTML = "Score: " + score
@@ -246,7 +244,7 @@ function loaddata() {
 		a = document.getElementById("audiosupport")
 		a.src = track_url[ithgame]
 		// a = new Audio(track_url[i])
-		 a.play()
+		a.play()
 
 		fake_number = new Array()
 		var fake_number1 = getRandomInt(0,49);
@@ -270,7 +268,7 @@ function loaddata() {
 		array = shuffleArray(array)
 		console.log(array)
 		for (j = 0; j < 4 ; j++) {
-			document.getElementById("button"+array[j]).innerHTML = track_list[fake_number[array[j]]]["name"]
+			document.getElementById("button"+array[j]).innerHTML = track_list[fake_number[j]]["name"]
 		}
 		correct = track_list[ithgame]["name"]
 		console.log(correct)
@@ -284,6 +282,7 @@ function loaddata() {
 function gameloop(){
 					ithgame++
 					a.pause()
+					console.log(ithgame)
 					console.log("here")
 					// a = new Audio(track_url[i])
 					a = document.getElementById("audiosupport")
