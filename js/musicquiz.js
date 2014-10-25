@@ -170,7 +170,7 @@ function loaddata() {
 		audio_list = new Array()
 		for (i = 0; i < 50; i++) {
 			var right_answer = "";
-			track_url.push(track_list[i]["preview_url"])
+			track_url.push(track_list[i]["preview_url"]+".mp3")
 			console.log(track_url)
 			// playSound(track_url[i])
 			console.log(track_list[getRandomInt(0,49)]["name"])
@@ -186,8 +186,7 @@ function loaddata() {
 		
 		
 		i = 0
-		a = document.getElementById("musicsupport")
-		a.src = track_url[i]
+		a = new Audio(track_url[i])
 		a.play()
 
 		fake_number = new Array()
@@ -221,8 +220,7 @@ function loaddata() {
 					i++
 					a.pause()
 					console.log("here")
-					a = document.getElementById("musicsupport")
-					a.src = track_url[i]
+					a = new Audio(track_url[i])
 					a.play()
 					fake_number = new Array()
 					var fake_number1 = getRandomInt(0,49);
@@ -241,7 +239,7 @@ function loaddata() {
 					}
 					fake_number.push(fake_number3)
 					fake_number.push(i)
-			
+					correct_number = getRandomInt(0,3)
 					array = [1,2,3,0]
 					array = shuffleArray(array)
 					console.log(array)
