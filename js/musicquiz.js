@@ -121,7 +121,8 @@ function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 function play(){
-
+	var b = new Audio("https://p.scdn.co/mp3-preview/e61cd21ad1a288c033b4fdfb56bb8c7398c4d1a9")
+	b.play()
     document.getElementById("login_page").style.display = "none"
     document.getElementById("game_page").style.display = "block"
     loaddata()
