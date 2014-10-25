@@ -18,7 +18,7 @@ var myApp = new Framework7({
 // Export selectors engine
 var $$ = Dom7;
 
-
+// https://api.spotify.com/v1/users/1267003717/playlists/4hOKQuZbraPDIfaGbM3lKI
 
 
 // Add view
@@ -27,6 +27,8 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 // var restaurantView = myApp.addView('.view-restaurant');
+
+
 
 
 // // Callbacks to run specific code for specific pages, for example for About page:
@@ -106,43 +108,30 @@ function switchpage(page) {
 
 
 function loaddata() {
-    if (currentpage_id == "restaurant_page"){
-        //console.log(single_restaurant_array)
-        //console.log(restaurant_array)
-        // Get restaurant name on navbar
-        document.getElementById("navbartitle").innerHTML='<a href="#" class="color-white">'+
-        single_restaurant_array["name"]+
-        '</a>'
-        //load restaurant info card
-        loadrestaurantcard(single_restaurant_array)
-        //load top three
-        //loadtopthree(single_restaurant_array["menus"])
-        //load menu
-        loadmenu(single_restaurant_array["menus"])
 
-    }
-    if (currentpage_id == "home_page") {
-        query = '{'+
-'              "api_key" : "ecc4cdde72c7e50c9f859a71d3408cfa2db8eb8f",'+
-'              "fields" : [ "name", "location", "contact" ],'+
-'              "venue_queries" : ['+
-'                {'+
-'                  "location" : {'+
-'                    "geo" : {'+
-'                      "$in_lat_lng_radius" : [42.4069, -71.1198, 5000]'+
-'                    }'+
-'                  }'+
-'                }'+
-'              ]'+
-'        }'
-        //console.log(query)
-        
-        //console.log(multiplerestaurant)
+	//Use get API of member database here
+	request = new XMLHttpRequest();
+	request.open("GET", 'http://charts.spotify.com/api/tracks/most_streamed/global/daily/latest', true);
 
-        rest_list = JSON.parse(multiplerestaurant)
 
-        loadrestaurantlist(rest_list["venues"])
-    }
+	request.send(null);
+	database="";
+	request.onreadystatechange = function(){
+		if (request.readyState == 4 && request.status == 200) {
+     		database = JSON.parse(request.responseText);
+     		listcontent = "";
+			for(i=0;i<database.length;i++){
+				//onepis.className="onepiece";
+				tablecontent="";
+				tablecontent+="<table class='onepiece'><tr><td style='word-wrap: break-word'><div class='p-title'>"+database[i]["title"]+"</div><div class='p-subtitle'>"+database[i]["subt"]+"</div></td><td class='portrait'><img height='60' width='60' src="+database[i]["prt"]+"></td></tr><td class='summary' style='word-wrap: break-word' colspan='2'><div class='p-sum'>"+database[i]["summary"]+"</div></td></tr></table>"
+				listcontent+=tablecontent;
+				console.log(listcontent)
+			}
+      	}
+      	else{
+      		console.log("haha");
+      	}
+	}
 }
 
 /*************************************

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="translucent">
+    <link href="logo.jpg" rel="apple-touch-icon" sizes="152x152" />
+    <title>Phongo</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.css">
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+  </head>
+  <body onload="loaddata()">
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar-overlay"></div>
+    <!-- Panels overlay-->
+    <div class="notifications list-block media-list">
+      <ul>
+      <!-- Single notification item -->
+        <li class="notification-item">
+          <div class="item-content">
+            <div class="item-media">
+              <!-- Notification media -->
+            </div>
+            <div class="item-inner">
+              <div class="item-title-row">
+                <div class="item-title">
+                  <!-- Notification title -->
+                </div>
+                <div class="item-after">
+                    <!-- Notification close icon -->
+                    <a href="#" class="close-notification"></a>
+                </div>
+              </div>
+              <div class="item-subtitle">
+                <!-- Notification subtitle -->
+              </div>
+              <div class="item-text">
+                <!-- Notification message -->
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>   
+    <div class="panel-overlay"></div>
+    <!-- Left panel with reveal effect-->
+    <div class="panel panel-right panel-reveal">
+      <div class="content-block">   
+        <div class="left-panel-portrait">
+          <img class="left-panel-portrait-img"  src = "port.jpg"/>
+        </div>
+        <div class="left-panel-username">
+          Ray R. Xiao
+        </div>
+        <div class="left-panel-list">
+          <table class = "left-panel-table">
+            <tr>
+              <td onclick='switchpage("home")'>
+                Home
+              </td>
+            </tr>
+            <tr>
+              <td onclick='switchpage("friends")'>
+                Friends
+              </td>
+            </tr>
+            <tr>
+              <td onclick='switchpage("history")'>
+                History
+              </td>
+            </tr>
+            <tr>
+              <td onclick='switchpage("restaurant")'>
+                Restaurant
+              </td>
+            </tr>                        
+          </table>
+        </div>
+      </div>
+    </div>
+    <!-- Right panel with cover effect-->
+    <div class="panel panel-right panel-cover">
+      <div class="content-block">
+        <p>Right panel content goes here</p>
+      </div>
+    </div>
+    <!-- Views-->
+    <div class="views font-verdana">
+      <!-- Your main view, should have "view-main" class-->
+      <div class="view view-restaurant" id = "restaurant_page" style = "display:none">
+        <!-- Top Navbar-->
+        <div class="navbar">
+          <div class="navbar-inner">
+              <div class="left">
+                  <a onclick="back()" class="link color-white ">
+                      <i class="icon icon-back color-white"></i>
+                      <span>Back</span>
+                  </a>
+              </div>
+              <div id = "navbartitle" class="center"><a href="#" class="color-white">Tamper Cafe at Boston ave</a></div>
+              <div class="right color-white">
+                  <a href="#" class="link color-white">
+                      <i class="icon icon-bars color-white"></i>
+                  </a>
+              </div>
+          </div>
+        </div>
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        
+        <div class="pages navbar-through toolbar-through">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page">
+            <!-- Scrollable page content-->
+            <div class="page-content" > 
+              <div class="content-block" id="restaurantcard">
+              </div>
+              <div class="content-block-title">We guess you might like...</div>
+              <div class="list-block media-list card border-round" id="recommendationlist">
+                <ul>
+                </ul>
+              </div>
+              <div class="content-block-title" name="menu">Menu</div>
+              <div class="list-block card top-border-no contacts-block media-list" id="menulist">
+                <ul class = "top-border-no">
+                  <li class="accordion-item">
+                    <a href="#" class="item-content item-link">
+                      <div class="item-inner">
+                        <div class="item-title">Seafood</div>
+                      </div>
+                    </a>
+                    <div class="accordion-item-content">
+                     <div class="list-block accordion-list">
+                        <ul>
+                          <li class="accordion-item">
+                            <a href="#" class="item-content item-link">
+                              <div class="item-inner">
+                                <div class="item-title">Seafood</div>
+                              </div>
+                            </a>
+                            <li class="swipeout">
+                              <div class="swipeout-content item-content">
+                                <div class="item-media"><img src="..." width="80"></div>
+                                <div class="item-inner">
+                                  <div class="item-title-row">
+                                    <div class="item-title">Salmon</div>
+                                    <div class="item-after">$15</div>
+                                  </div>
+                                  <div class="item-subtitle">Sushi</div>
+                                  <div class="item-text">Lorem ipsum dolor </div>
+                                </div>
+                              </div>
+                              <div class="swipeout-actions-right">
+                                <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>
+                              </div>
+                              <div class="swipeout-actions-left">
+                                <a href="#" class="action1 bg-red">Nah...next</a>
+                              </div>
+                            </li>
+                          </li>
+                        </ul>
+                      </div>
+                    </div
+                  </li>
+                  <li class="accordion-item"><a href="#" class="item-content item-link">
+                    <div class="item-inner">
+                      <div class="item-title">Beef</div>
+                    </div></a>
+                    <div class="accordion-item-content">
+                     <div class="list-block media-list">
+                        <ul>
+                          <li class="swipeout">
+                            <div class="swipeout-content item-content">
+                              <div class="item-media"><img src="..." width="80"></div>
+                              <div class="item-inner">
+                                <div class="item-title-row">
+                                  <div class="item-title">Salmon</div>
+                                  <div class="item-after">$15</div>
+                                </div>
+                                <div class="item-subtitle">Sushi</div>
+                                <div class="item-text">Lorem ipsum dolor </div>
+                              </div>
+                            </div>
+                            <div class="swipeout-actions-right">
+                              <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>
+                            </div>
+                            <div class="swipeout-actions-left">
+                              <a href="#" class="action1 bg-red">Nah...next</a>
+                            </div>
+                          </li>
+                          <li class="swipeout">
+                            <div class="swipeout-content item-content">
+                              <div class="item-media"><img src="..." width="80"></div>
+                              <div class="item-inner">
+                                <div class="item-title-row">
+                                  <div class="item-title">Yellowtail</div>
+                                  <div class="item-after">$16</div>
+                                </div>
+                                <div class="item-subtitle">Sushi</div>
+                                <div class="item-text">Lorem ipsum dolor </div>
+                              </div>
+                            </div>
+                            <div class="swipeout-actions-right">
+                              <a href="#" class="action1 bg-green">Add</a>
+                            </div>
+                            <div class="swipeout-actions-left">
+                              <a href="#" class="action1 bg-red">Nah...next</a>
+                            </div>
+                          </li>
+                          <li class="swipeout">
+                            <div class="swipeout-content item-content">
+                              <div class="item-media"><img src="..." width="80"></div>
+                              <div class="item-inner">
+                                <div class="item-title-row">
+                                  <div class="item-title">Udon</div>
+                                  <div class="item-after">$11</div>
+                                </div>
+                                <div class="item-subtitle">Noodle</div>
+                                <div class="item-text">Lorem ipsum dolor </div>
+                              </div>
+                            </div>
+                            <div class="swipeout-actions-right">
+                              <a href="#" class="action1 bg-green">Add</a>
+                            </div>
+                            <div class="swipeout-actions-left">
+                              <a href="#" class="action1 bg-red">Nah...next</a>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  </li>
+                
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Toolbar-->
+        <div class="toolbar border-no">
+          <div class="toolbar-inner">
+            <table class="toolbar-inner-table">
+              <tr>
+                <td class="toolbar-inner-left">
+                  <!--<a href="#" class="link color-blue">Link 1</a>-->
+                </td>
+                <td class="toolbar-inner-request-table">
+                  <div class="toolbar-inner-request-table-button">
+                    <a href="#">Request a table now</a>
+                  </div>
+                </td>
+                <td class="toolbar-inner-right">
+
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="view view-home" id = "home_page" style = "display:none">
+        <!-- Top Navbar-->
+        <div class="navbar">
+          <div class="navbar-inner">
+              <div class="left">
+                   <a href="#" class="link color-white">
+                      <i class="icon icon-bars color-white"></i>
+                  </a>
+              </div>
+              <div id = "navbartitle" class="center color-white">
+                chinese food @ newton
+              </div>
+              <div class="right color-white">
+              </div>
+          </div>
+        </div>
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        
+        <div class="pages navbar-through toolbar-through">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page">
+            <!-- Scrollable page content-->
+            <div class="page-content"> 
+              <div class="list-block" id = "restaurant_list">
+                <ul>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Toolbar-->
+        <div class="toolbar border-no">
+          <div class="toolbar-inner">
+            <table class="toolbar-inner-table">
+              <tr>
+                <td class="toolbar-inner-left">
+                  <!--<a href="#" class="link color-blue">Link 1</a>-->
+                </td>
+                <td class="toolbar-inner-request-table">
+                </td>
+                <td class="toolbar-inner-right">
+
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="view view-home" id = "login_page" >
+        <!-- Top Navbar-->
+        <div class="navbar bg-trans border-no">
+          <div class="navbar-inner">
+              <div class="left">
+                   <a href="#" class="link color-white">
+                      <i class="icon icon-bars color-white"></i>
+                  </a>
+              </div>
+              <div id = "navbartitle" class="center color-white">
+              </div>
+              <div class="right color-white">
+
+              </div>
+          </div>
+        </div>
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        
+        <div class="pages navbar-through toolbar-through">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page" >
+            <!-- Scrollable page content-->
+            <div class="page-content bg-pred" >
+              <div class="content-block">
+                <div class = "content-login">
+                  <div class ="login-content-title div-center color-pwhite">
+                    Phongo
+                  </div>
+                  <div class = "login-content-username">
+                    <input id="username-input" autofocus="true"class="login-input-box div-center bg-pred color-pwhite" placeholder="email"></input>
+                  </div>
+                  <div class="div-line color-pwhite"></div>
+                  <div class = "login-content-password ">
+                    <input id="pw-input" class="login-input-box div-center bg-pred color-pwhite" placeholder="password" type="password"></input>
+                  </div>
+                  <div id ="login-content-prompt" class="color-pwhite" style="visibility:hidden">
+                    email: test@phongo.com<br>
+                    password: every1sprivatechef<br>
+                    click login again if it's not working for the first time, <br>thank you
+                  </div>
+                  <div class="login-button-area row">
+                    <div class="col-50">
+                      <a onclick="login()" class="button button-big button-red login-button">login</a>
+                    </div>
+                    <div class="col-50">
+                      <a onclick="wrongpassword()" class="button button-big button-green login-button">register</a>
+                    </div>
+                  </div>     
+                </div>
+                <!--Probably dont need this-->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Bottom Toolbar-->
+        <div class="toolbar border-no">
+          <div class="toolbar-inner">
+            <table class="toolbar-inner-table">
+              <tr>
+                <td class="toolbar-inner-left">
+                  <!--<a href="#" class="link color-blue">Link 1</a>-->
+                </td>
+                <td class="toolbar-inner-request-table">
+                </td>
+                <td class="toolbar-inner-right">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>        
+    </div>
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="js/framework7.js"></script>
+    <!-- Path to your app js-->
+    <script type="text/javascript" src="js/musicquiz.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  </body>
+</html>
