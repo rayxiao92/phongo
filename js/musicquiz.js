@@ -120,15 +120,21 @@ function shuffleArray(array) {
 function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+// $("#mainplay").click(function(){
+// 	alert("here")
+// 	var b = new Audio("https://p.scdn.co/mp3-preview/e61cd21ad1a288c033b4fdfb56bb8c7398c4d1a9")
+// 	b.play()
+// });
 function play(){
-	var b = new Audio("https://p.scdn.co/mp3-preview/e61cd21ad1a288c033b4fdfb56bb8c7398c4d1a9")
-	b.play()
+	
     document.getElementById("login_page").style.display = "none"
     document.getElementById("game_page").style.display = "block"
     loaddata()
 }
 
 function playSound(url) {
+
     var a = new Audio(url);
     a.play();
     setInterval(function(){a.pause()}, 3000);
@@ -187,8 +193,10 @@ function loaddata() {
 		
 		
 		i = 0
-		a = new Audio(track_url[i])
-		a.play()
+		a = document.getElementById("audiosupport")
+		a.src = track_url[i]
+		// a = new Audio(track_url[i])
+		 a.play()
 
 		fake_number = new Array()
 		var fake_number1 = getRandomInt(0,49);
@@ -221,7 +229,9 @@ function loaddata() {
 					i++
 					a.pause()
 					console.log("here")
-					a = new Audio(track_url[i])
+					// a = new Audio(track_url[i])
+					a = document.getElementById("audiosupport")
+					a.src = track_url[i]
 					a.play()
 					fake_number = new Array()
 					var fake_number1 = getRandomInt(0,49);
