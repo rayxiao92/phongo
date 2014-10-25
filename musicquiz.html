@@ -10,9 +10,9 @@
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.css">
     <!-- Path to your custom app styles-->
-    <link rel="stylesheet" href="css/my-app.css">
+    <link rel="stylesheet" href="css/musicquiz-app.css">
   </head>
-  <body onload="loaddata()">
+  <body>
     <!-- Status bar overlay for fullscreen mode-->
     <div class="statusbar-overlay"></div>
     <!-- Panels overlay-->
@@ -90,178 +90,9 @@
     <!-- Views-->
     <div class="views font-verdana">
       <!-- Your main view, should have "view-main" class-->
-      <div class="view view-restaurant" id = "restaurant_page" style = "display:none">
+      <div class="view view-home" id = "game_page" style= "display:none">
         <!-- Top Navbar-->
-        <div class="navbar">
-          <div class="navbar-inner">
-              <div class="left">
-                  <a onclick="back()" class="link color-white ">
-                      <i class="icon icon-back color-white"></i>
-                      <span>Back</span>
-                  </a>
-              </div>
-              <div id = "navbartitle" class="center"><a href="#" class="color-white">Tamper Cafe at Boston ave</a></div>
-              <div class="right color-white">
-                  <a href="#" class="link color-white">
-                      <i class="icon icon-bars color-white"></i>
-                  </a>
-              </div>
-          </div>
-        </div>
-        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        
-        <div class="pages navbar-through toolbar-through">
-          <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page">
-            <!-- Scrollable page content-->
-            <div class="page-content" > 
-              <div class="content-block" id="restaurantcard">
-              </div>
-              <div class="content-block-title">We guess you might like...</div>
-              <div class="list-block media-list card border-round" id="recommendationlist">
-                <ul>
-                </ul>
-              </div>
-              <div class="content-block-title" name="menu">Menu</div>
-              <div class="list-block card top-border-no contacts-block media-list" id="menulist">
-                <ul class = "top-border-no">
-                  <li class="accordion-item">
-                    <a href="#" class="item-content item-link">
-                      <div class="item-inner">
-                        <div class="item-title">Seafood</div>
-                      </div>
-                    </a>
-                    <div class="accordion-item-content">
-                     <div class="list-block accordion-list">
-                        <ul>
-                          <li class="accordion-item">
-                            <a href="#" class="item-content item-link">
-                              <div class="item-inner">
-                                <div class="item-title">Seafood</div>
-                              </div>
-                            </a>
-                            <li class="swipeout">
-                              <div class="swipeout-content item-content">
-                                <div class="item-media"><img src="..." width="80"></div>
-                                <div class="item-inner">
-                                  <div class="item-title-row">
-                                    <div class="item-title">Salmon</div>
-                                    <div class="item-after">$15</div>
-                                  </div>
-                                  <div class="item-subtitle">Sushi</div>
-                                  <div class="item-text">Lorem ipsum dolor </div>
-                                </div>
-                              </div>
-                              <div class="swipeout-actions-right">
-                                <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>
-                              </div>
-                              <div class="swipeout-actions-left">
-                                <a href="#" class="action1 bg-red">Nah...next</a>
-                              </div>
-                            </li>
-                          </li>
-                        </ul>
-                      </div>
-                    </div
-                  </li>
-                  <li class="accordion-item"><a href="#" class="item-content item-link">
-                    <div class="item-inner">
-                      <div class="item-title">Beef</div>
-                    </div></a>
-                    <div class="accordion-item-content">
-                     <div class="list-block media-list">
-                        <ul>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Salmon</div>
-                                  <div class="item-after">$15</div>
-                                </div>
-                                <div class="item-subtitle">Sushi</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" onclick="addCurrentOrder(1920)" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Yellowtail</div>
-                                  <div class="item-after">$16</div>
-                                </div>
-                                <div class="item-subtitle">Sushi</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                          <li class="swipeout">
-                            <div class="swipeout-content item-content">
-                              <div class="item-media"><img src="..." width="80"></div>
-                              <div class="item-inner">
-                                <div class="item-title-row">
-                                  <div class="item-title">Udon</div>
-                                  <div class="item-after">$11</div>
-                                </div>
-                                <div class="item-subtitle">Noodle</div>
-                                <div class="item-text">Lorem ipsum dolor </div>
-                              </div>
-                            </div>
-                            <div class="swipeout-actions-right">
-                              <a href="#" class="action1 bg-green">Add</a>
-                            </div>
-                            <div class="swipeout-actions-left">
-                              <a href="#" class="action1 bg-red">Nah...next</a>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  </li>
-                
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Bottom Toolbar-->
-        <div class="toolbar border-no">
-          <div class="toolbar-inner">
-            <table class="toolbar-inner-table">
-              <tr>
-                <td class="toolbar-inner-left">
-                  <!--<a href="#" class="link color-blue">Link 1</a>-->
-                </td>
-                <td class="toolbar-inner-request-table">
-                  <div class="toolbar-inner-request-table-button">
-                    <a href="#">Request a table now</a>
-                  </div>
-                </td>
-                <td class="toolbar-inner-right">
-
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>
-      <div class="view view-home" id = "home_page" style = "display:none">
-        <!-- Top Navbar-->
-        <div class="navbar">
+        <div class="navbar bg-trans border-no">
           <div class="navbar-inner">
               <div class="left">
                    <a href="#" class="link color-white">
@@ -269,9 +100,9 @@
                   </a>
               </div>
               <div id = "navbartitle" class="center color-white">
-                chinese food @ newton
               </div>
               <div class="right color-white">
+
               </div>
           </div>
         </div>
@@ -279,12 +110,51 @@
         
         <div class="pages navbar-through toolbar-through">
           <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page">
+          <div data-page="index" class="page" >
             <!-- Scrollable page content-->
-            <div class="page-content"> 
-              <div class="list-block" id = "restaurant_list">
-                <ul>
-                </ul>
+            <div class="page-content bg-pred" >
+              <div class="content-block">
+                <div class = "content-login">
+                  <div class ="login-content-username div-center color-pwhite" id ="scoreboard">
+                    Score: 
+                  </div>
+
+                  <div class = "div-line color-pwhite"></div>
+                  
+                  <div class = "div center song-selection">
+                    <a href="#" id = "button0" onclick = "select_choice(0);" class="button button-big button-round thick-border  color-pwhite">Play! </a>
+                  </div>
+                  <div class = "div center song-selection">
+                    <a href="#" id = "button1" onclick = "select_choice(1);" class="button button-big button-round thick-border  color-pwhite">Play! </a>
+                  </div>
+                  <div class = "div center song-selection">
+                    <a href="#" id = "button2" onclick = "select_choice(2);" class="button button-big button-round thick-border  color-pwhite">Play! </a>
+                  </div>
+                  <div class = "div center song-selection">
+                    <a href="#" id = "button3" onclick = "select_choice(3);" class="button button-big button-round thick-border  color-pwhite">Play! </a>
+                  </div>  
+<!--                   <div class = "login-content-username">
+                    <input id="username-input" autofocus="true"class="login-input-box div-center bg-pred color-pwhite" placeholder="email"></input>
+                  </div>
+                  <div class="div-line color-pwhite"></div>
+                  <div class = "login-content-password ">
+                    <input id="pw-input" class="login-input-box div-center bg-pred color-pwhite" placeholder="password" type="password"></input>
+                  </div>
+                  <div id ="login-content-prompt" class="color-pwhite" style="visibility:hidden">
+                    email: test@phongo.com<br>
+                    password: every1sprivatechef<br>
+                    click login again if it's not working for the first time, <br>thank you
+                  </div>
+                  <div class="login-button-area row">
+                    <div class="col-50">
+                      <a onclick="login()" class="button button-big button-red login-button">login</a>
+                    </div>
+                    <div class="col-50">
+                      <a onclick="wrongpassword()" class="button button-big button-green login-button">register</a>
+                    </div>
+                  </div>   -->   
+                </div>
+                <!--Probably dont need this-->
               </div>
             </div>
           </div>
@@ -300,13 +170,12 @@
                 <td class="toolbar-inner-request-table">
                 </td>
                 <td class="toolbar-inner-right">
-
                 </td>
               </tr>
             </table>
           </div>
         </div>
-      </div>
+      </div> 
       <div class="view view-home" id = "login_page" >
         <!-- Top Navbar-->
         <div class="navbar bg-trans border-no">
@@ -333,9 +202,15 @@
               <div class="content-block">
                 <div class = "content-login">
                   <div class ="login-content-title div-center color-pwhite">
-                    Phongo
+                    SpotiQuiz
                   </div>
-                  <div class = "login-content-username">
+                  <div class = "div center">
+                    <a href="#" onclick = "play();" class="button button-big button-round thick-border  color-pwhite">Play! </a>
+                  </div>
+                  <div class = "div center">
+                    Game built by Rui(Ray) Xiao at Tufts 2014 Hackathon
+                  </div>
+<!--                   <div class = "login-content-username">
                     <input id="username-input" autofocus="true"class="login-input-box div-center bg-pred color-pwhite" placeholder="email"></input>
                   </div>
                   <div class="div-line color-pwhite"></div>
@@ -354,7 +229,7 @@
                     <div class="col-50">
                       <a onclick="wrongpassword()" class="button button-big button-green login-button">register</a>
                     </div>
-                  </div>     
+                  </div>   -->   
                 </div>
                 <!--Probably dont need this-->
               </div>
