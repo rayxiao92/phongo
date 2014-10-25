@@ -186,7 +186,8 @@ function loaddata() {
 		
 		
 		i = 0
-		a = new Audio(track_url[i])
+		a = document.getElementById("musicsupport")
+		a.src = track_url[i]
 		a.play()
 
 		fake_number = new Array()
@@ -220,7 +221,8 @@ function loaddata() {
 					i++
 					a.pause()
 					console.log("here")
-					a = new Audio(track_url[i])
+					a = document.getElementById("musicsupport")
+					a.src = track_url[i]
 					a.play()
 					fake_number = new Array()
 					var fake_number1 = getRandomInt(0,49);
