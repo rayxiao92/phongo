@@ -27,7 +27,7 @@ var score = 0
 var singleSongPlayTimeInMs = 10000
 var paneltyTimeInMs = 1000
 var animationRateInMs = 100
-var totalGameTimeInMs = 60000
+var totalGameTimeInMs = 20000
 var maxSongInList = 50
 // Add view
 var mainView = myApp.addView('.view-main', {
@@ -65,6 +65,8 @@ function pass_this() {
 }
 
 function play(){
+	score= 0
+	    document.getElementById("gameover_page").style.display = "none"
     document.getElementById("login_page").style.display = "none"
     document.getElementById("game_page").style.display = "block"
     loaddata()
@@ -147,8 +149,9 @@ function gameover(){
 	console.log("done")
 	clearInterval(animation_interval)
 	clearInterval(interval)
-	
-	score = 0
+    document.getElementById("game_page").style.display = "none"
+    document.getElementById("gameover_page").style.display = "block"
+    document.getElementById("scoretitle").innerHTML = "You got " + score
 }
 /*************************************
 **                                  **
