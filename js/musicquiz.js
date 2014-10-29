@@ -24,7 +24,7 @@ var ithgame = 0
 var score = 0
 var singleSongPlayTimeInMs = 10000
 var paneltyTimeInMs = 1000
-var animationRateInMs = 30
+var animationRateInMs = 100
 var totalGameTimeInMs = 60000
 var maxSongInList = 50
 // Add view
@@ -71,7 +71,10 @@ function select_choice (choice){
 
 function gameloop(){
 	ithgame ++
-	a.pause()
+	if (!a.paused){
+		a.pause()
+	}
+	
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.backgroundColor = "#648F00"
 	}	
