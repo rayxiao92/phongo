@@ -248,10 +248,13 @@
 }
 
 .bg-pred{
-	background-color: #648F00;
+	/*background-color: #648F00;*/
+	background-image: url('../blur_22834.jpg')
 }
 .color-pwhite{
-	color:#EEDCDA;
+	/*color:#EEDCDA;*/
+
+	color:  #EEEEEE;
 }
 .div-line {
 	margin:0 auto;
@@ -261,7 +264,7 @@
 	border-width: 2px;
 }
 .font-verdana{
-	font-family: Verdana;
+	font-family: Century Gothic;
 }
 .fullwidth {
 	width:100%;

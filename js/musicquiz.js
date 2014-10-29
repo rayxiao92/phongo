@@ -88,7 +88,7 @@ function gameloop(){
 		a.pause()
 	}
 	for (i_ = 0; i_ < 4; i_++){
-		document.getElementById("button"+i_).style.backgroundColor = "#648F00"
+		document.getElementById("button"+i_).style.backgroundColor = "transparent"
 	}
 	this_url = next_url
 	a = document.getElementById("audiosupport")
