@@ -40,6 +40,12 @@ var mainView = myApp.addView('.view-main', {
 **                                  **
 *************************************/
 
+function pass_this() {
+	console.log("ASDA")
+	gameloop()
+	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
+}
+
 function play(){
     document.getElementById("login_page").style.display = "none"
     document.getElementById("game_page").style.display = "block"
@@ -74,7 +80,6 @@ function gameloop(){
 	a = document.getElementById("audiosupport")
 	a.src = track_list[fake_number[play_index]]["preview_url"]+".mp3"
 	a.play()
-
 	console.log(track_list[fake_number[play_index]]["name"])
 
 	for (j = 0; j < 4 ; j++) {
