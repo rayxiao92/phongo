@@ -27,7 +27,7 @@ var ithgame = 0
 var score = 0
 var singleSongPlayTimeInMs = 10000
 var paneltyTimeInMs = 1000
-var animationRateInMs = 100
+var animationRateInMs = 300
 var totalGameTimeInMs = 20000
 var maxSongInList = 50
 // Add view
