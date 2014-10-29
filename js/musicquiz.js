@@ -18,6 +18,7 @@ var myApp = new Framework7({
 
 var play_index = getRandomInt(0,3)
 var next_url = ""
+var loaded = 0
 // Export selectors engine
 var $$ = Dom7;
 
@@ -46,7 +47,9 @@ var mainView = myApp.addView('.view-main', {
 function onload_function(){
 	request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
 		track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
-		console.log(track_list)		
+		console.log(track_list)
+		document.getElementById("mainplay").innerHTML = "Play"
+		loaded = 1
 	});	
 }
 function pass_this() {
@@ -57,12 +60,16 @@ function pass_this() {
 }
 
 function play(){
-	score = 0
-	document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
-	document.getElementById("gameover_page").style.display = "none"
-    document.getElementById("login_page").style.display = "none"
-    document.getElementById("game_page").style.display = "block"
-    loaddata()
+	
+	if (loaded == 1){
+		score = 0
+		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+		document.getElementById("gameover_page").style.display = "none"
+	    document.getElementById("login_page").style.display = "none"
+	    document.getElementById("game_page").style.display = "block"
+    	loaddata()
+	}
+
 }
 
 function select_choice (choice){
@@ -98,6 +105,7 @@ function gameloop(){
 	for (j = 0; j < 4 ; j++) {
 		document.getElementById("button"+j).innerHTML = track_list[fake_number[j]]["name"]
 	}
+
 	// correct st`ores the correct answer of hte song name
 	correct = track_list[fake_number[play_index]]["name"]	
 	fake_number = getFourIndexFromArray()
