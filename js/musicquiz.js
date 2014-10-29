@@ -3,7 +3,7 @@ var playlist = '{"tracks":[{"date":"2014-10-23","country":"global","track_url":"
 var correct = ""
 var interval;
 var prepage_id = ""
-var prev_audio = new Audio()
+var next_audio = new Audio()
 var a = new Audio()
 var track_url;
 var track_list;
@@ -96,10 +96,14 @@ function gameloop(){
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.backgroundColor = "#648F00"
 	}
-	a = document.getElementById("audiosupport")
-	this_url = next_url
-	a.src = this_url
+	a = next_audio
 	a.play()
+	// this_url = next_url
+	// a = new Audio(this_url)
+	// a = document.getElementById("audiosupport")
+	
+	// a.src = this_url
+	
 	console.log(track_list[fake_number[play_index]]["name"])
 
 	for (j = 0; j < 4 ; j++) {
@@ -110,6 +114,7 @@ function gameloop(){
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+	next_audio = new Audio(next_url)
 }
 
 function loaddata() {
@@ -119,6 +124,7 @@ function loaddata() {
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+	next_audio = new Audio(next_url)
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 	animation_interval = setInterval(animation, animationRateInMs);
@@ -140,7 +146,7 @@ function animation(){
 }
 function gameover(){
 	a.pause()
-console.log("done")
+	console.log("done")
 	clearInterval(animation_interval)
 	clearInterval(interval)
 	
