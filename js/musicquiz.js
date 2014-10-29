@@ -96,14 +96,12 @@ function gameloop(){
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.backgroundColor = "#648F00"
 	}
-	a = next_audio
+	
+	
+	this_url = next_url
+	a = document.getElementById("audiosupport")
+	a.src = this_url
 	a.play()
-	// this_url = next_url
-	// a = new Audio(this_url)
-	// a = document.getElementById("audiosupport")
-	
-	// a.src = this_url
-	
 	console.log(track_list[fake_number[play_index]]["name"])
 
 	for (j = 0; j < 4 ; j++) {
@@ -114,7 +112,7 @@ function gameloop(){
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
-	next_audio = new Audio(next_url)
+
 }
 
 function loaddata() {
@@ -124,7 +122,7 @@ function loaddata() {
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
-	next_audio = new Audio(next_url)
+
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 	animation_interval = setInterval(animation, animationRateInMs);
