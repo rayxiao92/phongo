@@ -9,6 +9,7 @@ var track_url;
 var track_list;
 var d_start;
 var d_end;
+var flip
 var original_color;
 var animation_interval;
 var myApp = new Framework7({
@@ -141,7 +142,14 @@ function animation(){
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100).toString()
 		console.log(percent+"%")
 		document.getElementById("scorebar").style.width = percent+"%"
-		document.getElementById("scorebar").style.color = "white"		
+		if (percent < 30 && flip == 0){
+			document.getElementById("scorebar").style.color = "red"
+			flip = 1
+		} else {
+			document.getElementById("scorebar").style.color = "white"
+			flip = 0	
+		}
+			
 	}
 
 }
