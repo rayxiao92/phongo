@@ -26,9 +26,9 @@ var $$ = Dom7;
 var ithgame = 0
 var score = 0
 var singleSongPlayTimeInMs = 10000
-var paneltyTimeInMs = 1000
+var paneltyTimeInMs = 2000
 var animationRateInMs = 300
-var totalGameTimeInMs = 20000
+var totalGameTimeInMs = 60000
 var maxSongInList = 50
 // Add view
 var mainView = myApp.addView('.view-main', {
