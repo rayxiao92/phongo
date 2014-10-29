@@ -65,8 +65,9 @@ function pass_this() {
 }
 
 function play(){
-	score= 0
-	    document.getElementById("gameover_page").style.display = "none"
+	score = 0
+	document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+	document.getElementById("gameover_page").style.display = "none"
     document.getElementById("login_page").style.display = "none"
     document.getElementById("game_page").style.display = "block"
     loaddata()
