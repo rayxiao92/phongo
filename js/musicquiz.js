@@ -3,7 +3,7 @@ var playlist = '{"tracks":[{"date":"2014-10-23","country":"global","track_url":"
 var correct = ""
 var interval;
 var prepage_id = ""
-
+var prev_audio = new Audio()
 var a = new Audio()
 var track_url;
 var track_list;
@@ -16,6 +16,8 @@ var myApp = new Framework7({
     swipebackPage: true
 });
 
+var play_index = getRandomInt(0,3)
+var next_url = ""
 // Export selectors engine
 var $$ = Dom7;
 
@@ -93,11 +95,10 @@ function gameloop(){
 	
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.backgroundColor = "#648F00"
-	}	
-	fake_number = getFourIndexFromArray()
-	play_index = getRandomInt(0,3)
+	}
 	a = document.getElementById("audiosupport")
-	a.src = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+	this_url = next_url
+	a.src = this_url
 	a.play()
 	console.log(track_list[fake_number[play_index]]["name"])
 
@@ -106,21 +107,21 @@ function gameloop(){
 	}
 	// correct st`ores the correct answer of hte song name
 	correct = track_list[fake_number[play_index]]["name"]	
+	fake_number = getFourIndexFromArray()
+	play_index = getRandomInt(0,3)
+	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
 }
 
 function loaddata() {
-	// // Load music data and save a list of songs to put in the list
-	// var songarray = ""
-	// songarray = buildSongArrayQuery(songarray)
-	// // Get track information
-	// request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
-	// 	track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
 	console.log(track_list)
-		d_start = new Date()
-		d_end = new Date(d_start.getTime() + totalGameTimeInMs)
-		gameloop()
-		interval  = setInterval(gameloop, singleSongPlayTimeInMs);
-		animation_interval = setInterval(animation, animationRateInMs);
+	d_start = new Date()
+	d_end = new Date(d_start.getTime() + totalGameTimeInMs)
+	fake_number = getFourIndexFromArray()
+	play_index = getRandomInt(0,3)
+	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+	gameloop()
+	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
+	animation_interval = setInterval(animation, animationRateInMs);
 	// 	// smallRound = setTimeout(gameover, 15000); 		
 	// });
 }
