@@ -40,6 +40,21 @@ var mainView = myApp.addView('.view-main', {
 **                                  **
 *************************************/
 
+function onload_function(){
+	var songarray = ""
+	songarray = buildSongArrayQuery(songarray)
+	// Get track information
+	request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
+		track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
+		console.log(track_list)
+		// d_start = new Date()
+		// d_end = new Date(d_start.getTime() + totalGameTimeInMs)
+		// gameloop()
+		// interval  = setInterval(gameloop, singleSongPlayTimeInMs);
+		// animation_interval = setInterval(animation, animationRateInMs);
+		// smallRound = setTimeout(gameover, 15000); 		
+	});	
+}
 function pass_this() {
 	console.log("ASDA")
 	gameloop()
@@ -93,19 +108,20 @@ function gameloop(){
 }
 
 function loaddata() {
-	// Load music data and save a list of songs to put in the list
-	var songarray = ""
-	songarray = buildSongArrayQuery(songarray)
-	// Get track information
-	request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
-		track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
+	// // Load music data and save a list of songs to put in the list
+	// var songarray = ""
+	// songarray = buildSongArrayQuery(songarray)
+	// // Get track information
+	// request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
+	// 	track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
+	console.log(track_list)
 		d_start = new Date()
 		d_end = new Date(d_start.getTime() + totalGameTimeInMs)
 		gameloop()
 		interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 		animation_interval = setInterval(animation, animationRateInMs);
-		// smallRound = setTimeout(gameover, 15000); 		
-	});
+	// 	// smallRound = setTimeout(gameover, 15000); 		
+	// });
 }
 function animation(){
 	cur_time = new Date()
