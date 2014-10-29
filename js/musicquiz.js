@@ -96,9 +96,11 @@ function gameloop(){
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.backgroundColor = "#648F00"
 	}
-	a = document.getElementById("audiosupport")
 	this_url = next_url
-	a.src = this_url
+	a = new Audio(this_url)
+	// a = document.getElementById("audiosupport")
+	
+	// a.src = this_url
 	a.play()
 	console.log(track_list[fake_number[play_index]]["name"])
 
@@ -140,7 +142,7 @@ function animation(){
 }
 function gameover(){
 	a.pause()
-console.log("done")
+	console.log("done")
 	clearInterval(animation_interval)
 	clearInterval(interval)
 	
