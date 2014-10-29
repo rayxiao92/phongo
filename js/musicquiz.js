@@ -58,6 +58,7 @@ function onload_function(){
 function pass_this() {
 	console.log("ASDA")
 	gameloop()
+	clearInterval(interval)
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 }
 
