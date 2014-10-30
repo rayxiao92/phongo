@@ -143,9 +143,9 @@ function select_choice (choice){
 function gameloop(){
 	ithgame ++
 	incorrect_guess = 0
-	if (!a.paused){
+	// if (!a.paused){
 		a.pause()
-	}
+
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.color = "white"
 		document.getElementById("button"+i_).style.borderColor = "white"
