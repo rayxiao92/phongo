@@ -8,6 +8,7 @@ var track_url;
 var track_list;
 var d_start;
 var d_end;
+var d_end_init;
 var flip
 var madeit = 0
 var madeit_mult = 0
@@ -98,12 +99,25 @@ function select_choice (choice){
 		interval  = setInterval(gameloop, singleSongPlayTimeInMs ); 	
 		score = score + 1
 		madeit = 1
-		d_end = new Date(d_end.getTime() + rewardTimeInMs)
+
 		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
 		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
 		var plusone = document.createElement('span')
-		d_end = new Date (d_end.getTime() + rewardTimeInMs * streak_correct)
+		cur_time = new Date()
+		var diff_time = totalGameTimeInMs - (d_end.getTime() - cur_time.getTime())
+		console.log(diff_time)
+		console.log(rewardTimeInMs * streak_correct)
+		var timeToAdd = 0
+		if (rewardTimeInMs * streak_correct > diff_time) {
+			timeToAdd = diff_time
+			d_end = new Date (d_end.getTime() + timeToAdd)
+		} else {
+			timeToAdd = rewardTimeInMs * streak_correct
+			d_end = new Date (d_end.getTime() + timeToAdd)
+		}
+		
+
 		plusone.innerHTML = " +1"
 		plusone.className = "fadeaway"
 		document.getElementById("scoreboard").appendChild(plusone)
@@ -191,9 +205,11 @@ function animation(){
 	}
 	else{
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
+
 		if (percent >= 100) {
-			percent = 90
+			percent = 100
 		}
+		console.log(percent)
 		percent = percent.toString()
 		document.getElementById("scorebar").style.width = percent+"%"
 		if (percent < 30){

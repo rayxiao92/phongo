@@ -314,17 +314,10 @@
 }
 .login-content-score {
 	text-align: left;
+	font-size: 16px;
 }
-.fadeaway {
-	-webkit-animation: blurFadeInOut 3s ease-in backwards;
-	-moz-animation: blurFadeInOut 3s ease-in backwards;
-	-ms-animation: blurFadeInOut 3s ease-in backwards;
-	animation: blurFadeInOut 3s ease-in backwards;
-	-webkit-animation-delay: 0s;
-	-moz-animation-delay: 0s;
-	-ms-animation-delay: 0s;
-	animation-delay: 0s;
-}
+
+
 @-webkit-keyframes blurFadeInOut{
 	0%{
 		opacity: 0;
@@ -496,11 +489,24 @@
 		transform: scale(1) rotate(0deg);
 	}
 }
-
-
-
-
-
 #notificationbar{
 	z-index: 10;
 }
+
+.fadeaway {
+	-webkit-animation: blurFadeInOut 3s ease-in backwards;
+	-moz-animation: blurFadeInOut 3s ease-in backwards;
+	-ms-animation: blurFadeInOut 3s ease-in backwards;
+	animation: blurFadeInOut 3s ease-in backwards;
+	-webkit-animation-delay: 0s;
+	-moz-animation-delay: 0s;
+	-ms-animation-delay: 0s;
+	animation-delay: 0s;
+}
+
+
+
+
+
+
+
