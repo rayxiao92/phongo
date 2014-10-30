@@ -15,6 +15,7 @@ var myApp = new Framework7({
     pushState: true, 
     swipebackPage: true
 });
+var next_audio_buffer = ""
 
 var play_index = getRandomInt(0,3)
 var next_url = ""
@@ -60,7 +61,6 @@ function pass_this() {
 }
 
 function play(){
-	
 	if (loaded == 1){
 		score = 0
 		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
@@ -98,9 +98,14 @@ function gameloop(){
 		document.getElementById("button"+i_).style.backgroundColor = "transparent"
 	}
 	this_url = next_url
-	a = document.getElementById("audiosupport")
-	a.src = this_url
-	a.play()
+	// a = document.getElementById("audiosupport")
+	// a.src = this_url
+	a = next_audio
+	// console.log(next_audio_buffer)
+	// a = Base64Binary.decodeArrayBuffer(next_audio_buffer)
+	// a = window.atob(next_audio_buffer)
+	console.log(a)
+	
 	console.log(track_list[fake_number[play_index]]["name"])
 	for (j = 0; j < 4 ; j++) {
 		document.getElementById("button"+j).innerHTML = track_list[fake_number[j]]["name"]
@@ -111,7 +116,10 @@ function gameloop(){
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
-
+	next_audio = new Audio(next_url)
+	next_audio_buffer = window.btoa(next_audio.toString())
+	a.play()
+	console.log(next_audio_buffer)
 }
 
 function loaddata() {
@@ -120,8 +128,12 @@ function loaddata() {
 	d_end = new Date(d_start.getTime() + totalGameTimeInMs)
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
-	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
 
+	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+	next_audio = new Audio(next_url)
+	// console.log(next_audio.toString())
+	// next_audio_buffer = window.btoa(next_audio.toString())
+	// console.log(next_audio_buffer)	
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 	animation_interval = setInterval(animation, animationRateInMs);
@@ -181,6 +193,95 @@ function getRandomInt (min, max) {
 **                                  **
 *************************************/
 
+
+/*
+Copyright (c) 2011, Daniel Guerrero
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+    * Redistributions of source code must retain the above copyright
+      notice, this list of conditions and the following disclaimer.
+    * Redistributions in binary form must reproduce the above copyright
+      notice, this list of conditions and the following disclaimer in the
+      documentation and/or other materials provided with the distribution.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL DANIEL GUERRERO BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ */
+
+/**
+ * Uses the new array typed in javascript to binary base64 encode/decode
+ * at the moment just decodes a binary base64 encoded
+ * into either an ArrayBuffer (decodeArrayBuffer)
+ * or into an Uint8Array (decode)
+ * 
+ * References:
+ * https://developer.mozilla.org/en/JavaScript_typed_arrays/ArrayBuffer
+ * https://developer.mozilla.org/en/JavaScript_typed_arrays/Uint8Array
+ */
+
+var Base64Binary = {
+	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+	
+	/* will return a  Uint8Array type */
+	decodeArrayBuffer: function(input) {
+		var bytes = (input.length/4) * 3;
+		var ab = new ArrayBuffer(bytes);
+		this.decode(input, ab);
+		
+		return ab;
+	},
+	
+	decode: function(input, arrayBuffer) {
+		//get last chars to see if are valid
+		var lkey1 = this._keyStr.indexOf(input.charAt(input.length-1));		 
+		var lkey2 = this._keyStr.indexOf(input.charAt(input.length-2));		 
+	
+		var bytes = (input.length/4) * 3;
+		if (lkey1 == 64) bytes--; //padding chars, so skip
+		if (lkey2 == 64) bytes--; //padding chars, so skip
+		
+		var uarray;
+		var chr1, chr2, chr3;
+		var enc1, enc2, enc3, enc4;
+		var i = 0;
+		var j = 0;
+		
+		if (arrayBuffer)
+			uarray = new Uint8Array(arrayBuffer);
+		else
+			uarray = new Uint8Array(bytes);
+		
+		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
+		
+		for (i=0; i<bytes; i+=3) {	
+			//get the 3 octects in 4 ascii chars
+			enc1 = this._keyStr.indexOf(input.charAt(j++));
+			enc2 = this._keyStr.indexOf(input.charAt(j++));
+			enc3 = this._keyStr.indexOf(input.charAt(j++));
+			enc4 = this._keyStr.indexOf(input.charAt(j++));
+	
+			chr1 = (enc1 << 2) | (enc2 >> 4);
+			chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
+			chr3 = ((enc3 & 3) << 6) | enc4;
+	
+			uarray[i] = chr1;			
+			if (enc3 != 64) uarray[i+1] = chr2;
+			if (enc4 != 64) uarray[i+2] = chr3;
+		}
+	
+		return uarray;	
+	}
+}
 
 function buildSongArrayQuery() {
 	request = $.getJSON('http://charts.spotify.com/api/tracks/most_streamed/global/weekly/latest?callback=?', function(data){
