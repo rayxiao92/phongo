@@ -117,6 +117,7 @@ function gameloop(){
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
 	next_audio = new Audio(next_url)
+	next_audio.preload = "auto"
 	next_audio_buffer = window.btoa(next_audio.toString())
 	a.play()
 	console.log(next_audio_buffer)
@@ -131,6 +132,7 @@ function loaddata() {
 
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
 	next_audio = new Audio(next_url)
+	next_audio.preload = "auto"
 	// console.log(next_audio.toString())
 	// next_audio_buffer = window.btoa(next_audio.toString())
 	// console.log(next_audio_buffer)	
