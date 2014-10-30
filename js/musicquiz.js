@@ -33,8 +33,11 @@ var songarray = ""
 var mode = "arcade"
 var ithgame = 0
 var score = 0
+var incorrect_guess = 0
+var streak_correct = 0
 var singleSongPlayTimeInMs = 10000
-var paneltyTimeInMs = 2000
+var paneltyTimeInMs = 6000
+var rewardTimeInMs = 3000
 var animationRateInMs = 300
 var totalGameTimeInMs = 60000
 var maxSongInList = 50
@@ -89,24 +92,30 @@ function select_choice (choice){
 	console.log(mode)
 	select = document.getElementById("button"+choice).innerHTML
 	if (select == correct){
+		streak_correct ++
 		clearInterval(interval)
 		gameloop()
-		interval  = setInterval(gameloop, singleSongPlayTimeInMs); 	
+		interval  = setInterval(gameloop, singleSongPlayTimeInMs ); 	
 		score = score + 1
 		madeit = 1
+		d_end = new Date(d_end.getTime() + rewardTimeInMs)
+		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
 		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
 		var plusone = document.createElement('span')
+		d_end = new Date (d_end.getTime() + rewardTimeInMs * streak_correct)
 		plusone.innerHTML = " +1"
 		plusone.className = "fadeaway"
 		document.getElementById("scoreboard").appendChild(plusone)
 	} else {
+		streak_correct = 0
 		madeit = 1
+		incorrect_guess ++
 		if (mode == "arcade"){
 			document.getElementById("scorebar").style.color = "red"
 			document.getElementById("button"+choice).style.borderColor = "red"
 			document.getElementById("button"+choice).style.color = "red"
-			d_end = new Date(d_end.getTime() - paneltyTimeInMs)			
+			d_end = new Date(d_end.getTime() - paneltyTimeInMs * incorrect_guess)			
 		} else if (mode == "nk"){
 			console.log("here")
 			gameover()
@@ -119,6 +128,7 @@ function select_choice (choice){
 
 function gameloop(){
 	ithgame ++
+	incorrect_guess = 0
 	if (!a.paused){
 		a.pause()
 	}
@@ -173,8 +183,6 @@ function loaddata() {
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 	animation_interval = setInterval(animation, animationRateInMs);
-	// 	// smallRound = setTimeout(gameover, 15000); 		
-	// });
 }
 function animation(){
 	cur_time = new Date()
@@ -182,7 +190,11 @@ function animation(){
 		gameover()
 	}
 	else{
-		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100).toString()
+		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
+		if (percent >= 100) {
+			percent = 90
+		}
+		percent = percent.toString()
 		document.getElementById("scorebar").style.width = percent+"%"
 		if (percent < 30){
 			document.getElementById("scorebar").style.color = "red"
