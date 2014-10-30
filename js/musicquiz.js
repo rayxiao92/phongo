@@ -9,6 +9,8 @@ var track_list;
 var d_start;
 var d_end;
 var flip
+var madeit = 0
+var madeit_mult = 0
 var original_color;
 var animation_interval;
 var myApp = new Framework7({
@@ -36,6 +38,7 @@ var paneltyTimeInMs = 2000
 var animationRateInMs = 300
 var totalGameTimeInMs = 60000
 var maxSongInList = 50
+var delayMultipleForCorrectEffect = 2
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -90,8 +93,15 @@ function select_choice (choice){
 		gameloop()
 		interval  = setInterval(gameloop, singleSongPlayTimeInMs); 	
 		score = score + 1
-
+		madeit = 1
+		document.getElementById("scoreboard").style.color = "#4CD964"
+		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+		var plusone = document.createElement('span')
+		plusone.innerHTML = " +1"
+		plusone.className = "fadeaway"
+		document.getElementById("scoreboard").appendChild(plusone)
 	} else {
+		madeit = 1
 		if (mode == "arcade"){
 			document.getElementById("scorebar").style.color = "red"
 			document.getElementById("button"+choice).style.borderColor = "red"
@@ -101,10 +111,10 @@ function select_choice (choice){
 			console.log("here")
 			gameover()
 		}
-
+		document.getElementById("scoreboard").style.color = "red"
+		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
 	}
 
-	document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
 }
 
 function gameloop(){
@@ -142,7 +152,11 @@ function gameloop(){
 	a.play()
 	console.log(next_audio_buffer)
 }
-
+function goBackToHome(){
+	document.getElementById("game_page").style.display = "none"
+    document.getElementById("login_page").style.display = "block"
+    document.getElementById("gameover_page").style.display = "none"
+}
 function loaddata() {
 	console.log(track_list)
 	d_start = new Date()
@@ -169,7 +183,6 @@ function animation(){
 	}
 	else{
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100).toString()
-		console.log(percent+"%")
 		document.getElementById("scorebar").style.width = percent+"%"
 		if (percent < 30){
 			document.getElementById("scorebar").style.color = "red"
@@ -177,6 +190,19 @@ function animation(){
 			document.getElementById("scorebar").style.color = "white"
 		}	
 	}
+	if (madeit == 1) {
+		console.log(madeit_mult)
+		if (madeit_mult > delayMultipleForCorrectEffect) {
+			document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+			document.getElementById("scoreboard").style.color = "white"
+
+			madeit = 0
+			madeit_mult = 0
+		} else {
+			madeit_mult++
+		}
+	}
+
 }
 function gameover(){
 	a.pause()
