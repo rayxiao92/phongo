@@ -82,7 +82,8 @@ function select_choice (choice){
 
 	} else {
 		document.getElementById("scorebar").style.color = "red"
-		document.getElementById("button"+choice).style.backgroundColor = "red"
+		document.getElementById("button"+choice).style.borderColor = "red"
+		document.getElementById("button"+choice).style.color = "red"
 		d_end = new Date(d_end.getTime() - paneltyTimeInMs)
 	}
 
@@ -95,13 +96,15 @@ function gameloop(){
 		a.pause()
 	}
 	for (i_ = 0; i_ < 4; i_++){
-		document.getElementById("button"+i_).style.backgroundColor = "transparent"
+		document.getElementById("button"+i_).style.color = "white"
+		document.getElementById("button"+i_).style.borderColor = "white"
 	}
 	this_url = next_url
 	// a = document.getElementById("audiosupport")
 	// a.src = this_url
 	a = next_audio
-	// console.log(next_audio_buffer)
+
+	 
 	// a = Base64Binary.decodeArrayBuffer(next_audio_buffer)
 	// a = window.atob(next_audio_buffer)
 	console.log(a)
