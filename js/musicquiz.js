@@ -99,7 +99,7 @@ function select_choice (choice){
 		interval  = setInterval(gameloop, singleSongPlayTimeInMs ); 	
 		score = score + streak_correct
 		madeit = 1
-
+		console.log(streak_correct)
 		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
 		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
@@ -118,7 +118,7 @@ function select_choice (choice){
 		}
 		
 
-		plusone.innerHTML = " +1"
+		plusone.innerHTML = " +" +streak_correct
 		plusone.className = "fadeaway"
 		document.getElementById("scoreboard").appendChild(plusone)
 	} else {
