@@ -97,7 +97,7 @@ function select_choice (choice){
 		clearInterval(interval)
 		gameloop()
 		interval  = setInterval(gameloop, singleSongPlayTimeInMs ); 	
-		score = score + 1
+		score = score + streak_correct
 		madeit = 1
 
 		document.getElementById("scorebar").style.color = "green"
