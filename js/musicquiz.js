@@ -91,7 +91,7 @@ function play(input_mode){
 
 function select_choice (choice){
 	console.log(mode)
-	select = document.getElementById("button"+choice).innerHTML
+	select = document.getElementById("button"+choice).getElementsByTagName("span")[0].innerHTML
 	if (select == correct){
 		streak_correct ++
 		clearInterval(interval)
@@ -103,7 +103,7 @@ function select_choice (choice){
 		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
 		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
-		var plusone = document.createElement('span')
+		
 		cur_time = new Date()
 		var diff_time = totalGameTimeInMs - (d_end.getTime() - cur_time.getTime())
 		console.log(diff_time)
@@ -117,7 +117,7 @@ function select_choice (choice){
 			d_end = new Date (d_end.getTime() + timeToAdd)
 		}
 		
-
+		var plusone = document.createElement('span')
 		plusone.innerHTML = " +" +streak_correct
 		plusone.className = "fadeaway"
 		document.getElementById("scoreboard").appendChild(plusone)
@@ -162,11 +162,15 @@ function gameloop(){
 	
 	console.log(track_list[fake_number[play_index]]["name"])
 	for (j = 0; j < 4 ; j++) {
-		document.getElementById("button"+j).innerHTML = track_list[fake_number[j]]["name"]
+		document.getElementById("button"+j).innerHTML = ""
+		var newSongName = document.createElement('span')
+		newSongName.innerHTML = track_list[fake_number[j]]["name"]
+		newSongName.className = "fadein"
+		document.getElementById("button"+j).appendChild(newSongName)
 	}
 
 	// correct st`ores the correct answer of hte song name
-	correct = track_list[fake_number[play_index]]["name"]	
+	correct = track_list[fake_number[play_index]]["name"]
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"

@@ -493,6 +493,17 @@
 	z-index: 10;
 }
 
+.fadein {
+	-webkit-animation: blurFadeIn 1s ease-in backwards;
+	-moz-animation: blurFadeIn 1s ease-in backwards;
+	-ms-animation: blurFadeIn 1s ease-in backwards;
+	animation: blurFadeIn 1s ease-in backwards;
+	-webkit-animation-delay: 0s;
+	-moz-animation-delay: 0s;
+	-ms-animation-delay: 0s;
+	animation-delay: 0s;
+}
+
 .fadeaway {
 	-webkit-animation: blurFadeInOut 3s ease-in backwards;
 	-moz-animation: blurFadeInOut 3s ease-in backwards;
