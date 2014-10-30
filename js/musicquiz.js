@@ -23,8 +23,12 @@ var loaded = 0
 // Export selectors engine
 var $$ = Dom7;
 
+
+
+
 // Some constants initialization
 var songarray = ""
+var mode = "arcade"
 var ithgame = 0
 var score = 0
 var singleSongPlayTimeInMs = 10000
@@ -60,19 +64,26 @@ function pass_this() {
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 }
 
-function play(){
+function play(input_mode){
 	if (loaded == 1){
+		if (input_mode == 0){
+			mode = "arcade"
+		} else if(input_mode == 1) {
+			mode = "nk"
+		}
 		score = 0
 		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
 		document.getElementById("gameover_page").style.display = "none"
 	    document.getElementById("login_page").style.display = "none"
 	    document.getElementById("game_page").style.display = "block"
-    	loaddata()
+    	loaddata()	
+
 	}
 
 }
 
 function select_choice (choice){
+	console.log(mode)
 	select = document.getElementById("button"+choice).innerHTML
 	if (select == correct){
 		clearInterval(interval)
@@ -81,10 +92,16 @@ function select_choice (choice){
 		score = score + 1
 
 	} else {
-		document.getElementById("scorebar").style.color = "red"
-		document.getElementById("button"+choice).style.borderColor = "red"
-		document.getElementById("button"+choice).style.color = "red"
-		d_end = new Date(d_end.getTime() - paneltyTimeInMs)
+		if (mode == "arcade"){
+			document.getElementById("scorebar").style.color = "red"
+			document.getElementById("button"+choice).style.borderColor = "red"
+			document.getElementById("button"+choice).style.color = "red"
+			d_end = new Date(d_end.getTime() - paneltyTimeInMs)			
+		} else if (mode == "nk"){
+			console.log("here")
+			gameover()
+		}
+
 	}
 
 	document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
@@ -154,12 +171,10 @@ function animation(){
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100).toString()
 		console.log(percent+"%")
 		document.getElementById("scorebar").style.width = percent+"%"
-		if (percent < 30 && flip == 0){
+		if (percent < 30){
 			document.getElementById("scorebar").style.color = "red"
-			flip = 1
 		} else {
 			document.getElementById("scorebar").style.color = "white"
-			flip = 0	
 		}	
 	}
 }
