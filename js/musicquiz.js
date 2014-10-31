@@ -10,6 +10,7 @@ var d_start;
 var d_end;
 var d_end_init;
 var flip
+var maxScore = 0
 var madeit = 0
 var madeit_mult = 0
 var original_color;
@@ -81,7 +82,7 @@ function play(input_mode){
 			mode = "nk"
 		}
 		score = 0
-		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+		document.getElementById("scoreboard").innerHTML = Math.round(score)
 		document.getElementById("gameover_page").style.display = "none"
 	    document.getElementById("login_page").style.display = "none"
 	    document.getElementById("game_page").style.display = "block"
@@ -104,7 +105,7 @@ function select_choice (choice){
 		console.log(streak_correct)
 		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
-		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+		document.getElementById("scoreboard").innerHTML = Math.round(score)
 		
 		cur_time = new Date()
 		var diff_time = totalGameTimeInMs - (d_end.getTime() - cur_time.getTime())
@@ -137,7 +138,7 @@ function select_choice (choice){
 			gameover()
 		}
 		document.getElementById("scoreboard").style.color = "red"
-		document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+		document.getElementById("scoreboard").innerHTML = Math.round(score)
 	}
 
 }
@@ -224,7 +225,7 @@ function animation(){
 	if (madeit == 1) {
 		console.log(madeit_mult)
 		if (madeit_mult > delayMultipleForCorrectEffect) {
-			document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
+			document.getElementById("scoreboard").innerHTML = Math.round(score)
 			document.getElementById("scoreboard").style.color = "white"
 			madeit = 0
 			madeit_mult = 0
@@ -241,7 +242,7 @@ function gameover(){
 	clearInterval(interval)
     document.getElementById("game_page").style.display = "none"
     document.getElementById("gameover_page").style.display = "block"
-    document.getElementById("scoretitle").innerHTML = "You got " + score
+    
     playerScore = score
     var GameScore = Parse.Object.extend("GameScore");
 	var gameScore = new GameScore();
@@ -265,19 +266,26 @@ function gameover(){
 	var query = new Parse.Query(GameScore);
 	query.equalTo("playerEmail", userEmail);
 	query.find({
-	  success: function(results) {
-	    console.log("Successfully retrieved " + results.length + " scores.");
-	    // Do something with the returned Parse.Object values
-	    for (var i = 0; i < results.length; i++) { 
-	      var object = results[i];
-	      // alert(object.id + ' - ' + object.get('playerName'));
-	      alert(object.get('score') + ' - ' + object.get('playerName'));
-	    }
-	  },
-	  error: function(error) {
-	    alert("Error: " + error.code + " " + error.message);
-	  }
+		success: function(results) {
+			console.log("Successfully retrieved " + results.length + " scores.");
+			// Do something with the returned Parse.Object values
+			maxScore = score
+			if(results.length > 0){
+			    for (var i = 0; i < results.length; i++) {
+					object = results[i];
+					console.log(object.get('score'))
+					if (object.get('score') > maxScore){
+						maxScore = object.get('score')
+					}
+			    }
+			}
+			document.getElementById("scoretitle").innerHTML = "You got " + score +". Max is " + maxScore	    	
+		},
+		error: function(error) {
+			alert("Error: " + error.code + " " + error.message);
+		}
 	});
+	
 }
 /*************************************
 **                                  **
@@ -322,10 +330,13 @@ function gameover(){
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      username = response.name
-      userEmail = response.email
+		console.log('Successful login for: ' + response.name);
+		username = response.name
+		userEmail = response.email
     });
+    FB.api('/me/friends', function(response) {
+    	console.log(response)
+    };
   }
 
 
@@ -347,7 +358,7 @@ function getRandomInt (min, max) {
 
 
 function buildSongArrayQuery() {
-	request = $.getJSON('http://charts.spotify.com/api/tracks/most_streamed/global/weekly/latest?callback=?', function(data){
+	request = $.getJSON('http://charts.spotify.com/api/tracks/most_streamed/global/daily/latest?callback=?', function(data){
 		// track_list = shuffleArray(JSON.parse(data)["tracks"])
 		// console.log(request)
 		console.log(data)
