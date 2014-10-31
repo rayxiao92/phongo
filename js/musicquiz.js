@@ -263,7 +263,7 @@ function gameover(){
 	});
 	// var GameScore = Parse.Object.extend("GameScore");
 	var query = new Parse.Query(GameScore);
-	query.equalTo("playerEmail", useremail);
+	query.equalTo("playerEmail", userEmail);
 	query.find({
 	  success: function(results) {
 	    console.log("Successfully retrieved " + results.length + " scores.");
