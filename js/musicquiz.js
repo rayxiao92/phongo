@@ -336,7 +336,7 @@ function gameover(){
     });
     FB.api('/me/friends', function(response) {
     	console.log(response)
-    };
+    });
   }
 
 
