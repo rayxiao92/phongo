@@ -19,7 +19,8 @@ var myApp = new Framework7({
     swipebackPage: true
 });
 var next_audio_buffer = ""
-
+var username = ""
+var userEmail = ""
 var play_index = getRandomInt(0,3)
 var next_url = ""
 var loaded = 0
@@ -196,9 +197,6 @@ function loaddata() {
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
 	next_audio = new Audio(next_url)
 	next_audio.preload = "auto"
-	// console.log(next_audio.toString())
-	// next_audio_buffer = window.btoa(next_audio.toString())
-	// console.log(next_audio_buffer)	
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 	animation_interval = setInterval(animation, animationRateInMs);
@@ -228,7 +226,6 @@ function animation(){
 		if (madeit_mult > delayMultipleForCorrectEffect) {
 			document.getElementById("scoreboard").innerHTML = "Score: " + Math.round(score)
 			document.getElementById("scoreboard").style.color = "white"
-
 			madeit = 0
 			madeit_mult = 0
 		} else {
@@ -250,8 +247,9 @@ function gameover(){
 	var gameScore = new GameScore();
 	gameScore.save({
 	  score: playerScore,
-	  playerName: "Sean Plott",
-	  cheatMode: false
+	  playerName: username,
+	  playerEmail: userEmail, 
+	  gameMode: mode
 	}, {
 	  success: function(gameScore) {
 	  	console.log("success")
@@ -265,7 +263,7 @@ function gameover(){
 	});
 	// var GameScore = Parse.Object.extend("GameScore");
 	var query = new Parse.Query(GameScore);
-	query.equalTo("playerName", "Sean Plott");
+	query.equalTo("playerEmail", useremail);
 	query.find({
 	  success: function(results) {
 	    console.log("Successfully retrieved " + results.length + " scores.");
@@ -273,7 +271,7 @@ function gameover(){
 	    for (var i = 0; i < results.length; i++) { 
 	      var object = results[i];
 	      // alert(object.id + ' - ' + object.get('playerName'));
-	      console.log(object.get('score') + ' - ' + object.get('playerName'));
+	      alert(object.get('score') + ' - ' + object.get('playerName'));
 	    }
 	  },
 	  error: function(error) {
@@ -319,56 +317,14 @@ function gameover(){
     });
   }
 
-  window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1454555321479877',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
-  });
 
-  // Now that we've initialized the JavaScript SDK, we call 
-  // FB.getLoginStatus().  This function gets the state of the
-  // person visiting this page and can return one of three states to
-  // the callback you provide.  They can be:
-  //
-  // 1. Logged into your app ('connected')
-  // 2. Logged into Facebook, but not your app ('not_authorized')
-  // 3. Not logged into Facebook and can't tell if they are logged into
-  //    your app or not.
-  //
-  // These three cases are handled in the callback function.
-
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
-
-  };
-   
-  // window.fbAsyncInit = function() {
-  //   FB.init({
-  //     appId      : '1454555321479877',
-  //     xfbml      : true,
-  //     version    : 'v2.2'
-  //   });
-  // };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "//connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'));
 
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
       console.log('Successful login for: ' + response.name);
-      document.getElementById('status').innerHTML =
-        'Thanks for logging in, ' + response.name + '!';
-      console.log(response.email + " " + response.user_friends)
+      username = response.name
+      userEmail = response.email
     });
   }
 
