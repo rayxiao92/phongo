@@ -27,7 +27,7 @@ var next_url = ""
 var loaded = 0
 // Export selectors engine
 var $$ = Dom7;
-
+var friendList;
 
 
 
@@ -87,7 +87,7 @@ function play(input_mode){
 	    document.getElementById("login_page").style.display = "none"
 	    document.getElementById("game_page").style.display = "block"
     	loaddata()	
-
+    	console.log(friendList)
 	}
 
 }
@@ -334,8 +334,9 @@ function gameover(){
 		username = response.name
 		userEmail = response.email
     });
-    FB.api('/me/friends', function(response) {
-    	console.log(response)
+    FB.api('/me/friends', function(friend_response) {
+    	friendList = friend_response
+
     });
   }
 
