@@ -57,6 +57,7 @@ var mainView = myApp.addView('.view-main', {
 *************************************/
 
 function onload_function(){
+	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
 	request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
 		track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
 		console.log(track_list)
@@ -244,6 +245,41 @@ function gameover(){
     document.getElementById("game_page").style.display = "none"
     document.getElementById("gameover_page").style.display = "block"
     document.getElementById("scoretitle").innerHTML = "You got " + score
+    playerScore = score
+    var GameScore = Parse.Object.extend("GameScore");
+	var gameScore = new GameScore();
+	gameScore.save({
+	  score: playerScore,
+	  playerName: "Sean Plott",
+	  cheatMode: false
+	}, {
+	  success: function(gameScore) {
+	  	console.log("success")
+	    // The object was saved successfully.
+	  },
+	  error: function(gameScore, error) {
+	    // The save failed.
+	    console.log("ehh")
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+	// var GameScore = Parse.Object.extend("GameScore");
+	var query = new Parse.Query(GameScore);
+	query.equalTo("playerName", "Sean Plott");
+	query.find({
+	  success: function(results) {
+	    console.log("Successfully retrieved " + results.length + " scores.");
+	    // Do something with the returned Parse.Object values
+	    for (var i = 0; i < results.length; i++) { 
+	      var object = results[i];
+	      // alert(object.id + ' - ' + object.get('playerName'));
+	      console.log(object.get('score') + ' - ' + object.get('playerName'));
+	    }
+	  },
+	  error: function(error) {
+	    alert("Error: " + error.code + " " + error.message);
+	  }
+	});
 }
 /*************************************
 **                                  **
@@ -265,101 +301,6 @@ function getRandomInt (min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-/*************************************
-**                                  **
-**   Player-only Helper functions   **
-**                                  **
-*************************************/
-
-
-/*
-Copyright (c) 2011, Daniel Guerrero
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions are met:
-    * Redistributions of source code must retain the above copyright
-      notice, this list of conditions and the following disclaimer.
-    * Redistributions in binary form must reproduce the above copyright
-      notice, this list of conditions and the following disclaimer in the
-      documentation and/or other materials provided with the distribution.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
-ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
-WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-DISCLAIMED. IN NO EVENT SHALL DANIEL GUERRERO BE LIABLE FOR ANY
-DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
-(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
-ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
-SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
-
-/**
- * Uses the new array typed in javascript to binary base64 encode/decode
- * at the moment just decodes a binary base64 encoded
- * into either an ArrayBuffer (decodeArrayBuffer)
- * or into an Uint8Array (decode)
- * 
- * References:
- * https://developer.mozilla.org/en/JavaScript_typed_arrays/ArrayBuffer
- * https://developer.mozilla.org/en/JavaScript_typed_arrays/Uint8Array
- */
-
-var Base64Binary = {
-	_keyStr : "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-	
-	/* will return a  Uint8Array type */
-	decodeArrayBuffer: function(input) {
-		var bytes = (input.length/4) * 3;
-		var ab = new ArrayBuffer(bytes);
-		this.decode(input, ab);
-		
-		return ab;
-	},
-	
-	decode: function(input, arrayBuffer) {
-		//get last chars to see if are valid
-		var lkey1 = this._keyStr.indexOf(input.charAt(input.length-1));		 
-		var lkey2 = this._keyStr.indexOf(input.charAt(input.length-2));		 
-	
-		var bytes = (input.length/4) * 3;
-		if (lkey1 == 64) bytes--; //padding chars, so skip
-		if (lkey2 == 64) bytes--; //padding chars, so skip
-		
-		var uarray;
-		var chr1, chr2, chr3;
-		var enc1, enc2, enc3, enc4;
-		var i = 0;
-		var j = 0;
-		
-		if (arrayBuffer)
-			uarray = new Uint8Array(arrayBuffer);
-		else
-			uarray = new Uint8Array(bytes);
-		
-		input = input.replace(/[^A-Za-z0-9\+\/\=]/g, "");
-		
-		for (i=0; i<bytes; i+=3) {	
-			//get the 3 octects in 4 ascii chars
-			enc1 = this._keyStr.indexOf(input.charAt(j++));
-			enc2 = this._keyStr.indexOf(input.charAt(j++));
-			enc3 = this._keyStr.indexOf(input.charAt(j++));
-			enc4 = this._keyStr.indexOf(input.charAt(j++));
-	
-			chr1 = (enc1 << 2) | (enc2 >> 4);
-			chr2 = ((enc2 & 15) << 4) | (enc3 >> 2);
-			chr3 = ((enc3 & 3) << 6) | enc4;
-	
-			uarray[i] = chr1;			
-			if (enc3 != 64) uarray[i+1] = chr2;
-			if (enc4 != 64) uarray[i+2] = chr3;
-		}
-	
-		return uarray;	
-	}
-}
 
 function buildSongArrayQuery() {
 	request = $.getJSON('http://charts.spotify.com/api/tracks/most_streamed/global/weekly/latest?callback=?', function(data){
