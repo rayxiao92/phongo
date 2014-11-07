@@ -25,9 +25,13 @@ var userEmail = ""
 var play_index = getRandomInt(0,3)
 var next_url = ""
 var loaded = 0
+var song_you_played_array = new Array();
+var gameEndAnimation
+var toprec_index = 0
 // Export selectors engine
 var $$ = Dom7;
 var friendList;
+
 
 
 
@@ -87,7 +91,7 @@ function play(input_mode){
 	    document.getElementById("login_page").style.display = "none"
 	    document.getElementById("game_page").style.display = "block"
     	loaddata()	
-    	console.log(friendList)
+    	// console.log(friendList)
 	}
 
 }
@@ -146,24 +150,21 @@ function select_choice (choice){
 function gameloop(){
 	ithgame ++
 	incorrect_guess = 0
-	// if (!a.paused){
+
+	// puase previous music stream
 	a.pause()
 	a = ""
+	// reset the button
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.color = "white"
 		document.getElementById("button"+i_).style.borderColor = "white"
 	}
+
+	// Build new music source
 	this_url = next_url
-	// a = document.getElementById("audiosupport")
-	// a.src = this_url
 	a = next_audio
 
-	 
-	// a = Base64Binary.decodeArrayBuffer(next_audio_buffer)
-	// a = window.atob(next_audio_buffer)
-	console.log(a)
-	
-	console.log(track_list[fake_number[play_index]]["name"])
+	// Animate new choices
 	for (j = 0; j < 4 ; j++) {
 		document.getElementById("button"+j).innerHTML = ""
 		var newSongName = document.createElement('span')
@@ -172,16 +173,19 @@ function gameloop(){
 		document.getElementById("button"+j).appendChild(newSongName)
 	}
 
-	// correct st`ores the correct answer of hte song name
+	// "correct" stores the correct answer of hte song name
 	correct = track_list[fake_number[play_index]]["name"]
+	song_you_played_array.push(track_list[fake_number[play_index]])
+	console.log(song_you_played_array)
+	// Generate the song and choices for the next episode
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
 	next_audio = new Audio(next_url)
 	next_audio.preload = "auto"
-	// next_audio_buffer = window.btoa(next_audio.toString())
+
+	// Play this in the end
 	a.play()
-	console.log(next_audio_buffer)
 }
 function goBackToHome(){
 	document.getElementById("game_page").style.display = "none"
@@ -285,7 +289,46 @@ function gameover(){
 			alert("Error: " + error.code + " " + error.message);
 		}
 	});
+	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
+	// for (var i = 0; i < song_you_played_array.length; i++) {
+	gameEndAnimation = setInterval(appendNewSongToGameOver, 300)
 	
+}
+
+
+function appendNewSongToGameOver(){
+
+    console.log(document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML)
+    // document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML 
+    var ul_list = '<li class="swipeout bg-trans"> ' +
+                        '<div class="swipeout-content bg-trans item-content" id = "recommend' + toprec_index+'"> ' +
+                         '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["album"]["images"][0]["url"] +'" width="44"></div> ' +
+                         '<div class="item-inner"> ' +
+                            '<div class="item-title-row"> ' +
+                              '<div class="item-title ">' + song_you_played_array[toprec_index]["name"] + '</div> ' +
+                              '<div class="item-after"> ' + "button" +'</div> ' +
+                            '</div> ' +
+                            // '<div class="item-title-row"> ' +
+                            '<div class="item-subtitle ">' + song_you_played_array[toprec_index]["artists"][0]["name"] + '</div> ' +
+                              // '<div class="item-after">' + song_you_played_array[toprec_index]["fit"] + "%" + '</div> ' +
+                            // '</div> ' +
+                            // '<div class="item-text">' + song_you_played_array[toprec_index]["album"]["name"] + '</div> ' +
+                          '</div> ' +
+                        '</div> ' +
+                        '<div class="swipeout-actions-right bg-trans"> ' +
+                          '<a href="#"  class="action1 bg-red"></a> ' +
+                          '<a href="#"  class="swipeout-delete swipeout-overswipe nextdish">Nope! </a>' +
+                        '</div> ' +
+                        // '<div class="swipeout-actions-left"> ' +
+                        //   '<a href="#"  class="action1 bg-green">hmmm</a> ' +
+                        // '</div> ' +
+                      '</li> '
+    document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML += ul_list  
+    toprec_index++
+    if (toprec_index >= song_you_played_array.length) {
+    	clearInterval(gameEndAnimation)
+    }
+
 }
 /*************************************
 **                                  **
