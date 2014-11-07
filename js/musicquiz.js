@@ -291,7 +291,7 @@ function gameover(){
 	});
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
 	// for (var i = 0; i < song_you_played_array.length; i++) {
-	gameEndAnimation = setInterval(appendNewSongToGameOver, 300)
+	gameEndAnimation = setInterval(appendNewSongToGameOver, 600)
 	
 }
 
@@ -300,9 +300,9 @@ function appendNewSongToGameOver(){
 
     console.log(document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML)
     // document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML 
-    var ul_list = '<li class="swipeout bg-trans"> ' +
-                        '<div class="swipeout-content bg-trans item-content" id = "recommend' + toprec_index+'"> ' +
-                         '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["album"]["images"][0]["url"] +'" width="44"></div> ' +
+    var ul_list = '<li class=" bg-trans "> ' +
+                        '<div class="swipeout-content bg-trans fadein item-content" id = "recommend' + toprec_index+'"> ' +
+                         '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["album"]["images"][0]["url"] +'" width="50"></div> ' +
                          '<div class="item-inner"> ' +
                             '<div class="item-title-row"> ' +
                               '<div class="item-title ">' + song_you_played_array[toprec_index]["name"] + '</div> ' +
@@ -315,10 +315,10 @@ function appendNewSongToGameOver(){
                             // '<div class="item-text">' + song_you_played_array[toprec_index]["album"]["name"] + '</div> ' +
                           '</div> ' +
                         '</div> ' +
-                        '<div class="swipeout-actions-right bg-trans"> ' +
-                          '<a href="#"  class="action1 bg-red"></a> ' +
-                          '<a href="#"  class="swipeout-delete swipeout-overswipe nextdish">Nope! </a>' +
-                        '</div> ' +
+                        // '<div class="swipeout-actions-right bg-trans"> ' +
+                        //   '<a href="#"  class="action1 bg-red"></a> ' +
+                        //   '<a href="#"  class="swipeout-delete swipeout-overswipe nextdish">Nope! </a>' +
+                        // '</div> ' +
                         // '<div class="swipeout-actions-left"> ' +
                         //   '<a href="#"  class="action1 bg-green">hmmm</a> ' +
                         // '</div> ' +
