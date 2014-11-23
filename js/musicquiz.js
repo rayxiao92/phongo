@@ -232,7 +232,7 @@ function animation(){
 		if (percent < 30){
 			document.getElementById("scorebar").style.color = "red"
 		} else {
-			document.getElementById("scorebar").style.color = rgba(64,117,4,0.80);
+			document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
 		}	
 	}
 	if (madeit == 1) {
