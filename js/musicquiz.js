@@ -11,6 +11,8 @@ var d_start;
 var d_end;
 var d_end_init;
 var flip
+var unit_d_start 
+var unit_d_end 
 var maxScore = 0
 var madeit = 0
 var madeit_mult = 0
@@ -159,7 +161,8 @@ function select_choice (choice){
 function gameloop(){
 	ithgame ++
 	incorrect_guess = 0
-
+	unit_d_start = new Date()
+	unit_d_end = new Date(unit_d_start.getTime() + singleSongPlayTimeInMs)
 	// puase previous music stream
 	a.pause()
 	a = ""
@@ -222,7 +225,8 @@ function animation(){
 	}
 	else{
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
-
+		unit_percent = Math.round((unit_d_end.getTime() - cur_time.getTime())/ singleSongPlayTimeInMs * 100)
+		console.log("unit_percent: "+unit_percent)
 		if (percent >= 100) {
 			percent = 100
 		}
@@ -233,7 +237,8 @@ function animation(){
 			document.getElementById("scorebar").style.color = "red"
 		} else {
 			document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
-		}	
+		}
+		document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
 	}
 	if (madeit == 1) {
 		console.log(madeit_mult)
