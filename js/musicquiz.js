@@ -172,6 +172,7 @@ function gameloop(){
 		document.getElementById("button"+i_).style.borderColor = "white"
 	}
 
+
 	// Build new music source
 	this_url = next_url
 	a = next_audio
@@ -187,6 +188,7 @@ function gameloop(){
 
 	// "correct" stores the correct answer of hte song name
 	correct = track_list[fake_number[play_index]]["name"]
+	document.getElementById("play-artwork-img").src = track_list[fake_number[play_index]]["album"]["images"][0]["url"]
 	song_you_played_array.push(track_list[fake_number[play_index]])
 	console.log(song_you_played_array)
 	// Generate the song and choices for the next episode
