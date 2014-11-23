@@ -389,9 +389,12 @@ overflow: hidden;
 }
 .recommend-list-slider{
 	padding-left: 30px;
-
-
 }
+.slider-slide-img {
+	width:100%;
+	height: auto;
+}
+
 .slider-slide-title{
 	margin:10px 0px 15px; 
 	padding-top: 5px;
