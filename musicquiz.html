@@ -139,18 +139,29 @@
       <div class="view view-home" id = "game_page" style= "display:none">
         <!-- Top Navbar-->
         <div class="navbar bg-trans border-no">
-          <div class="navbar-inner">
-              <div class="left" >
-                <span id ="scoreboard"></span>
+          <div class="navbar-inner" >
+<div class = "row topbar" >
+              <div class= "col-33">
+                <span id ="scoreboard" class = "color-white"></span>
+              </div>
+              <div class= "col-33">
+                <img src = "cherry_portrait.jpg" class = "in-game-portrait">
+              </div>
+              <div class= "col-33">
+                <span id ="timeleft" class = "color-white">asdf</span>
+              </div>                            
+            </div>
+              <!-- <div class="left color-white" > -->
+
       <!--              <a href="#" class="link color-white">
                       <i class="icon icon-bars color-white"></i>
                   </a> -->
-              </div>
+<!--               </div>
               <div id = "navbartitle" class="center color-white">pic
               </div>
-              <div class="right color-white">
-                <span id ="timeleft"></span>
-              </div>
+              <div class="right color-white">40 -->
+                
+              <!-- </div> -->
           </div>
         </div>
         <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
@@ -160,9 +171,12 @@
           <div data-page="index" class="page" >
             <!-- Scrollable page content-->
             <div class="page-content bg-pred" >
+                            
               <div class="content-block">
                 <!-- <div class = "content-login"> -->
-                  <div class = "div-line color-pwhite" id ="scorebar"></div>
+                  <div class = "time-container">
+                   <div class = "div-line color-scorebar-green" id ="scorebar"></div>
+                  </div>
                   <div id = "artwork"></div>
                   <div class = "div center song-selection">
                     <a href="#" id = "button0" onclick = "select_choice(0);" class="button button-big thick-border  color-pwhite"> </a>
@@ -273,7 +287,11 @@
                       </div>
                     </div>
                   </div>
+
                   <div class = "content-login">
+                                      <div class = "div center">
+                    <a href="#" id= "mainplay" onclick = "play(0);" class="button button-big playbutton">picture_fixed_2</a>
+                  </div>
                     <div class="list-block buttom-border-no padding-top-no">
                       <ul>
                         <li class="item-content sup-list">
@@ -297,12 +315,10 @@
 
                       </ul>
                     </div>
+
                     <div class = "div center">
-                      <a href="#" id= "mainplay" onclick = "play(0);" class="button button-big playbutton">picture_fixed_2</a>
-                    </div>
-                                      <div class = "div center">
-                    Game originally built by Rui(Ray) Xiao at Tufts 2014 Hackathon
-                  </div>  
+                      Game originally built by Rui(Ray) Xiao at Tufts 2014 Hackathon
+                    </div>  
                   </div>
 
 
