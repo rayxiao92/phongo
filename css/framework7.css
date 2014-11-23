@@ -20,7 +20,8 @@ body {
   overflow-x: hidden;
 }
 body {
-  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  /*font-family: Helvetica Neue, Helvetica, Arial, sans-serif;*/
+  font-family: verdana;
   margin: 0;
   padding: 0;
   color: #000;
@@ -1424,8 +1425,8 @@ html.retina.ios-gt-7 .content-block-inner {
   padding: 0;
   margin: 0;
   /*default does not comment this out*/
-  border-right: 1px solid #c8c7cc;
-  border-bottom: 1px solid #c8c7cc;
+/*  border-right: 1px solid #c8c7cc;
+  border-bottom: 1px solid #c8c7cc;*/
   position: relative;
 }
 .list-block ul ul {

@@ -16,7 +16,7 @@
 	left:5px;
 	right:5px;
 	border: none;
-	font-family: helvetica neue;
+	font-family: avenir;
 	white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
@@ -170,6 +170,7 @@
 	margin:0 auto;
 	text-align: center;
 }
+
 .login-input-box {
 	text-transform: lowercase;
 	border:none;
@@ -210,6 +211,8 @@
 }
 
 /*** useful shit ***/
+
+
 .card {
 	margin: 0 10px 10px 10px;
 }
@@ -248,8 +251,8 @@
 }
 
 .bg-pred{
-	/*background-color: #648F00;*/
-	background-image: url('../blur_22834.jpg')
+	background-color: #252629;
+/*	background-image: url('../blur_22834.jpg')*/
 }
 .color-pwhite{
 	/*color:#EEDCDA;*/
@@ -318,6 +321,96 @@
 }
 
 
+
+/* This part is used for frontpage images layout */
+ul.img-list {
+  list-style-type: none;
+/*margin:0 auto;*/
+  padding: 0;
+  display: inline;
+  text-align: center;
+}
+ 
+ul.img-list li {
+  display: inline-block;
+  height: 100px;
+  margin: 0 1em 1em 0;
+  position: relative;
+  width: 100px;
+}
+
+span.text-content {
+  /*background: rgba(0,0,0,0.5);*/
+  color: white;
+  cursor: pointer;
+  display: table;
+  height: 100px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100px;
+}
+ 
+span.text-content span {
+  display: table-cell;
+  text-align: center;
+  vertical-align: bottom;
+}
+
+.center-this-div {
+	display: inline-block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+.center-divs-child {
+	text-align: center;
+}
+/*recommend-list*/
+.recommend-list {
+	background-image: -o-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
+background-image: -moz-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
+background-image: -ms-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
+background-image: linear-gradient(-179deg, #1D1448 0%, #252629 100%);
+overflow: hidden;
+}
+.recommend-list-title {
+	padding:20px 10px;
+}
+/*bg-default*/ 
+.sup-list {
+	background-color: #252629;
+	color:white;
+	border:none;
+}
+/* slider-slide */
+.slider-slide-title {
+	background-color: #FFFFFF;
+}
+.recommend-list-slider{
+	padding-left: 40px;
+
+
+}
+.slider-slide-title{
+	margin:10px 0px 15px; 
+	padding-top: 5px;
+	padding-bottom: 20px;
+	background: #434447;
+}
+.slider-slide-title-text {
+	color:#EEE;
+	padding-left: 10px;
+	text-align: left;
+}
+/*Play button*/
+
+.playbutton{
+	color: #EEE;
+	background-color: #417505;
+	border-color:#417505;
+	border-radius: 15px;
+}
 @-webkit-keyframes blurFadeInOut{
 	0%{
 		opacity: 0;

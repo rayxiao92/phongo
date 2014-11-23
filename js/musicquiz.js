@@ -3,6 +3,7 @@ var correct = ""
 var interval;
 var prepage_id = ""
 var next_audio = new Audio()
+var beep_audio = new Audio("beep-28.wav")
 var a = new Audio()
 var track_url;
 var track_list;
@@ -19,6 +20,13 @@ var myApp = new Framework7({
     pushState: true, 
     swipebackPage: true
 });
+
+var mySlider2 = myApp.slider('.slider-2', {
+  pagination:'.slider-2 .slider-pagination',
+  spaceBetween: 30,
+  slidesPerView: 3
+});
+
 var next_audio_buffer = ""
 var username = ""
 var userEmail = ""
@@ -80,6 +88,7 @@ function pass_this() {
 
 function play(input_mode){
 	if (loaded == 1){
+		beep_audio.play()
 		if (input_mode == 0){
 			mode = "arcade"
 		} else if(input_mode == 1) {
@@ -301,7 +310,7 @@ function appendNewSongToGameOver(){
     console.log(document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML)
     // document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML 
     var ul_list = '<li class=" bg-trans "> ' +
-                        '<div class="swipeout-content bg-trans fadein item-content" id = "recommend' + toprec_index+'"> ' +
+                        '<div class="swipeout-content bg-trans item-content" id = "recommend' + toprec_index+'"> ' +
                          '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["album"]["images"][0]["url"] +'" width="50"></div> ' +
                          '<div class="item-inner"> ' +
                             '<div class="item-title-row"> ' +
