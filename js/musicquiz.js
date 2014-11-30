@@ -52,11 +52,11 @@ var ithgame = 0
 var score = 0
 var incorrect_guess = 0
 var streak_correct = 0
-var singleSongPlayTimeInMs = 10000
+var singleSongPlayTimeInMs = 30000
 var paneltyTimeInMs = 6000
 var rewardTimeInMs = 3000
 var animationRateInMs = 300
-var totalGameTimeInMs = 60000
+var totalGameTimeInMs = 600000
 var maxSongInList = 50
 var delayMultipleForCorrectEffect = 2
 // Add view
@@ -71,7 +71,68 @@ var mainView = myApp.addView('.view-main', {
 **          Universal shit          **
 **                                  **
 *************************************/
+function login(){
+// http://rayxiao92.github.io/phongo/musicquiz#access_token=BQAxugJMVVtL2kKtle4v8RF-39hgRS47_9-BNGTuqcc4wzuOwyX6g_aZm3KPnUYXsDQ2AWQMOWCxOdQ7Ou_CMZK_G_QJBZU90qRTes0Mmeri85X8P9eVOOpW4X0QgQneRbZoE6sIRwN7BCp0xyey8GML-_toxHwFz3n7vi8&token_type=Bearer&expires_in=3600&state=123
+	console.log("login is here")
+	// window.location.replace('https://accounts.spotify.com/us/authorize?client_id=387eed5965554d30a5050e8a46a36133&redirect_uri=http:%2F%2Frayxiao92.github.com%2Fphongo%2Fmusicquiz&scope=user-read-private%20user-read-email&response_type=token&state=123');
+	$.ajax({
+   url: 'https://api.spotify.com/v1/users/spotify/playlists/0186RkeoJsHWEQy0ssDAus/tracks',
+   headers: {
+       'Authorization': 'Bearer ' + 'BQAcGPBrXvnXm9nDH6RXJnkr96NCXnJx9dsIRqL_UGH0vqM3Biv87NNR_6PHuMSSuuqTwHzTd06mw9gLMwkq0ICMEPwBeLsiJQShF5iVU8nGjVRn_RKGwGnq3iS8c3OSOb90P5xY-LcJBfl_ecyC3_6Vi_6jyduzi5BrsiI'
+   },
+   success: function(response) {
+       console.log(response)
+   }
+});
+	// $.getJSON( "https://accounts.spotify.com/us/authorize?client_id=387eed5965554d30a5050e8a46a36133&redirect_uri=http:%2F%2Frayxiao92.github.com%2Fphongo%2Fmusicquiz&scope=user-read-private%20user-read-email&response_type=token&state=123", function( data ) {
+	//   // $( ".result" ).html( data );
+	//   console.log(data);
+	//   alert( "Load was performed." );
+	// });
+}
 
+function genGame(artistName, ratio) { 
+	ratio = 0.2
+	track_list = []
+
+	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
+		console.log(data.results)
+
+		// Get Appointed Artist's track
+		musicTrackFromMainArtist = data.results
+		console.log(musicTrackFromMainArtist)
+		track_list = track_list.concat(musicTrackFromMainArtist)
+		// Get related Artist's name
+		// get appointed artist's id from echonest
+		request = $.getJSON('http://developer.echonest.com/api/v4/artist/search?api_key=J8CEMYYSDCWPWAAMD&format=json&name=' + artistName +'&results=10', function(data){
+			mainArtistId = data.response.artists[0]["id"]
+			mainArtistName = data.response["name"]
+			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=10&start=0', function(data) {
+				relatedArtists = data.response.artists
+				relatedArtists = shuffleArray(relatedArtists)
+				for (i = 0; i < ratio * 10; i++){
+					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[i]["name"] +'&entityTrack=music&callback=?', function(data) {
+						console.log(data.results)
+						track_list = track_list.concat(data.results)
+						if (i == ratio * 10){
+							console.log(track_list)
+							score = 0
+							document.getElementById("scoreboard").innerHTML = Math.round(score)
+							document.getElementById("gameover_page").style.display = "none"
+							document.getElementById("login_page").style.display = "none"
+							document.getElementById("game_page").style.display = "block"
+							loaddata()
+						}
+					});
+				}
+				// musicTrackFromMainArtist = 
+				// musicTrackFromRelatedArtist = 
+			});
+
+
+		});
+	});
+}
 function onload_function(){
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
 	request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
@@ -157,7 +218,6 @@ function select_choice (choice){
 	}
 
 }
-
 function gameloop(){
 	ithgame ++
 	incorrect_guess = 0
@@ -181,26 +241,69 @@ function gameloop(){
 	for (j = 0; j < 4 ; j++) {
 		document.getElementById("button"+j).innerHTML = ""
 		var newSongName = document.createElement('span')
-		newSongName.innerHTML = track_list[fake_number[j]]["name"]
+		newSongName.innerHTML = track_list[fake_number[j]]["trackName"]
 		newSongName.className = "fadein"
 		document.getElementById("button"+j).appendChild(newSongName)
 	}
 
 	// "correct" stores the correct answer of hte song name
-	correct = track_list[fake_number[play_index]]["name"]
-	document.getElementById("play-artwork-img").src = track_list[fake_number[play_index]]["album"]["images"][0]["url"]
+	correct = track_list[fake_number[play_index]]["trackName"]
+	document.getElementById("play-artwork-img").src = track_list[fake_number[play_index]]["artworkUrl100"]
 	song_you_played_array.push(track_list[fake_number[play_index]])
 	console.log(song_you_played_array)
 	// Generate the song and choices for the next episode
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
-	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+	next_url = track_list[fake_number[play_index]]["previewUrl"]
 	next_audio = new Audio(next_url)
 	next_audio.preload = "auto"
 
 	// Play this in the end
 	a.play()
 }
+// function gameloop(){
+// 	ithgame ++
+// 	incorrect_guess = 0
+// 	unit_d_start = new Date()
+// 	unit_d_end = new Date(unit_d_start.getTime() + singleSongPlayTimeInMs)
+// 	// puase previous music stream
+// 	a.pause()
+// 	a = ""
+// 	// reset the button
+// 	for (i_ = 0; i_ < 4; i_++){
+// 		document.getElementById("button"+i_).style.color = "white"
+// 		document.getElementById("button"+i_).style.borderColor = "white"
+// 	}
+
+
+// 	// Build new music source
+// 	this_url = next_url
+// 	a = next_audio
+
+// 	// Animate new choices
+// 	for (j = 0; j < 4 ; j++) {
+// 		document.getElementById("button"+j).innerHTML = ""
+// 		var newSongName = document.createElement('span')
+// 		newSongName.innerHTML = track_list[fake_number[j]]["name"]
+// 		newSongName.className = "fadein"
+// 		document.getElementById("button"+j).appendChild(newSongName)
+// 	}
+
+// 	// "correct" stores the correct answer of hte song name
+// 	correct = track_list[fake_number[play_index]]["name"]
+// 	document.getElementById("play-artwork-img").src = track_list[fake_number[play_index]]["album"]["images"][0]["url"]
+// 	song_you_played_array.push(track_list[fake_number[play_index]])
+// 	console.log(song_you_played_array)
+// 	// Generate the song and choices for the next episode
+// 	fake_number = getFourIndexFromArray()
+// 	play_index = getRandomInt(0,3)
+// 	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+// 	next_audio = new Audio(next_url)
+// 	next_audio.preload = "auto"
+
+// 	// Play this in the end
+// 	a.play()
+// }
 function goBackToHome(){
 	document.getElementById("game_page").style.display = "none"
     document.getElementById("login_page").style.display = "block"
