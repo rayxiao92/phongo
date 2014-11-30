@@ -53,10 +53,10 @@ var score = 0
 var incorrect_guess = 0
 var streak_correct = 0
 var singleSongPlayTimeInMs = 30000
-var paneltyTimeInMs = 6000
-var rewardTimeInMs = 3000
+var paneltyTimeInMs = 0
+var rewardTimeInMs = 0
 var animationRateInMs = 300
-var totalGameTimeInMs = 600000
+var totalGameTimeInMs = 60000
 var maxSongInList = 50
 var delayMultipleForCorrectEffect = 2
 // Add view
@@ -94,7 +94,7 @@ function login(){
 function genGame(artistName, ratio) { 
 	ratio = 0.2
 	track_list = []
-
+	// artistName = "莫文蔚"
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
 		console.log(data.results)
 
@@ -133,14 +133,41 @@ function genGame(artistName, ratio) {
 		});
 	});
 }
+function recursiveRecommendListUpdate(artistsArray, htmlText){
+	if(artistsArray.length == 0){
+		console.log(htmlText)
+		document.getElementById("sliderRecommend").innerHTML = htmlText
+		return htmlText;
+	}
+	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
+		var recommendListHTMLTextSingle = '<div class="slider-slide slider-slide-active" style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+'\')">'+
+                     '<img class= "slider-slide-img" width=60 height=60 src="'+ data.results[0]["artworkUrl60"] + '">'+
+                     '<div class="slider-slide-title">'+
+                      '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
+                     '</div>'+
+                   '</div>'
+        htmlText += recommendListHTMLTextSingle
+        console.log(artistsArray)
+        artistsArray.shift()
+
+        return recursiveRecommendListUpdate(artistsArray, htmlText)
+        // recommendListHTMLText += recommendListHTMLTextSingle
+        // console.log(recommendListHTMLText)
+	});
+}
 function onload_function(){
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
-		track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
-		console.log(track_list)
-		document.getElementById("mainplay").innerHTML = "Play"
-		loaded = 1
-	});	
+	// request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
+	// 	track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
+	// 	console.log(track_list)
+	// 	document.getElementById("mainplay").innerHTML = "Play"
+	// 	loaded = 1
+	// });
+	
+	artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
+	recommendListHTMLText = ""
+	recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
+
 }
 function pass_this() {
 	console.log("ASDA")
@@ -331,11 +358,11 @@ function animation(){
 	else{
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
 		unit_percent = Math.round((unit_d_end.getTime() - cur_time.getTime())/ singleSongPlayTimeInMs * 100)
-		console.log("unit_percent: "+unit_percent)
+		// console.log("unit_percent: "+unit_percent)
 		if (percent >= 100) {
 			percent = 100
 		}
-		console.log(percent)
+		// console.log(percent)
 		percent = percent.toString()
 		document.getElementById("scorebar").style.width = percent+"%"
 		if (percent < 30){
@@ -521,23 +548,25 @@ function getRandomInt (min, max) {
 
 
 function buildSongArrayQuery() {
-	request = $.getJSON('http://charts.spotify.com/api/tracks/most_streamed/global/daily/latest?callback=?', function(data){
-		// track_list = shuffleArray(JSON.parse(data)["tracks"])
-		// console.log(request)
-		console.log(data)
-		// var array = JSON.parse(playlist)
-		for(i = 0; i < 50; i++){
-			track_url = data["tracks"][i]["track_url"]
-			track_id = track_url.split("https://play.spotify.com/track/")
-			console.log(track_id[1])
-			songarray += track_id[1]
-			if (i < 49){
-				songarray += ','
-			}
-		}
-		console.log(songarray)
-		onload_function()	
-	});	
+	/* This is the old version */
+	// request = $.getJSON('http://charts.spotify.com/api/tracks/most_streamed/global/daily/latest?callback=?', function(data){
+	// 	// track_list = shuffleArray(JSON.parse(data)["tracks"])
+	// 	// console.log(request)
+	// 	console.log(data)
+	// 	// var array = JSON.parse(playlist)
+	// 	for(i = 0; i < 50; i++){
+	// 		track_url = data["tracks"][i]["track_url"]
+	// 		track_id = track_url.split("https://play.spotify.com/track/")
+	// 		console.log(track_id[1])
+	// 		songarray += track_id[1]
+	// 		if (i < 49){
+	// 			songarray += ','
+	// 		}
+	// 	}
+	// 	console.log(songarray)
+	// 	onload_function()	
+	// });	
+	onload_function()
 }
 
 function getFourIndexFromArray (){
