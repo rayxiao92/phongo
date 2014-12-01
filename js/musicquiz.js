@@ -137,21 +137,33 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
 		console.log(htmlText)
 		document.getElementById("sliderRecommend").innerHTML = htmlText
+		$('.slider-slide-img').height($('.slider-slide-img').width())
 		return htmlText;
 	}
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
-		var recommendListHTMLTextSingle = '<div class="slider-slide slider-slide-active" style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+'\')">'+
-                     '<img class= "slider-slide-img" width=60 height=60 src="'+ data.results[0]["artworkUrl60"] + '">'+
+		var recommendListHTMLTextSingle = '<div class="slider-slide " style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+'\')">'+
+                     '<img class= "slider-slide-img" src="'+ data.results[0]["artworkUrl100"] + '">'+
                      '<div class="slider-slide-title">'+
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
                      '</div>'+
                    '</div>'
         htmlText += recommendListHTMLTextSingle
         console.log(artistsArray)
+        if (artistsArray.length == 5){
+        	$(".recommend-list").css('background-image', 'url(' + data.results[0]["artworkUrl100"] + ')');
+        	$(".recommend-list").css('background-size', 'cover')
+        	 $(document).ready( function() {
+			    $('.recommend-list').blurjs({
+			        source: 'body',
+			        radius: 30,
+			        overlay: 'rgba(0, 0, 0, .2)'
+			    });
+			 });
+        }
         artistsArray.shift()
 
         return recursiveRecommendListUpdate(artistsArray, htmlText)
-        // recommendListHTMLText += recommendListHTMLTextSingle
+        recommendListHTMLText += recommendListHTMLTextSingle
         // console.log(recommendListHTMLText)
 	});
 }
@@ -275,7 +287,12 @@ function gameloop(){
 
 	// "correct" stores the correct answer of hte song name
 	correct = track_list[fake_number[play_index]]["trackName"]
+	var cw = $("#play-artwork-img").width();
+	console.log(cw)
+	$('#play-artwork-img').height(cw)
+	console.log($("#play-artwork-img").height())
 	document.getElementById("play-artwork-img").src = track_list[fake_number[play_index]]["artworkUrl100"]
+
 	song_you_played_array.push(track_list[fake_number[play_index]])
 	console.log(song_you_played_array)
 	// Generate the song and choices for the next episode
@@ -343,7 +360,7 @@ function loaddata() {
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
 
-	next_url = track_list[fake_number[play_index]]["preview_url"]+".mp3"
+	next_url = track_list[fake_number[play_index]]["previewUrl"]
 	next_audio = new Audio(next_url)
 	next_audio.preload = "auto"
 	gameloop()
@@ -371,6 +388,8 @@ function animation(){
 			document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
 		}
 		document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
+		$('#play-artwork-img').height($("#play-artwork-img").width())
+		
 	}
 	if (madeit == 1) {
 		console.log(madeit_mult)
