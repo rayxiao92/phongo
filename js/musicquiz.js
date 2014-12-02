@@ -583,7 +583,7 @@ function appendNewSongToGameOver(){
 
   function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
-          window.location = "http://rayxiao92.github.io/phongo/musicquiz.html";
+          // window.location = "http://rayxiao92.github.io/phongo/musicquiz.html";
       document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You" + " "+ response.name
       console.log("hahahhaha")
     FB.api('/me', function(response) {
