@@ -180,7 +180,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 }
 function onload_function(){
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	artistsArray = ["eminem", "梁静茹", "李宗盛", "tiesto", "justin bieber"]
+	artistsArray = ["eminem", "梁静茹", "李宗盛", "tiesto", "justin bieber", "周杰伦", "王力宏", "张信哲", "张学友", "陈奕迅", "lorde"]
 	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
 	// artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
 	recommendListHTMLText = ""
