@@ -13,8 +13,10 @@ var d_end_init;
 var flip
 var unit_d_start 
 var unit_d_end 
+var freeze = 0
 var maxScore = 0
 var madeit = 0
+var numCorrectGuess = 0
 var madeit_mult = 0
 var original_color;
 var animation_interval;
@@ -75,20 +77,20 @@ function login(){
 // http://rayxiao92.github.io/phongo/musicquiz#access_token=BQAxugJMVVtL2kKtle4v8RF-39hgRS47_9-BNGTuqcc4wzuOwyX6g_aZm3KPnUYXsDQ2AWQMOWCxOdQ7Ou_CMZK_G_QJBZU90qRTes0Mmeri85X8P9eVOOpW4X0QgQneRbZoE6sIRwN7BCp0xyey8GML-_toxHwFz3n7vi8&token_type=Bearer&expires_in=3600&state=123
 	console.log("login is here")
 	// window.location.replace('https://accounts.spotify.com/us/authorize?client_id=387eed5965554d30a5050e8a46a36133&redirect_uri=http:%2F%2Frayxiao92.github.com%2Fphongo%2Fmusicquiz&scope=user-read-private%20user-read-email&response_type=token&state=123');
-	$.ajax({
-   url: 'https://api.spotify.com/v1/users/spotify/playlists/0186RkeoJsHWEQy0ssDAus/tracks',
-   headers: {
-       'Authorization': 'Bearer ' + 'BQAcGPBrXvnXm9nDH6RXJnkr96NCXnJx9dsIRqL_UGH0vqM3Biv87NNR_6PHuMSSuuqTwHzTd06mw9gLMwkq0ICMEPwBeLsiJQShF5iVU8nGjVRn_RKGwGnq3iS8c3OSOb90P5xY-LcJBfl_ecyC3_6Vi_6jyduzi5BrsiI'
-   },
-   success: function(response) {
-       console.log(response)
-   }
-});
-	// $.getJSON( "https://accounts.spotify.com/us/authorize?client_id=387eed5965554d30a5050e8a46a36133&redirect_uri=http:%2F%2Frayxiao92.github.com%2Fphongo%2Fmusicquiz&scope=user-read-private%20user-read-email&response_type=token&state=123", function( data ) {
-	//   // $( ".result" ).html( data );
-	//   console.log(data);
-	//   alert( "Load was performed." );
-	// });
+// 	$.ajax({
+//    url: 'https://api.spotify.com/v1/users/spotify/playlists/0186RkeoJsHWEQy0ssDAus/tracks',
+//    headers: {
+//        'Authorization': 'Bearer ' + 'BQAcGPBrXvnXm9nDH6RXJnkr96NCXnJx9dsIRqL_UGH0vqM3Biv87NNR_6PHuMSSuuqTwHzTd06mw9gLMwkq0ICMEPwBeLsiJQShF5iVU8nGjVRn_RKGwGnq3iS8c3OSOb90P5xY-LcJBfl_ecyC3_6Vi_6jyduzi5BrsiI'
+//    },
+//    success: function(response) {
+//        console.log(response)
+//    }
+// });
+// 	// $.getJSON( "https://accounts.spotify.com/us/authorize?client_id=387eed5965554d30a5050e8a46a36133&redirect_uri=http:%2F%2Frayxiao92.github.com%2Fphongo%2Fmusicquiz&scope=user-read-private%20user-read-email&response_type=token&state=123", function( data ) {
+// 	//   // $( ".result" ).html( data );
+// 	//   console.log(data);
+// 	//   alert( "Load was performed." );
+// 	// });
 }
 
 function genGame(artistName, ratio) { 
@@ -150,15 +152,8 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
         htmlText += recommendListHTMLTextSingle
         console.log(artistsArray)
         if (artistsArray.length == 5){
-        	$(".recommend-list").css('background-image', 'url(' + data.results[0]["artworkUrl100"] + ')');
-        	$(".recommend-list").css('background-size', 'cover')
-        	 $(document).ready( function() {
-			    $('.recommend-list').blurjs({
-			        source: 'body',
-			        radius: 30,
-			        overlay: 'rgba(0, 0, 0, .2)'
-			    });
-			 });
+        	// $(".recommend-list").css('background-image', 'url(' + data.results[0]["artworkUrl100"] + ')');
+        	$(".recommend-list").css('background-image', 'url("'+data.results[0]["artworkUrl100"]+'"), -webkit-gradient(linear, left top, left bottom, from(#6cab26), to(#6ceb86));')
         }
         artistsArray.shift()
 
@@ -169,20 +164,14 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 }
 function onload_function(){
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	// request = $.getJSON('https://api.spotify.com/v1/tracks/?ids='+songarray, function(data){
-	// 	track_list = shuffleArray(JSON.parse(request.responseText)["tracks"])
-	// 	console.log(track_list)
-	// 	document.getElementById("mainplay").innerHTML = "Play"
-	// 	loaded = 1
-	// });
-	
-	artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
+	artistsArray = ["eminem", "梁静茹", "李宗盛", "tiesto", "justin bieber"]
+	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
+	// artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
 	recommendListHTMLText = ""
 	recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
 
 }
 function pass_this() {
-	console.log("ASDA")
 	gameloop()
 	clearInterval(interval)
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
@@ -202,25 +191,29 @@ function play(input_mode){
 	    document.getElementById("login_page").style.display = "none"
 	    document.getElementById("game_page").style.display = "block"
     	loaddata()	
-    	// console.log(friendList)
 	}
 
 }
 
 function select_choice (choice){
+	if (freeze == 1 ) {
+		return
+	}
 	console.log(mode)
 	select = document.getElementById("button"+choice).getElementsByTagName("span")[0].innerHTML
 	if (select == correct){
-		streak_correct ++
+		streak_correct++
+		numCorrectGuess++
+		freeze = 1
 		clearInterval(interval)
 		gameloop()
-		interval  = setInterval(gameloop, singleSongPlayTimeInMs ); 	
+		interval  = setInterval(gameloop, singleSongPlayTimeInMs); 	
 		score = score + streak_correct
 		madeit = 1
 		console.log(streak_correct)
 		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
-		document.getElementById("scoreboard").innerHTML = Math.round(score)
+		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(numCorrectGuess/ithgame*100) +'%'
 		
 		cur_time = new Date()
 		var diff_time = totalGameTimeInMs - (d_end.getTime() - cur_time.getTime())
@@ -243,22 +236,31 @@ function select_choice (choice){
 		streak_correct = 0
 		madeit = 1
 		incorrect_guess ++
-		if (mode == "arcade"){
-			document.getElementById("scorebar").style.color = "red"
-			document.getElementById("button"+choice).style.borderColor = "red"
-			document.getElementById("button"+choice).style.color = "red"
-			d_end = new Date(d_end.getTime() - paneltyTimeInMs * incorrect_guess)			
-		} else if (mode == "nk"){
-			console.log("here")
-			gameover()
-		}
 		document.getElementById("scoreboard").style.color = "red"
-		document.getElementById("scoreboard").innerHTML = Math.round(score)
+		document.getElementById("button"+choice).style.color = "red"
+		document.getElementById("button"+choice).style.borderColor = "red"
+		for (i = 0; i < 4; i++) {
+			if (document.getElementById("button"+i).getElementsByTagName("span")[0].innerHTML == correct ){
+				document.getElementById("button"+i).style.color = "green"
+				document.getElementById("button"+i).style.borderColor = "green"
+				break
+			} 
+		}
+		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(numCorrectGuess/ithgame*100) +'%'
+		clearInterval(interval)
+		freeze = 1
+		setTimeout(function(){
+			gameloop()
+			interval  = setInterval(gameloop, singleSongPlayTimeInMs); 
+		}, 2000)
+
 	}
 
 }
 function gameloop(){
 	ithgame ++
+	freeze = 0
+	console.log(ithgame)
 	incorrect_guess = 0
 	unit_d_start = new Date()
 	unit_d_end = new Date(unit_d_start.getTime() + singleSongPlayTimeInMs)
@@ -288,13 +290,13 @@ function gameloop(){
 	// "correct" stores the correct answer of hte song name
 	correct = track_list[fake_number[play_index]]["trackName"]
 	var cw = $("#play-artwork-img").width();
-	console.log(cw)
+	// console.log(cw)
 	$('#play-artwork-img').height(cw)
-	console.log($("#play-artwork-img").height())
+	// console.log($("#play-artwork-img").height())
 	document.getElementById("play-artwork-img").src = track_list[fake_number[play_index]]["artworkUrl100"]
 
 	song_you_played_array.push(track_list[fake_number[play_index]])
-	console.log(song_you_played_array)
+	// console.log(song_you_played_array)
 	// Generate the song and choices for the next episode
 	fake_number = getFourIndexFromArray()
 	play_index = getRandomInt(0,3)
@@ -363,6 +365,7 @@ function loaddata() {
 	next_url = track_list[fake_number[play_index]]["previewUrl"]
 	next_audio = new Audio(next_url)
 	next_audio.preload = "auto"
+	clearInterval(interval)
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 	animation_interval = setInterval(animation, animationRateInMs);
@@ -392,9 +395,9 @@ function animation(){
 		
 	}
 	if (madeit == 1) {
-		console.log(madeit_mult)
+		// console.log(madeit_mult)
 		if (madeit_mult > delayMultipleForCorrectEffect) {
-			document.getElementById("scoreboard").innerHTML = Math.round(score)
+			document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(numCorrectGuess/ithgame*100) +'%'
 			document.getElementById("scoreboard").style.color = "white"
 			madeit = 0
 			madeit_mult = 0
@@ -417,6 +420,7 @@ function gameover(){
 	var gameScore = new GameScore();
 	gameScore.save({
 	  score: playerScore,
+	  accuracy: numCorrectGuess, 
 	  playerName: username,
 	  playerEmail: userEmail, 
 	  gameMode: mode
