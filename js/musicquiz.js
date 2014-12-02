@@ -1,8 +1,10 @@
 var playlist = ""
 var correct = ""
 var interval;
+var ratio
 var prepage_id = ""
 var next_audio = new Audio()
+var audio_buffer = new Array()
 var beep_audio = new Audio("beep-28.wav")
 var a = new Audio()
 var track_url;
@@ -59,7 +61,7 @@ var paneltyTimeInMs = 0
 var rewardTimeInMs = 0
 var animationRateInMs = 300
 var totalGameTimeInMs = 60000
-var maxSongInList = 50
+var maxSongInList = 10
 var delayMultipleForCorrectEffect = 2
 // Add view
 var mainView = myApp.addView('.view-main', {
@@ -94,7 +96,7 @@ function login(){
 }
 
 function genGame(artistName, ratio) { 
-	ratio = 0.2
+	ratio = 0.5
 	track_list = []
 	// artistName = "莫文蔚"
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
@@ -102,8 +104,8 @@ function genGame(artistName, ratio) {
 
 		// Get Appointed Artist's track
 		musicTrackFromMainArtist = data.results
+		musicTrackFromRelatedArtist = []
 		console.log(musicTrackFromMainArtist)
-		track_list = track_list.concat(musicTrackFromMainArtist)
 		// Get related Artist's name
 		// get appointed artist's id from echonest
 		request = $.getJSON('http://developer.echonest.com/api/v4/artist/search?api_key=J8CEMYYSDCWPWAAMD&format=json&name=' + artistName +'&results=10', function(data){
@@ -115,15 +117,11 @@ function genGame(artistName, ratio) {
 				for (i = 0; i < ratio * 10; i++){
 					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[i]["name"] +'&entityTrack=music&callback=?', function(data) {
 						console.log(data.results)
-						track_list = track_list.concat(data.results)
+						musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
 						if (i == ratio * 10){
-							console.log(track_list)
-							score = 0
-							document.getElementById("scoreboard").innerHTML = Math.round(score)
-							document.getElementById("gameover_page").style.display = "none"
-							document.getElementById("login_page").style.display = "none"
-							document.getElementById("game_page").style.display = "block"
-							loaddata()
+							console.log(musicTrackFromRelatedArtist)
+							genGameWithTwoArray(musicTrackFromMainArtist,musicTrackFromRelatedArtist,ratio)
+
 						}
 					});
 				}
@@ -134,6 +132,22 @@ function genGame(artistName, ratio) {
 
 		});
 	});
+}
+function genGameWithTwoArray(main, rel, ratio){
+	for (i = 0; i< maxSongInList; i++) {
+		if (Math.random() > ratio) {
+			track_list = track_list.concat(main[getRandomInt(0, main.length-1)])
+		} else {
+			track_list = track_list.concat(rel[getRandomInt(0, rel.length-1)])
+		}		
+	}
+	console.log(track_list)
+	score = 0
+	document.getElementById("scoreboard").innerHTML = Math.round(score)
+	document.getElementById("gameover_page").style.display = "none"
+	document.getElementById("login_page").style.display = "none"
+	document.getElementById("game_page").style.display = "block"
+	loaddata()	
 }
 function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
@@ -258,15 +272,22 @@ function select_choice (choice){
 
 }
 function gameloop(){
-	ithgame ++
+	if(ithgame == 10){
+		gameover()
+		return
+	}
 	freeze = 0
 	console.log(ithgame)
 	incorrect_guess = 0
 	unit_d_start = new Date()
 	unit_d_end = new Date(unit_d_start.getTime() + singleSongPlayTimeInMs)
 	// puase previous music stream
-	a.pause()
-	a = ""
+	if (ithgame > 0) {
+		audio_buffer[ithgame-1].pause()
+	}
+
+	// a.pause()
+	// a = ""
 	// reset the button
 	for (i_ = 0; i_ < 4; i_++){
 		document.getElementById("button"+i_).style.color = "white"
@@ -275,10 +296,28 @@ function gameloop(){
 
 
 	// Build new music source
-	this_url = next_url
-	a = next_audio
-
+	// this_url = next_url
+	// a = next_audio
+	fake_number = getFourIndexFromArray(ithgame)
 	// Animate new choices
+	console.log(fake_number)
+
+	var cw = $("#play-artwork-img").width();
+	// console.log(cw)
+	$('#play-artwork-img').height(cw)
+	// console.log($("#play-artwork-img").height())
+	document.getElementById("play-artwork-img").src = track_list[ithgame]["artworkUrl100"]
+
+	song_you_played_array.push(track_list[ithgame])
+	// console.log(song_you_played_array)
+	// Generate the song and choices for the next episode
+
+	// play_index = getRandomInt(0,3)
+	// next_url = track_list[ithgame]["previewUrl"]
+	// next_audio = new Audio(next_url)
+	// next_audio.preload = "auto"
+
+	// Play this in the end
 	for (j = 0; j < 4 ; j++) {
 		document.getElementById("button"+j).innerHTML = ""
 		var newSongName = document.createElement('span')
@@ -288,24 +327,9 @@ function gameloop(){
 	}
 
 	// "correct" stores the correct answer of hte song name
-	correct = track_list[fake_number[play_index]]["trackName"]
-	var cw = $("#play-artwork-img").width();
-	// console.log(cw)
-	$('#play-artwork-img').height(cw)
-	// console.log($("#play-artwork-img").height())
-	document.getElementById("play-artwork-img").src = track_list[fake_number[play_index]]["artworkUrl100"]
-
-	song_you_played_array.push(track_list[fake_number[play_index]])
-	// console.log(song_you_played_array)
-	// Generate the song and choices for the next episode
-	fake_number = getFourIndexFromArray()
-	play_index = getRandomInt(0,3)
-	next_url = track_list[fake_number[play_index]]["previewUrl"]
-	next_audio = new Audio(next_url)
-	next_audio.preload = "auto"
-
-	// Play this in the end
-	a.play()
+	correct = track_list[ithgame]["trackName"]
+	audio_buffer[ithgame].play()
+	ithgame ++
 }
 // function gameloop(){
 // 	ithgame ++
@@ -357,14 +381,18 @@ function goBackToHome(){
 }
 function loaddata() {
 	console.log(track_list)
+	ithgame= 0
 	d_start = new Date()
 	d_end = new Date(d_start.getTime() + totalGameTimeInMs)
-	fake_number = getFourIndexFromArray()
-	play_index = getRandomInt(0,3)
+	for (i = 0; i < maxSongInList; i++) {
+		next_url = track_list[i]["previewUrl"]
+		audio_buffer[i] = new Audio(next_url)
+	}
+	// fake_number = getFourIndexFromArray(ithgame)
+	// play_index = getRandomInt(0,3)
 
-	next_url = track_list[fake_number[play_index]]["previewUrl"]
-	next_audio = new Audio(next_url)
-	next_audio.preload = "auto"
+
+	// next_audio.preload = "auto"
 	clearInterval(interval)
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
@@ -372,9 +400,12 @@ function loaddata() {
 }
 function animation(){
 	cur_time = new Date()
-	if (cur_time.getTime() > d_end.getTime()){
+	if (ithgame > maxSongInList) {
 		gameover()
 	}
+	// if (cur_time.getTime() > d_end.getTime()){
+	// 	gameover()
+	// }
 	else{
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
 		unit_percent = Math.round((unit_d_end.getTime() - cur_time.getTime())/ singleSongPlayTimeInMs * 100)
@@ -384,7 +415,7 @@ function animation(){
 		}
 		// console.log(percent)
 		percent = percent.toString()
-		document.getElementById("scorebar").style.width = percent+"%"
+		document.getElementById("scorebar").style.width = unit_percent+"%"
 		if (percent < 30){
 			document.getElementById("scorebar").style.color = "red"
 		} else {
@@ -405,10 +436,8 @@ function animation(){
 			madeit_mult++
 		}
 	}
-
 }
 function gameover(){
-	a.pause()
 	console.log("done")
 	clearInterval(animation_interval)
 	clearInterval(interval)
@@ -460,7 +489,7 @@ function gameover(){
 	});
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
 	// for (var i = 0; i < song_you_played_array.length; i++) {
-	gameEndAnimation = setInterval(appendNewSongToGameOver, 600)
+	// gameEndAnimation = setInterval(appendNewSongToGameOver, 600)
 	
 }
 
@@ -592,27 +621,22 @@ function buildSongArrayQuery() {
 	onload_function()
 }
 
-function getFourIndexFromArray (){
+function getFourIndexFromArray (toInclude){
 	// generate wrong answers
 	var targetArray = new Array()
-	var fake_number0 = getRandomInt(0,49);
-	targetArray.push(fake_number0)
-	var fake_number1 = getRandomInt(0,49);
-	while (fake_number0 == fake_number1) {
-		fake_number1 = getRandomInt(0,49);
+	indexArray = [0,1,2,3,4,5,6,7,8,9]
+	for (i = 0; i< 10; i++) {
+		if (indexArray[i] == toInclude) {
+			indexArray.splice(i,1)
+		}
 	}
-	targetArray.push(fake_number1)
-	var fake_number2 = getRandomInt(0,49)
-	while (fake_number2 == fake_number1 || fake_number2 == fake_number0) {
-		fake_number2 = getRandomInt(0,49);
+	indexArray = shuffleArray(indexArray)
+	for (i = 0; i < 6; i++){
+		indexArray.shift()
 	}
-	targetArray.push(fake_number2)
-	var fake_number3 = getRandomInt(0,49)
-	while (fake_number3 == fake_number2 || fake_number3 == fake_number1 || fake_number1 == fake_number0) {
-		fake_number3 = getRandomInt(0,49)
-	}
-	targetArray.push(fake_number3)
-	return targetArray
+	indexArray.push(toInclude)
+ 
+	return shuffleArray(indexArray)
 }
 
 
