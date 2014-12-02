@@ -2,6 +2,7 @@ var playlist = ""
 var correct = ""
 var interval;
 var ratio
+var correctPercent
 var prepage_id = ""
 var next_audio = new Audio()
 var audio_buffer = new Array()
@@ -32,7 +33,7 @@ var mySlider2 = myApp.slider('.slider-2', {
   spaceBetween: 30,
   slidesPerView: 3
 });
-
+var seedArtist
 var next_audio_buffer = ""
 var username = ""
 var userEmail = ""
@@ -95,7 +96,8 @@ function login(){
 // 	// });
 }
 
-function genGame(artistName, ratio) { 
+function genGame(artistName, ratio) {
+	seedArtist = artistName
 	ratio = 0.5
 	track_list = []
 	// artistName = "莫文蔚"
@@ -213,8 +215,10 @@ function select_choice (choice){
 	if (freeze == 1 ) {
 		return
 	}
+	correctPercent = numCorrectGuess / (ithgame - 1)
 	console.log(mode)
 	select = document.getElementById("button"+choice).getElementsByTagName("span")[0].innerHTML
+	track_list[ithgame-1]["correct"] = (select == correct)
 	if (select == correct){
 		streak_correct++
 		numCorrectGuess++
@@ -227,7 +231,7 @@ function select_choice (choice){
 		console.log(streak_correct)
 		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
-		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(numCorrectGuess/ithgame*100) +'%'
+		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(correctPercent*100) +'%'
 		
 		cur_time = new Date()
 		var diff_time = totalGameTimeInMs - (d_end.getTime() - cur_time.getTime())
@@ -260,7 +264,7 @@ function select_choice (choice){
 				break
 			} 
 		}
-		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(numCorrectGuess/ithgame*100) +'%'
+		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(correctPercent*100) +'%'
 		clearInterval(interval)
 		freeze = 1
 		setTimeout(function(){
@@ -428,7 +432,7 @@ function animation(){
 	if (madeit == 1) {
 		// console.log(madeit_mult)
 		if (madeit_mult > delayMultipleForCorrectEffect) {
-			document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(numCorrectGuess/ithgame*100) +'%'
+			document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(correctPercent*100) +'%'
 			document.getElementById("scoreboard").style.color = "white"
 			madeit = 0
 			madeit_mult = 0
@@ -438,6 +442,7 @@ function animation(){
 	}
 }
 function gameover(){
+	correctPercent = numCorrectGuess / maxSongInList
 	console.log("done")
 	clearInterval(animation_interval)
 	clearInterval(interval)
@@ -449,10 +454,11 @@ function gameover(){
 	var gameScore = new GameScore();
 	gameScore.save({
 	  score: playerScore,
-	  accuracy: numCorrectGuess, 
+	  accuracy: correctPercent, 
 	  playerName: username,
 	  playerEmail: userEmail, 
-	  gameMode: mode
+	  seedArtist: seedArtist,
+	  difficulty: ratio
 	}, {
 	  success: function(gameScore) {
 	  	console.log("success")
