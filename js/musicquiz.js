@@ -1,7 +1,7 @@
 var playlist = ""
 var correct = ""
 var interval;
-var ratio
+var ratio;
 var correctPercent
 var prepage_id = ""
 var next_audio = new Audio()
@@ -215,9 +215,13 @@ function select_choice (choice){
 	if (freeze == 1 ) {
 		return
 	}
-	correctPercent = numCorrectGuess / (ithgame - 1)
+
+		
+
+	
 	console.log(mode)
 	select = document.getElementById("button"+choice).getElementsByTagName("span")[0].innerHTML
+	correctPercent = (numCorrectGuess+ (select == correct)*1)/ ithgame
 	track_list[ithgame-1]["correct"] = (select == correct)
 	if (select == correct){
 		streak_correct++
@@ -386,6 +390,7 @@ function goBackToHome(){
 function loaddata() {
 	console.log(track_list)
 	ithgame= 0
+	numCorrectGuess = 0
 	d_start = new Date()
 	d_end = new Date(d_start.getTime() + totalGameTimeInMs)
 	for (i = 0; i < maxSongInList; i++) {
@@ -444,6 +449,7 @@ function animation(){
 function gameover(){
 	correctPercent = numCorrectGuess / maxSongInList
 	console.log("done")
+	console.log(track_list)
 	clearInterval(animation_interval)
 	clearInterval(interval)
     document.getElementById("game_page").style.display = "none"
@@ -458,7 +464,8 @@ function gameover(){
 	  playerName: username,
 	  playerEmail: userEmail, 
 	  seedArtist: seedArtist,
-	  difficulty: ratio
+	  difficultyIndex: ratio, 
+	  trackInfo: track_list
 	}, {
 	  success: function(gameScore) {
 	  	console.log("success")

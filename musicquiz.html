@@ -26,6 +26,10 @@
     xfbml      : true,  // parse social plugins on this page
     version    : 'v2.1' // use version 2.1
   });
+  FB.Event.subscribe('auth.login', function () {
+      window.location = "http://rayxiao92.github.io/phongo/musicquiz.html";
+      document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You" + " "+ response.name
+  });
 
   // Now that we've initialized the JavaScript SDK, we call 
   // FB.getLoginStatus().  This function gets the state of the
@@ -251,7 +255,7 @@
                   <div class = "recommend-list">
 
                     <div class = "recommend-list-title div-center">
-                      <span class = "color-pwhite">
+                      <span class = "color-pwhite" id = "quizPrompt">
                        Quizzes We Pick For You
                       </span>
                     </div>
