@@ -113,7 +113,7 @@ function genGame(artistName, ratio) {
 		request = $.getJSON('http://developer.echonest.com/api/v4/artist/search?api_key=J8CEMYYSDCWPWAAMD&format=json&name=' + artistName +'&results=10', function(data){
 			mainArtistId = data.response.artists[0]["id"]
 			mainArtistName = data.response["name"]
-			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=10&start=0', function(data) {
+			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=20&start=0', function(data) {
 				relatedArtists = data.response.artists
 				relatedArtists = shuffleArray(relatedArtists)
 				for (i = 0; i < ratio * 10; i++){
@@ -167,10 +167,10 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
                    '</div>'
         htmlText += recommendListHTMLTextSingle
         console.log(artistsArray)
-        if (artistsArray.length == 5){
-        	// $(".recommend-list").css('background-image', 'url(' + data.results[0]["artworkUrl100"] + ')');
-        	$(".recommend-list").css('background-image', 'url("'+data.results[0]["artworkUrl100"]+'"), -webkit-gradient(linear, left top, left bottom, from(#6cab26), to(#6ceb86));')
-        }
+        // if (artistsArray.length == 5){
+        // 	// $(".recommend-list").css('background-image', 'url(' + data.results[0]["artworkUrl100"] + ')');
+        // 	$(".recommend-list").css('background-image', 'url("'+data.results[0]["artworkUrl100"]+'"), -webkit-gradient(linear, left top, left bottom, from(#6cab26), to(#6ceb86));')
+        // }
         artistsArray.shift()
 
         return recursiveRecommendListUpdate(artistsArray, htmlText)
@@ -180,7 +180,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 }
 function onload_function(){
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	artistsArray = ["eminem", "梁静茹", "李宗盛", "tiesto", "justin bieber", "周杰伦", "王力宏", "张信哲", "张学友", "陈奕迅", "lorde"]
+	artistsArray = ["Drake", "梁静茹", "张信哲", "张学友", "陈奕迅"]
 	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
 	// artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
 	recommendListHTMLText = ""
