@@ -1,7 +1,7 @@
 var playlist = ""
 var correct = ""
 var interval;
-var ratio;
+var ratio = 0.3;
 var correctPercent
 var prepage_id = ""
 var next_audio = new Audio()
@@ -98,7 +98,6 @@ function login(){
 
 function genGame(artistName, ratio) {
 	seedArtist = artistName
-	ratio = 0.3
 	track_list = []
 	// artistName = "莫文蔚"
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
@@ -165,7 +164,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		return htmlText;
 	}
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
-		var recommendListHTMLTextSingle = '<div class="slider-slide " style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+'\')">'+
+		var recommendListHTMLTextSingle = '<div class="slider-slide " style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+'\'\, ' +ratio +' )">'+
                      '<img class= "slider-slide-img" src="'+ data.results[0]["artworkUrl100"] + '">'+
                      '<div class="slider-slide-title">'+
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
@@ -464,6 +463,7 @@ function gameover(){
     playerScore = score
     var GameScore = Parse.Object.extend("GameScore");
 	var gameScore = new GameScore();
+	console.log(ratio)
 	gameScore.save({
 	  score: playerScore,
 	  accuracy: correctPercent, 
