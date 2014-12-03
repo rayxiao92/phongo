@@ -596,7 +596,7 @@ function appendNewSongToGameOver(){
 		username = response.name
 		userEmail = response.email
 		profilePicLink = "http://graph.facebook.com/"+ response.id +"/picture?type=large"
-		$(".profilePicLink").src = profilePicLink
+		document.getElementById("profilePicture").src = profilePicLink
 		console.log(response)
 		document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You" + " "+ response.name
       console.log("hahahhaha")
