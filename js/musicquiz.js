@@ -27,7 +27,7 @@ var myApp = new Framework7({
     pushState: true, 
     swipebackPage: true
 });
-
+var profilePicLink = ""
 var mySlider2 = myApp.slider('.slider-2', {
   pagination:'.slider-2 .slider-pagination',
   spaceBetween: 30,
@@ -595,6 +595,8 @@ function appendNewSongToGameOver(){
 		console.log('Successful login for: ' + response.name);
 		username = response.name
 		userEmail = response.email
+		profilePicLink = "http://graph.facebook.com/"+ response.id +"/picture?type=large"
+		$(".profilePicLink").src = profilePicLink
 		console.log(response)
 		document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You" + " "+ response.name
       console.log("hahahhaha")
