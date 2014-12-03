@@ -595,6 +595,7 @@ function appendNewSongToGameOver(){
 		console.log('Successful login for: ' + response.name);
 		username = response.name
 		userEmail = response.email
+		console.log(response)
 		document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You" + " "+ response.name
       console.log("hahahhaha")
     });
