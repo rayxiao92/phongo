@@ -98,7 +98,7 @@ function login(){
 
 function genGame(artistName, ratio) {
 	seedArtist = artistName
-	ratio = 0.5
+	ratio = 0.3
 	track_list = []
 	// artistName = "莫文蔚"
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
@@ -155,6 +155,12 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
 		console.log(htmlText)
 		document.getElementById("sliderRecommend").innerHTML = htmlText
+		mySlider2 = myApp.slider('.slider-2', {
+		  pagination:'.slider-2 .slider-pagination',
+		  spaceBetween: 20,
+		  slidesPerView: 3
+		});
+		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
 		$('.slider-slide-img').height($('.slider-slide-img').width())
 		return htmlText;
 	}
@@ -180,7 +186,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 }
 function onload_function(){
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	artistsArray = ["Big bang", "梁静茹", "张信哲", "张学友", "陈奕迅"]
+	artistsArray = ["Big bang", "周杰伦" ,"李宗盛", "梁静茹", "张信哲", "张学友", "陈奕迅", "陶喆"]
 	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
 	// artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
 	recommendListHTMLText = ""
