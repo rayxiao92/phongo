@@ -1,10 +1,24 @@
 var playlist = ""
 var correct = ""
+var ongoing = false
+var point
 var geoX
 var geoY
+var pC
+var rew
+var playerScore = 0
+var queryID = ""
+var gameScore
+var firstGameScore;
+var secondGameScore;
+var finalGameScore;
+var DifficultyIndex
+var firstDiffIndexQuery
+var secondDiffIndexQuery
 var interval;
-var ratio = 0.3;
-var correctPercent
+var playedAgain = 0
+var ratio = 0.3
+var correctPercent = 0
 var prepage_id = ""
 var next_audio = new Audio()
 var audio_buffer = new Array()
@@ -99,9 +113,93 @@ function login(){
 }
 
 function genGame(artistName, ratio) {
+	if (ongoing == true){
+		return
+	}
+	ongoing = false
 	seedArtist = artistName
 	track_list = []
 	// artistName = "莫文蔚"
+
+	DifficultyIndex = Parse.Object.extend("DifficultyIndex");
+	
+	// firstDiffIndexQuery = new DifficultyIndex();
+	var query = new Parse.Query(DifficultyIndex);
+	query.descending("avgReward");
+	query.limit(1)
+	query.find({
+	  success: function(results) {
+	    console.log("Successfully retrieved ratio" + results.length + " scores.");
+	    // Do something with the returned Parse.Object values
+	    for (var i = 0; i < results.length; i++) { 
+	      firstDiffIndexQuery = results[i];
+	      ratio = firstDiffIndexQuery.get("difficultyIndex")
+	      console.log(ratio)
+	      pC = firstDiffIndexQuery.get("playedCount")
+	      pC += 1
+	      rew = firstDiffIndexQuery.get("reward")
+	      var aR = rew / pC
+	      firstDiffIndexQuery.save({
+			  difficultyIndex: ratio,
+			  playedCount: pC, 
+			  avgReward: aR
+			}, {
+			  success: function(firstDiffIndexQuery) {
+			  	console.log("success_update_diff")
+			    // The object was saved successfully.
+			  },
+			  error: function(firstDiffIndexQuery, error) {
+			    // The save failed.
+			    console.log("ehh_diff")
+			    // error is a Parse.Error with an error code and message.
+			  }
+			});	      
+
+	    }
+	  },
+	  error: function(error) {
+	    console.log("Error: " + error.code + " " + error.message);
+	  }
+	});
+
+	// firstDiffIndexQuery = new DifficultyIndex();
+	// var query = new Parse.Query(DifficultyIndex);
+	// query.equalTo("difficultyIndex", ratio);
+	// query.find({
+	//   success: function(results) {
+	//     console.log("Successfully retrieved " + results.length + " scores.");
+	//     // Do something with the returned Parse.Object values
+	//     for (var i = 0; i < results.length; i++) { 
+	//       firstDiffIndexQuery = results[i];
+	//       pC = firstDiffIndexQuery.get("playedCount")
+	//       pC += 1
+	//       rew = firstDiffIndexQuery.get("reward")
+	//       var aR = rew / pC
+	//       firstDiffIndexQuery.save({
+	// 		  difficultyIndex: ratio,
+	// 		  playedCount: pC, 
+	// 		  avgReward: aR
+	// 		}, {
+	// 		  success: function(firstDiffIndexQuery) {
+	// 		  	console.log("success_update_diff")
+	// 		    // The object was saved successfully.
+	// 		  },
+	// 		  error: function(firstDiffIndexQuery, error) {
+	// 		    // The save failed.
+	// 		    console.log("ehh_diff")
+	// 		    // error is a Parse.Error with an error code and message.
+	// 		  }
+	// 		});
+	//     }
+	//   },
+	//   error: function(error) {
+	//     console.log("Error: " + error.code + " " + error.message);
+	//   }
+	// });
+
+
+
+
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
 		console.log(data.results)
 
@@ -131,8 +229,6 @@ function genGame(artistName, ratio) {
 				// musicTrackFromMainArtist = 
 				// musicTrackFromRelatedArtist = 
 			});
-
-
 		});
 	});
 }
@@ -150,6 +246,7 @@ function genGameWithTwoArray(main, rel, ratio){
 	document.getElementById("gameover_page").style.display = "none"
 	document.getElementById("login_page").style.display = "none"
 	document.getElementById("game_page").style.display = "block"
+
 	loaddata()	
 }
 function recursiveRecommendListUpdate(artistsArray, htmlText){
@@ -199,7 +296,7 @@ function onload_function(){
 		console.log("lol")
 	}
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	artistsArray = ["Big bang", "周杰伦" ,"李宗盛", "梁静茹", "张信哲", "张学友", "陈奕迅", "陶喆"]
+	artistsArray = ["Big bang","邓紫棋","王力宏" ,"Beethoven","周杰伦" ,"梁静茹", "张学友"]
 	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
 	// artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
 	recommendListHTMLText = ""
@@ -402,11 +499,104 @@ function gameloop(){
 // 	a.play()
 // }
 function goBackToHome(){
+    secondGameScore.destroy({
+	  success: function(secondGameScore) {
+	  	console.log("first is destroyed")
+	    // The object was deleted from the Parse Cloud.
+	  },
+	  error: function(secondGameScore, error) {
+	    // The delete failed.
+	    console.log("first is notttt destroyed")
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+	finalGameScore = new GameScore();
+	playedAgain = true
+    // var point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
+	finalGameScore.save({
+	  score: playerScore,
+	  accuracy: correctPercent, 
+	  playerName: username,
+	  playerEmail: userEmail, 
+	  seedArtist: seedArtist,
+	  difficultyIndex: ratio, 
+	  trackInfo: track_list,
+	  playerReturns: playedAgain,
+	  location: point
+	}, {
+	  success: function(finalGameScore) {
+	  	console.log("success final")
+	    // The object was saved successfully.
+	  },
+	  error: function(finalGameScore, error) {
+	    // The save failed.
+	    console.log("ehh")
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+    firstDiffIndexQuery.destroy({
+	  success: function(firstDiffIndexQuery) {
+	  	console.log("firstDiffIndexQuery is destroyed")
+	    // The object was deleted from the Parse Cloud.
+	  },
+	  error: function(firstDiffIndexQuery, error) {
+	    // The delete failed.
+	    console.log("firstDiffIndexQuery is notttt destroyed")
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+	rew += 1
+	aR = rew / pC
+	secondDiffIndexQuery = new DifficultyIndex()
+	secondDiffIndexQuery.save({
+		difficultyIndex: ratio,
+		playedCount: pC,
+		reward: rew, 
+		avgReward: aR
+	}, {
+	  success: function(secondDiffIndexQuery) {
+	  	console.log("success final secondDiffIndexQuery")
+	    // The object was saved successfully.
+	  },
+	  error: function(secondDiffIndexQuery, error) {
+	    // The save failed.
+	    console.log("ehh_update secondDiffIndexQuery")
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+
 	document.getElementById("game_page").style.display = "none"
     document.getElementById("login_page").style.display = "block"
     document.getElementById("gameover_page").style.display = "none"
 }
 function loaddata() {
+	playedAgain = false
+	// queryID = gameScore.id
+	// console.log(queryID)
+    // point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
+    GameScore = Parse.Object.extend("GameScore");
+
+	firstGameScore = new GameScore();
+	firstGameScore.save({
+	  playerName: username,
+	  playerEmail: userEmail, 
+	  seedArtist: seedArtist,
+	  difficultyIndex: ratio, 
+	  trackInfo: track_list,
+	  playerReturns: playedAgain,
+	  location: point
+	}, {
+	  success: function(firstGameScore) {
+	  	console.log("success_first")
+	    // The object was saved successfully.
+	  },
+	  error: function(firstGameScore, error) {
+	    // The save failed.
+	    console.log("ehh_1")
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+	
 	console.log(track_list)
 	ithgame= 0
 	numCorrectGuess = 0
@@ -468,6 +658,7 @@ function animation(){
 function gameover(){
 	correctPercent = numCorrectGuess / maxSongInList
 	console.log("done")
+	ongoing = false
 	console.log(track_list)
 	clearInterval(animation_interval)
 	clearInterval(interval)
@@ -475,12 +666,22 @@ function gameover(){
     document.getElementById("gameover_page").style.display = "block"
     
     playerScore = score
-    var GameScore = Parse.Object.extend("GameScore");
-	var gameScore = new GameScore();
+    // GameScore = Parse.Object.extend("GameScore");
+    firstGameScore.destroy({
+	  success: function(firstGameScore) {
+	  	console.log("first is destroyed")
+	    // The object was deleted from the Parse Cloud.
+	  },
+	  error: function(firstGameScore, error) {
+	    // The delete failed.
+	    console.log("first is notttt destroyed")
+	    // error is a Parse.Error with an error code and message.
+	  }
+	});
+	secondGameScore = new GameScore();
 
-    console.log(geoY)
-    var point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
-	gameScore.save({
+    // var point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
+	secondGameScore.save({
 	  score: playerScore,
 	  accuracy: correctPercent, 
 	  playerName: username,
@@ -488,15 +689,16 @@ function gameover(){
 	  seedArtist: seedArtist,
 	  difficultyIndex: ratio, 
 	  trackInfo: track_list,
+	  playerReturns: playedAgain,
 	  location: point
 	}, {
-	  success: function(gameScore) {
-	  	console.log("success")
+	  success: function(secondGameScore) {
+	  	console.log("success_go")
 	    // The object was saved successfully.
 	  },
-	  error: function(gameScore, error) {
+	  error: function(secondGameScore, error) {
 	    // The save failed.
-	    console.log("ehh")
+	    console.log("ehh_go")
 	    // error is a Parse.Error with an error code and message.
 	  }
 	});
@@ -513,7 +715,7 @@ function gameover(){
 			if(results.length > 0){
 			    for (var i = 0; i < results.length; i++) {
 					object = results[i];
-					console.log(object.get('score'))
+					// console.log(object.get('score'))
 					if (object.get('score') > maxScore){
 						maxScore = object.get('score')
 					}
