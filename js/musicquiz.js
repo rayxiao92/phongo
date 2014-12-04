@@ -1,5 +1,7 @@
 var playlist = ""
 var correct = ""
+var geoX
+var geoY
 var interval;
 var ratio = 0.3;
 var correctPercent
@@ -184,6 +186,18 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	});
 }
 function onload_function(){
+	if (navigator.geolocation) {
+		console.log(navigator.geolocation)
+		navigator.geolocation.getCurrentPosition(function (position) {
+			geoX = position.coords.latitude 
+			geoY = position.coords.longitude
+			console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+		}, function(){
+			console.log("error")
+		})
+	} else{
+		console.log("lol")
+	}
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
 	artistsArray = ["Big bang", "周杰伦" ,"李宗盛", "梁静茹", "张信哲", "张学友", "陈奕迅", "陶喆"]
 	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
@@ -463,7 +477,9 @@ function gameover(){
     playerScore = score
     var GameScore = Parse.Object.extend("GameScore");
 	var gameScore = new GameScore();
-	console.log(ratio)
+
+    console.log(geoY)
+    var point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
 	gameScore.save({
 	  score: playerScore,
 	  accuracy: correctPercent, 
@@ -471,7 +487,8 @@ function gameover(){
 	  playerEmail: userEmail, 
 	  seedArtist: seedArtist,
 	  difficultyIndex: ratio, 
-	  trackInfo: track_list
+	  trackInfo: track_list,
+	  location: point
 	}, {
 	  success: function(gameScore) {
 	  	console.log("success")
@@ -483,6 +500,8 @@ function gameover(){
 	    // error is a Parse.Error with an error code and message.
 	  }
 	});
+
+
 	// var GameScore = Parse.Object.extend("GameScore");
 	var query = new Parse.Query(GameScore);
 	query.equalTo("playerEmail", userEmail);
