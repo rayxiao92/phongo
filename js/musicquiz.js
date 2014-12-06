@@ -22,7 +22,8 @@ var correctPercent = 0
 var prepage_id = ""
 var next_audio = new Audio()
 var audio_buffer = new Array()
-var beep_audio = new Audio("beep-28.wav")
+var beep_audio = new Audio("smw_coin.wav")
+var wrong_audio = new Audio ("smw_yoshi_spit.wav")
 var a = new Audio()
 var track_url;
 var track_list;
@@ -162,44 +163,6 @@ function genGame(artistName, ratio) {
 	  }
 	});
 
-	// firstDiffIndexQuery = new DifficultyIndex();
-	// var query = new Parse.Query(DifficultyIndex);
-	// query.equalTo("difficultyIndex", ratio);
-	// query.find({
-	//   success: function(results) {
-	//     console.log("Successfully retrieved " + results.length + " scores.");
-	//     // Do something with the returned Parse.Object values
-	//     for (var i = 0; i < results.length; i++) { 
-	//       firstDiffIndexQuery = results[i];
-	//       pC = firstDiffIndexQuery.get("playedCount")
-	//       pC += 1
-	//       rew = firstDiffIndexQuery.get("reward")
-	//       var aR = rew / pC
-	//       firstDiffIndexQuery.save({
-	// 		  difficultyIndex: ratio,
-	// 		  playedCount: pC, 
-	// 		  avgReward: aR
-	// 		}, {
-	// 		  success: function(firstDiffIndexQuery) {
-	// 		  	console.log("success_update_diff")
-	// 		    // The object was saved successfully.
-	// 		  },
-	// 		  error: function(firstDiffIndexQuery, error) {
-	// 		    // The save failed.
-	// 		    console.log("ehh_diff")
-	// 		    // error is a Parse.Error with an error code and message.
-	// 		  }
-	// 		});
-	//     }
-	//   },
-	//   error: function(error) {
-	//     console.log("Error: " + error.code + " " + error.message);
-	//   }
-	// });
-
-
-
-
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
 		console.log(data.results)
 
@@ -233,6 +196,7 @@ function genGame(artistName, ratio) {
 	});
 }
 function genGameWithTwoArray(main, rel, ratio){
+	track_list = []
 	for (i = 0; i< maxSongInList; i++) {
 		if (Math.random() > ratio) {
 			track_list = track_list.concat(main[getRandomInt(0, main.length-1)])
@@ -332,7 +296,7 @@ function select_choice (choice){
 		return
 	}
 
-		
+	
 
 	
 	console.log(mode)
@@ -340,12 +304,20 @@ function select_choice (choice){
 	correctPercent = (numCorrectGuess+ (select == correct)*1)/ ithgame
 	track_list[ithgame-1]["correct"] = (select == correct)
 	if (select == correct){
+		beep_audio.play()
+		for (i = 0; i < 4; i++) {
+			if (document.getElementById("button"+i).getElementsByTagName("span")[0].innerHTML == correct ){
+				document.getElementById("button"+i).style.color = "green"
+				document.getElementById("button"+i).style.borderColor = "green"
+				break
+			} 
+		}
 		streak_correct++
 		numCorrectGuess++
 		freeze = 1
 		clearInterval(interval)
-		gameloop()
-		interval  = setInterval(gameloop, singleSongPlayTimeInMs); 	
+		// gameloop()
+		// interval  = setInterval(gameloop, singleSongPlayTimeInMs); 	
 		score = score + streak_correct
 		madeit = 1
 		console.log(streak_correct)
@@ -370,7 +342,12 @@ function select_choice (choice){
 		plusone.innerHTML = " +" +streak_correct
 		plusone.className = "fadeaway"
 		document.getElementById("scoreboard").appendChild(plusone)
+		setTimeout(function(){
+			gameloop()
+			interval  = setInterval(gameloop, singleSongPlayTimeInMs); 
+		}, 2000)
 	} else {
+		wrong_audio.play()
 		streak_correct = 0
 		madeit = 1
 		incorrect_guess ++
@@ -452,7 +429,9 @@ function gameloop(){
 
 	// "correct" stores the correct answer of hte song name
 	correct = track_list[ithgame]["trackName"]
+	audio_buffer[ithgame].volume = 0.3
 	audio_buffer[ithgame].play()
+
 	ithgame ++
 }
 // function gameloop(){
