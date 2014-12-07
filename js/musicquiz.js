@@ -114,9 +114,14 @@ function login(){
 }
 
 function genGame(artistName, ratio) {
+
 	if (ongoing == true){
 		return
 	}
+	if (audio_buffer[ithgame] != null){
+		audio_buffer[ithgame].volume = 0
+	}
+		
 	ongoing = false
 	seedArtist = artistName
 	track_list = []
@@ -478,6 +483,7 @@ function gameloop(){
 // 	a.play()
 // }
 function goBackToHome(){
+	audio_buffer[ithgame-1].pause()
     secondGameScore.destroy({
 	  success: function(secondGameScore) {
 	  	console.log("first is destroyed")
