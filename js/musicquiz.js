@@ -533,7 +533,7 @@ function goBackToHome(){
 	  playerName: username,
 	  playerEmail: userEmail, 
 	  seedArtist: seedArtist,
-	  difficultyIndex: window.ratio, 
+	  difficultyIndex: ratio, 
 	  trackInfo: track_list,
 	  playerReturns: playedAgain,
 	  location: point
