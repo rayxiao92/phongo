@@ -1,11 +1,13 @@
 var playlist = ""
 var correct = ""
 var ongoing = false
+var epsilon = 0.9
 var point
 var geoX
 var geoY
 var pC
 var rew
+var false_option =[]
 var playerScore = 0
 var queryID = ""
 var gameScore
@@ -17,7 +19,7 @@ var firstDiffIndexQuery
 var secondDiffIndexQuery
 var interval;
 var playedAgain = 0
-var ratio = 0.3
+var ratio = 0.9
 var correctPercent = 0
 var prepage_id = ""
 var next_audio = new Audio()
@@ -64,7 +66,8 @@ var toprec_index = 0
 var $$ = Dom7;
 var friendList;
 
-
+var musicTrackFromRelatedArtist
+var musicTrackFromMainArtist
 
 
 // Some constants initialization
@@ -113,16 +116,17 @@ function login(){
 // 	// });
 }
 
-function genGame(artistName, ratio) {
-
+function genGame(artistName) {
+	document.getElementById("scoreboard").innerHTML = Math.round(score)
+	document.getElementById("gameover_page").style.display = "none"
+	document.getElementById("login_page").style.display = "none"
+	document.getElementById("game_page").style.display = "block"
 	if (ongoing == true){
 		return
 	}
-	if (audio_buffer[ithgame] != null){
-		audio_buffer[ithgame].volume = 0
-	}
+
 		
-	ongoing = false
+	ongoing = true
 	seedArtist = artistName
 	track_list = []
 	// artistName = "莫文蔚"
@@ -130,6 +134,7 @@ function genGame(artistName, ratio) {
 	DifficultyIndex = Parse.Object.extend("DifficultyIndex");
 	
 	// firstDiffIndexQuery = new DifficultyIndex();
+	// Find the arm with best reward
 	var query = new Parse.Query(DifficultyIndex);
 	query.descending("avgReward");
 	query.limit(1)
@@ -140,6 +145,9 @@ function genGame(artistName, ratio) {
 	    for (var i = 0; i < results.length; i++) { 
 	      firstDiffIndexQuery = results[i];
 	      ratio = firstDiffIndexQuery.get("difficultyIndex")
+	      if (Math.random() > epsilon) {
+	      	ratio = Math.round(Math.random()*10)/10
+	      }
 	      console.log(ratio)
 	      pC = firstDiffIndexQuery.get("playedCount")
 	      pC += 1
@@ -183,17 +191,21 @@ function genGame(artistName, ratio) {
 			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=20&start=0', function(data) {
 				relatedArtists = data.response.artists
 				relatedArtists = shuffleArray(relatedArtists)
-				for (i = 0; i < ratio * 10; i++){
-					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[i]["name"] +'&entityTrack=music&callback=?', function(data) {
+				console.log(relatedArtists)
+				minRatioList = Math.min(ratio * 10, relatedArtists.length)
+				// for (var i = 0; i < minRatioList; i++){
+					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[0]["name"] +'&entityTrack=music&callback=?', function(data) {
 						console.log(data.results)
 						musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
-						if (i == ratio * 10){
+						request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[1]["name"] +'&entityTrack=music&callback=?', function(data) {
+						// if (i == ratio * 10){
+							musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
 							console.log(musicTrackFromRelatedArtist)
 							genGameWithTwoArray(musicTrackFromMainArtist,musicTrackFromRelatedArtist,ratio)
-
-						}
+						// }
+						});
 					});
-				}
+				// }
 				// musicTrackFromMainArtist = 
 				// musicTrackFromRelatedArtist = 
 			});
@@ -204,12 +216,21 @@ function genGameWithTwoArray(main, rel, ratio){
 	track_list = []
 	for (i = 0; i< maxSongInList; i++) {
 		if (Math.random() > ratio) {
-			track_list = track_list.concat(main[getRandomInt(0, main.length-1)])
+			index = getRandomInt(0, main.length-1)
+			track_list = track_list.concat(main[index])
+			main.splice(index,1)
 		} else {
-			track_list = track_list.concat(rel[getRandomInt(0, rel.length-1)])
-		}		
+			index = getRandomInt(0, rel.length-1)
+			track_list = track_list.concat(rel[index])
+			rel.splice(index,1)
+		}
 	}
-	console.log(track_list)
+	false_option = []
+	false_option = false_option.concat(main)
+	false_option = false_option.concat(rel)
+	console.log(main)
+	console.log(rel)
+	console.log(false_option)
 	score = 0
 	document.getElementById("scoreboard").innerHTML = Math.round(score)
 	document.getElementById("gameover_page").style.display = "none"
@@ -232,7 +253,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		return htmlText;
 	}
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
-		var recommendListHTMLTextSingle = '<div class="slider-slide " style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+'\'\, ' +ratio +' )">'+
+		var recommendListHTMLTextSingle = '<div class="slider-slide " style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
                      '<img class= "slider-slide-img" src="'+ data.results[0]["artworkUrl100"] + '">'+
                      '<div class="slider-slide-title">'+
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
@@ -378,6 +399,7 @@ function select_choice (choice){
 
 }
 function gameloop(){
+	console.log(ratio)
 	if(ithgame == 10){
 		gameover()
 		return
@@ -415,21 +437,27 @@ function gameloop(){
 	document.getElementById("play-artwork-img").src = track_list[ithgame]["artworkUrl100"]
 
 	song_you_played_array.push(track_list[ithgame])
-	// console.log(song_you_played_array)
-	// Generate the song and choices for the next episode
 
-	// play_index = getRandomInt(0,3)
-	// next_url = track_list[ithgame]["previewUrl"]
-	// next_audio = new Audio(next_url)
-	// next_audio.preload = "auto"
+	false_option = shuffleArray(false_option)
 
 	// Play this in the end
+	index = getRandomInt(0,3)
+	console.log(index)
+	console.log(false_option)
 	for (j = 0; j < 4 ; j++) {
+		// place correct answer
 		document.getElementById("button"+j).innerHTML = ""
 		var newSongName = document.createElement('span')
-		newSongName.innerHTML = track_list[fake_number[j]]["trackName"]
-		newSongName.className = "fadein"
-		document.getElementById("button"+j).appendChild(newSongName)
+		if (index == j){
+			newSongName.innerHTML = track_list[ithgame]["trackName"]
+			newSongName.className = "fadein"
+			document.getElementById("button"+j).appendChild(newSongName)
+		} else {
+			newSongName.innerHTML = false_option[0]["trackName"]
+			newSongName.className = "fadein"
+			document.getElementById("button"+j).appendChild(newSongName)
+			false_option.splice(0,1)
+		}
 	}
 
 	// "correct" stores the correct answer of hte song name
@@ -504,7 +532,7 @@ function goBackToHome(){
 	  playerName: username,
 	  playerEmail: userEmail, 
 	  seedArtist: seedArtist,
-	  difficultyIndex: ratio, 
+	  difficultyIndex: window.ratio, 
 	  trackInfo: track_list,
 	  playerReturns: playedAgain,
 	  location: point
