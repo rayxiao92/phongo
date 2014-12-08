@@ -217,6 +217,7 @@ function genGameWithTwoArray(main, rel, ratio){
 	for (i = 0; i< maxSongInList; i++) {
 		if (Math.random() > ratio) {
 			index = getRandomInt(0, main.length-1)
+
 			track_list = track_list.concat(main[index])
 			main.splice(index,1)
 		} else {
@@ -286,7 +287,7 @@ function onload_function(){
 		console.log("lol")
 	}
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	artistsArray = ["Big bang","邓紫棋","王力宏" ,"Beethoven","周杰伦" ,"梁静茹", "张学友"]
+	artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
 	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
 	// artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
 	recommendListHTMLText = ""
