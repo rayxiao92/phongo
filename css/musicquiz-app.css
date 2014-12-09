@@ -479,6 +479,11 @@ overflow: hidden;
 	border-color:#417505;
 	border-radius: 15px;
 }
+
+.color-grey {
+	color: #BBB;
+}
+
 @-webkit-keyframes blurFadeInOut{
 	0%{
 		opacity: 0;

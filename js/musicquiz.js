@@ -1,7 +1,7 @@
 var playlist = ""
 var correct = ""
 var ongoing = false
-var epsilon = 0.9
+var epsilon = 0.5
 var point
 var geoX
 var geoY
@@ -49,8 +49,8 @@ var myApp = new Framework7({
 var profilePicLink = ""
 var mySlider2 = myApp.slider('.slider-2', {
   pagination:'.slider-2 .slider-pagination',
-  spaceBetween: 30,
-  slidesPerView: 3
+  spaceBetween: 20,
+  slidesPerView: 2
 });
 var seedArtist
 var next_audio_buffer = ""
@@ -129,6 +129,8 @@ function genGame(artistName) {
 	ongoing = true
 	seedArtist = artistName
 	track_list = []
+	streak_correct = 0
+	song_you_played_array = []
 	// artistName = "莫文蔚"
 
 	DifficultyIndex = Parse.Object.extend("DifficultyIndex");
@@ -147,27 +149,67 @@ function genGame(artistName) {
 	      ratio = firstDiffIndexQuery.get("difficultyIndex")
 	      if (Math.random() > epsilon) {
 	      	ratio = Math.round(Math.random()*10)/10
+	      	console.log(ratio + " explore")
+	      	var query = new Parse.Query(DifficultyIndex);
+	      	query.equalTo("difficultyIndex", ratio);
+	      	query.find({
+			  success: function(results) {
+			    // alert("Successfully retrieved " + results.length + " scores.");
+			    // Do something with the returned Parse.Object values
+			    for (var i = 0; i < results.length; i++) { 
+			      // var object = results[i];
+			      firstDiffIndexQuery = results[i]
+			      // alert(object.id + ' - ' + object.get('playerName'));
+			    }
+			    console.log(ratio)
+			      pC = firstDiffIndexQuery.get("playedCount")
+			      pC += 1
+			      rew = firstDiffIndexQuery.get("reward")
+			      var aR = rew / pC
+			      firstDiffIndexQuery.save({
+					  difficultyIndex: ratio,
+					  playedCount: pC, 
+					  avgReward: aR
+					}, {
+					  success: function(firstDiffIndexQuery) {
+					  	console.log("success_update_diff")
+					    // The object was saved successfully.
+					  },
+					  error: function(firstDiffIndexQuery, error) {
+					    // The save failed.
+					    console.log("ehh_diff")
+					    // error is a Parse.Error with an error code and message.
+					  }
+					});	 
+					  },
+					  error: function(error) {
+					    console("Error: " + error.code + " " + error.message);
+					  }
+					});
+	      } else {
+
+	      	console.log(ratio + " not explore")
+		      pC = firstDiffIndexQuery.get("playedCount")
+		      pC += 1
+		      rew = firstDiffIndexQuery.get("reward")
+		      var aR = rew / pC
+		      firstDiffIndexQuery.save({
+				  difficultyIndex: ratio,
+				  playedCount: pC, 
+				  avgReward: aR
+				}, {
+				  success: function(firstDiffIndexQuery) {
+				  	console.log("success_update_diff")
+				    // The object was saved successfully.
+				  },
+				  error: function(firstDiffIndexQuery, error) {
+				    // The save failed.
+				    console.log("ehh_diff")
+				    // error is a Parse.Error with an error code and message.
+				  }
+				});	 
 	      }
-	      console.log(ratio)
-	      pC = firstDiffIndexQuery.get("playedCount")
-	      pC += 1
-	      rew = firstDiffIndexQuery.get("reward")
-	      var aR = rew / pC
-	      firstDiffIndexQuery.save({
-			  difficultyIndex: ratio,
-			  playedCount: pC, 
-			  avgReward: aR
-			}, {
-			  success: function(firstDiffIndexQuery) {
-			  	console.log("success_update_diff")
-			    // The object was saved successfully.
-			  },
-			  error: function(firstDiffIndexQuery, error) {
-			    // The save failed.
-			    console.log("ehh_diff")
-			    // error is a Parse.Error with an error code and message.
-			  }
-			});	      
+     
 
 	    }
 	  },
@@ -214,6 +256,8 @@ function genGame(artistName) {
 }
 function genGameWithTwoArray(main, rel, ratio){
 	track_list = []
+	console.log(main.length)
+	console.log(rel.length)
 	for (i = 0; i< maxSongInList; i++) {
 		if (Math.random() > ratio) {
 			index = getRandomInt(0, main.length-1)
@@ -229,9 +273,10 @@ function genGameWithTwoArray(main, rel, ratio){
 	false_option = []
 	false_option = false_option.concat(main)
 	false_option = false_option.concat(rel)
-	console.log(main)
-	console.log(rel)
-	console.log(false_option)
+	console.log(main.length)
+	console.log(rel.length)
+	console.log(false_option.length)
+	console.log(track_list.length)
 	score = 0
 	document.getElementById("scoreboard").innerHTML = Math.round(score)
 	document.getElementById("gameover_page").style.display = "none"
@@ -246,6 +291,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		document.getElementById("sliderRecommend").innerHTML = htmlText
 		mySlider2 = myApp.slider('.slider-2', {
 		  pagination:'.slider-2 .slider-pagination',
+		  speed: 200,
 		  spaceBetween: 20,
 		  slidesPerView: 3
 		});
@@ -254,7 +300,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		return htmlText;
 	}
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
-		var recommendListHTMLTextSingle = '<div class="slider-slide " style="margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
+		var recommendListHTMLTextSingle = '<div class="slider-slide " style=" margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
                      '<img class= "slider-slide-img" src="'+ data.results[0]["artworkUrl100"] + '">'+
                      '<div class="slider-slide-title">'+
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
@@ -444,7 +490,7 @@ function gameloop(){
 	// Play this in the end
 	index = getRandomInt(0,3)
 	console.log(index)
-	console.log(false_option)
+	console.log(false_option.length)
 	for (j = 0; j < 4 ; j++) {
 		// place correct answer
 		document.getElementById("button"+j).innerHTML = ""
@@ -743,8 +789,12 @@ function gameover(){
 	});
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
 	// for (var i = 0; i < song_you_played_array.length; i++) {
-	// gameEndAnimation = setInterval(appendNewSongToGameOver, 600)
-	
+	// gameEndAnimation = setInterval(appendNewSongToGameOver, 100)
+	toprec_index = 0
+	while (toprec_index < maxSongInList){
+		appendNewSongToGameOver()
+		toprec_index++
+	}
 }
 
 
@@ -754,14 +804,14 @@ function appendNewSongToGameOver(){
     // document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML 
     var ul_list = '<li class=" bg-trans "> ' +
                         '<div class="swipeout-content bg-trans item-content" id = "recommend' + toprec_index+'"> ' +
-                         '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["album"]["images"][0]["url"] +'" width="50"></div> ' +
+                         '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["artworkUrl100"] +'" width="50"></div> ' +
                          '<div class="item-inner"> ' +
                             '<div class="item-title-row"> ' +
-                              '<div class="item-title ">' + song_you_played_array[toprec_index]["name"] + '</div> ' +
+                              '<div class="item-title color-white">' + song_you_played_array[toprec_index]["trackName"] + '</div> ' +
                               '<div class="item-after"> ' + "button" +'</div> ' +
                             '</div> ' +
                             // '<div class="item-title-row"> ' +
-                            '<div class="item-subtitle ">' + song_you_played_array[toprec_index]["artists"][0]["name"] + '</div> ' +
+                            '<div class="item-subtitle color-grey">' + song_you_played_array[toprec_index]["artistName"] + '</div> ' +
                               // '<div class="item-after">' + song_you_played_array[toprec_index]["fit"] + "%" + '</div> ' +
                             // '</div> ' +
                             // '<div class="item-text">' + song_you_played_array[toprec_index]["album"]["name"] + '</div> ' +
@@ -776,10 +826,10 @@ function appendNewSongToGameOver(){
                         // '</div> ' +
                       '</li> '
     document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML += ul_list  
-    toprec_index++
-    if (toprec_index >= song_you_played_array.length) {
-    	clearInterval(gameEndAnimation)
-    }
+    // toprec_index++
+    // if (toprec_index >= song_you_played_array.length) {
+    // 	clearInterval(gameEndAnimation)
+    // }
 
 }
 /*************************************
