@@ -224,7 +224,7 @@
           </div>
         </div>
       </div> 
-      <div class="view view-home" id = "login_page" >
+      <div class="view view-home" id = "login_page" style = "display:none">
         <!-- Top Navbar-->
         <div class="navbar border-no">
           <div class="navbar-inner">
@@ -234,10 +234,10 @@
                   </a> -->
               </div>
               <div id = "navbartitle" class="center color-white">
-                Music Quiz
+                Quizzie
               </div>
               <div class="right color-white">
-                <a onclick = "login()" >Login</a>
+          <!--       <a onclick = "login()" >Login</a> -->
               </div>
           </div>
         </div>
@@ -357,6 +357,57 @@
           </div>
         </div>
       </div>
+     <div class="view view-home" id = "loading_page" >
+        <!-- Top Navbar-->
+<!--         <div class="navbar border-no">
+          <div class="navbar-inner">
+              <div class="left">
+                   <a href="#" class="link color-white">
+                      <i class="icon icon-bars color-white"></i>
+                  </a>
+              </div>
+              <div id = "navbartitle" class="center color-white">
+            
+              </div>
+              <div class="right color-white">
+              
+              </div>
+          </div>
+        </div> -->
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-fixed toolbar-fixed">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page" >
+            <!-- Scrollable page content-->
+            <div class="page-content bg-pred fadein" style = "padding-top:80px; padding-left:auto; padding-right:auto;  text-align: center;">
+              <img src="iTunes_style_logo_transparent.png" width = "60%"  >
+              <p style= "font-size: 70px; color: white">Quizzie</p>
+           <!--    <div class="content-block"> -->
+
+    <!--             <div class = "content-login"> -->
+
+                <!--Probably dont need this-->
+         <!--      </div>
+            </div> -->
+          </div>
+        </div>
+        <!-- Bottom Toolbar-->
+        <div class="toolbar border-no">
+          <div class="toolbar-inner">
+            <table class="toolbar-inner-table">
+              <tr>
+                <td class="toolbar-inner-left">
+                  <!--<a href="#" class="link color-blue">Link 1</a>-->
+                </td>
+                <td class="toolbar-inner-request-table">
+                </td>
+                <td class="toolbar-inner-right">
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
       <div class="view view-home" id = "select_theme_page" style= "display:none">
         <!-- Top Navbar-->
         <div class="navbar bg-trans border-no">
@@ -443,7 +494,7 @@
                   </a> -->
               </div>
               <div id = "navbartitle" class="center color-white">
-                Music Quiz
+                Quizzie
               </div>
               <div class="right color-white">
                 <a onclick = "login()" >Login</a>

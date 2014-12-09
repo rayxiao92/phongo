@@ -297,6 +297,8 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		});
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
 		$('.slider-slide-img').height($('.slider-slide-img').width())
+		document.getElementById("loading_page").style.display = "none"
+		document.getElementById("login_page").style.display = "block"		
 		return htmlText;
 	}
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
