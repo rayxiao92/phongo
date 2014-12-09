@@ -297,8 +297,8 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		});
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
 		$('.slider-slide-img').height($('.slider-slide-img').width())
-		document.getElementById("loading_page").style.display = "none"
-		document.getElementById("login_page").style.display = "block"		
+		// document.getElementById("loading_page").style.display = "none"
+		// document.getElementById("login_page").style.display = "block"		
 		return htmlText;
 	}
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
@@ -724,7 +724,7 @@ function gameover(){
 	console.log(track_list)
 	clearInterval(animation_interval)
 	clearInterval(interval)
-    document.getElementById("game_page").style.display = "none"
+    // document.getElementById("game_page").style.display = "none"
     document.getElementById("gameover_page").style.display = "block"
     
     playerScore = score
@@ -789,6 +789,7 @@ function gameover(){
 			alert("Error: " + error.code + " " + error.message);
 		}
 	});
+
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
 	// for (var i = 0; i < song_you_played_array.length; i++) {
 	// gameEndAnimation = setInterval(appendNewSongToGameOver, 100)
@@ -797,12 +798,13 @@ function gameover(){
 		appendNewSongToGameOver()
 		toprec_index++
 	}
+	// console.log(toprec_index)
 }
 
 
 function appendNewSongToGameOver(){
 
-    console.log(document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML)
+    // console.log(document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML)
     // document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML 
     var ul_list = '<li class=" bg-trans "> ' +
                         '<div class="swipeout-content bg-trans item-content" id = "recommend' + toprec_index+'"> ' +
