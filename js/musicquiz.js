@@ -724,7 +724,7 @@ function gameover(){
 	console.log(track_list)
 	clearInterval(animation_interval)
 	clearInterval(interval)
-    document.getElementById("game_page").style.display = "none"
+    // document.getElementById("game_page").style.display = "none"
     document.getElementById("gameover_page").style.display = "block"
     
     playerScore = score
