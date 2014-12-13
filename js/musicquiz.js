@@ -1,7 +1,7 @@
 var playlist = ""
 var correct = ""
 var ongoing = false
-var epsilon = 0.5
+var epsilon = 0.7
 var point
 var geoX
 var geoY
@@ -97,171 +97,150 @@ var mainView = myApp.addView('.view-main', {
 **                                  **
 *************************************/
 function login(){
-// http://rayxiao92.github.io/phongo/musicquiz#access_token=BQAxugJMVVtL2kKtle4v8RF-39hgRS47_9-BNGTuqcc4wzuOwyX6g_aZm3KPnUYXsDQ2AWQMOWCxOdQ7Ou_CMZK_G_QJBZU90qRTes0Mmeri85X8P9eVOOpW4X0QgQneRbZoE6sIRwN7BCp0xyey8GML-_toxHwFz3n7vi8&token_type=Bearer&expires_in=3600&state=123
 	console.log("login is here")
-	// window.location.replace('https://accounts.spotify.com/us/authorize?client_id=387eed5965554d30a5050e8a46a36133&redirect_uri=http:%2F%2Frayxiao92.github.com%2Fphongo%2Fmusicquiz&scope=user-read-private%20user-read-email&response_type=token&state=123');
-// 	$.ajax({
-//    url: 'https://api.spotify.com/v1/users/spotify/playlists/0186RkeoJsHWEQy0ssDAus/tracks',
-//    headers: {
-//        'Authorization': 'Bearer ' + 'BQAcGPBrXvnXm9nDH6RXJnkr96NCXnJx9dsIRqL_UGH0vqM3Biv87NNR_6PHuMSSuuqTwHzTd06mw9gLMwkq0ICMEPwBeLsiJQShF5iVU8nGjVRn_RKGwGnq3iS8c3OSOb90P5xY-LcJBfl_ecyC3_6Vi_6jyduzi5BrsiI'
-//    },
-//    success: function(response) {
-//        console.log(response)
-//    }
-// });
-// 	// $.getJSON( "https://accounts.spotify.com/us/authorize?client_id=387eed5965554d30a5050e8a46a36133&redirect_uri=http:%2F%2Frayxiao92.github.com%2Fphongo%2Fmusicquiz&scope=user-read-private%20user-read-email&response_type=token&state=123", function( data ) {
-// 	//   // $( ".result" ).html( data );
-// 	//   console.log(data);
-// 	//   alert( "Load was performed." );
-// 	// });
 }
 
+// This function generates a game episode using one artist's name
 function genGame(artistName) {
+	// UI initilization
 	document.getElementById("scoreboard").innerHTML = Math.round(score)
 	document.getElementById("gameover_page").style.display = "none"
 	document.getElementById("login_page").style.display = "none"
 	document.getElementById("game_page").style.display = "block"
+
+	// if genGame is clicked again after last click, 
+	// do not load twice
 	if (ongoing == true){
 		return
 	}
 
-		
+	// Variable initialization
 	ongoing = true
 	seedArtist = artistName
+	// track_list stores the music information in this episode
 	track_list = []
 	streak_correct = 0
 	song_you_played_array = []
-	// artistName = "莫文蔚"
 
 	DifficultyIndex = Parse.Object.extend("DifficultyIndex");
-	
-	// firstDiffIndexQuery = new DifficultyIndex();
-	// Find the arm with best reward
+
+
+	// Go to the database and find the arm with best reward
 	var query = new Parse.Query(DifficultyIndex);
 	query.descending("avgReward");
 	query.limit(1)
 	query.find({
-	  success: function(results) {
-	    console.log("Successfully retrieved ratio" + results.length + " scores.");
-	    // Do something with the returned Parse.Object values
-	    for (var i = 0; i < results.length; i++) { 
-	      firstDiffIndexQuery = results[i];
-	      ratio = firstDiffIndexQuery.get("difficultyIndex")
-	      if (Math.random() > epsilon) {
-	      	ratio = Math.round(Math.random()*10)/10
-	      	console.log(ratio + " explore")
-	      	var query = new Parse.Query(DifficultyIndex);
-	      	query.equalTo("difficultyIndex", ratio);
-	      	query.find({
-			  success: function(results) {
-			    // alert("Successfully retrieved " + results.length + " scores.");
-			    // Do something with the returned Parse.Object values
-			    for (var i = 0; i < results.length; i++) { 
-			      // var object = results[i];
-			      firstDiffIndexQuery = results[i]
-			      // alert(object.id + ' - ' + object.get('playerName'));
-			    }
-			    console.log(ratio)
-			      pC = firstDiffIndexQuery.get("playedCount")
-			      pC += 1
-			      rew = firstDiffIndexQuery.get("reward")
-			      var aR = rew / pC
-			      firstDiffIndexQuery.save({
-					  difficultyIndex: ratio,
-					  playedCount: pC, 
-					  avgReward: aR
-					}, {
-					  success: function(firstDiffIndexQuery) {
-					  	console.log("success_update_diff")
-					    // The object was saved successfully.
-					  },
-					  error: function(firstDiffIndexQuery, error) {
-					    // The save failed.
-					    console.log("ehh_diff")
-					    // error is a Parse.Error with an error code and message.
-					  }
-					});	 
-					  },
-					  error: function(error) {
-					    console("Error: " + error.code + " " + error.message);
-					  }
+		success: function(results) {
+	    	console.log("Successfully retrieved ratio " + results.length + " scores.");
+	    	for (var i = 0; i < results.length; i++) { 
+	    		firstDiffIndexQuery = results[i];
+	    		ratio = firstDiffIndexQuery.get("difficultyIndex")
+	    		if (Math.random() > epsilon) {
+			      	// e-greedy part: exploring
+			  		// randomly use a new ratio
+			      	ratio = Math.round(Math.random()*10)/10
+			      	console.log(ratio + " explore")
+			      	var query = new Parse.Query(DifficultyIndex);
+			      	query.equalTo("difficultyIndex", ratio);
+			      	query.find({
+						success: function(results) {
+						  	// results.length should be 1
+						    for (var i = 0; i < results.length; i++) { 
+						      firstDiffIndexQuery = results[i]
+						    }
+						    console.log(ratio)
+						    pC = firstDiffIndexQuery.get("playedCount")
+						    pC += 1
+						    rew = firstDiffIndexQuery.get("reward")
+						    var aR = rew / pC
+						      // increment playCount of this difficulty level in the database
+						    firstDiffIndexQuery.save({
+								difficultyIndex: ratio,
+								playedCount: pC, 
+								avgReward: aR
+							}, {
+								success: function(firstDiffIndexQuery) {
+								  	console.log("success_update_diff")
+								    // The object was saved successfully.
+								},
+								error: function(firstDiffIndexQuery, error) {
+								    // The save failed.
+								    console.log("ehh_diff")
+								    // error is a Parse.Error with an error code and message.
+								}
+							});	 
+						},
+						error: function(error) {
+							console("Error: " + error.code + " " + error.message);
+						}
 					});
-	      } else {
-
-	      	console.log(ratio + " not explore")
-		      pC = firstDiffIndexQuery.get("playedCount")
-		      pC += 1
-		      rew = firstDiffIndexQuery.get("reward")
-		      var aR = rew / pC
-		      firstDiffIndexQuery.save({
-				  difficultyIndex: ratio,
-				  playedCount: pC, 
-				  avgReward: aR
-				}, {
-				  success: function(firstDiffIndexQuery) {
-				  	console.log("success_update_diff")
-				    // The object was saved successfully.
-				  },
-				  error: function(firstDiffIndexQuery, error) {
-				    // The save failed.
-				    console.log("ehh_diff")
-				    // error is a Parse.Error with an error code and message.
-				  }
-				});	 
-	      }
-     
-
-	    }
-	  },
-	  error: function(error) {
-	    console.log("Error: " + error.code + " " + error.message);
-	  }
+	    		} else {
+			      	// e-greedy part: exploiting
+			      	console.log(ratio + " not explore")
+				    pC = firstDiffIndexQuery.get("playedCount")
+				    pC += 1
+				    rew = firstDiffIndexQuery.get("reward")
+				    var aR = rew / pC
+				      // increment playCount of this difficulty level in the database
+				    firstDiffIndexQuery.save({
+						difficultyIndex: ratio,
+						playedCount: pC, 
+						avgReward: aR
+					}, {
+						success: function(firstDiffIndexQuery) {
+				  		console.log("success_update_diff")
+				   	 // The object was saved successfully.
+				  		},
+				  		error: function(firstDiffIndexQuery, error) {
+				    		// The save failed.
+				   		console.log("ehh_diff")
+						}
+					});	 
+	      		}
+	    	}
+	  	},
+		error: function(error) {
+	    	console.log("Error: " + error.code + " " + error.message);
+		}
 	});
-
+	// Load main artist's tracks
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
-		console.log(data.results)
-
 		// Get Appointed Artist's track
 		musicTrackFromMainArtist = data.results
 		musicTrackFromRelatedArtist = []
-		console.log(musicTrackFromMainArtist)
 		// Get related Artist's name
 		// get appointed artist's id from echonest
 		request = $.getJSON('http://developer.echonest.com/api/v4/artist/search?api_key=J8CEMYYSDCWPWAAMD&format=json&name=' + artistName +'&results=10', function(data){
 			mainArtistId = data.response.artists[0]["id"]
 			mainArtistName = data.response["name"]
+			// get similar artists information
 			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=20&start=0', function(data) {
 				relatedArtists = data.response.artists
 				relatedArtists = shuffleArray(relatedArtists)
-				console.log(relatedArtists)
 				minRatioList = Math.min(ratio * 10, relatedArtists.length)
-				// for (var i = 0; i < minRatioList; i++){
-					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[0]["name"] +'&entityTrack=music&callback=?', function(data) {
-						console.log(data.results)
+				// get the first related artist
+				request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[0]["name"] +'&entityTrack=music&callback=?', function(data) {
+					musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
+					// get the second related artist
+					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[1]["name"] +'&entityTrack=music&callback=?', function(data) {
 						musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
-						request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[1]["name"] +'&entityTrack=music&callback=?', function(data) {
-						// if (i == ratio * 10){
-							musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
-							console.log(musicTrackFromRelatedArtist)
-							genGameWithTwoArray(musicTrackFromMainArtist,musicTrackFromRelatedArtist,ratio)
-						// }
-						});
+						console.log(musicTrackFromRelatedArtist)
+						// generate playlist
+						genGameWithTwoArray(musicTrackFromMainArtist,musicTrackFromRelatedArtist,ratio)
 					});
-				// }
-				// musicTrackFromMainArtist = 
-				// musicTrackFromRelatedArtist = 
+				});
 			});
 		});
 	});
 }
+// This function generates a playlist by mixing a list of songs from the main artist
+// and a list of songs from related artists using the given ratio
 function genGameWithTwoArray(main, rel, ratio){
 	track_list = []
-	console.log(main.length)
-	console.log(rel.length)
+	// load playlist using the ratio given
 	for (i = 0; i< maxSongInList; i++) {
 		if (Math.random() > ratio) {
 			index = getRandomInt(0, main.length-1)
-
 			track_list = track_list.concat(main[index])
 			main.splice(index,1)
 		} else {
@@ -273,16 +252,11 @@ function genGameWithTwoArray(main, rel, ratio){
 	false_option = []
 	false_option = false_option.concat(main)
 	false_option = false_option.concat(rel)
-	console.log(main.length)
-	console.log(rel.length)
-	console.log(false_option.length)
-	console.log(track_list.length)
 	score = 0
 	document.getElementById("scoreboard").innerHTML = Math.round(score)
 	document.getElementById("gameover_page").style.display = "none"
 	document.getElementById("login_page").style.display = "none"
 	document.getElementById("game_page").style.display = "block"
-
 	loaddata()	
 }
 function recursiveRecommendListUpdate(artistsArray, htmlText){
@@ -290,10 +264,10 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		console.log(htmlText)
 		document.getElementById("sliderRecommend").innerHTML = htmlText
 		mySlider2 = myApp.slider('.slider-2', {
-		  pagination:'.slider-2 .slider-pagination',
-		  speed: 200,
-		  spaceBetween: 20,
-		  slidesPerView: 3
+			pagination:'.slider-2 .slider-pagination',
+			speed: 200,
+			spaceBetween: 20,
+			slidesPerView: 3
 		});
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
 		$('.slider-slide-img').height($('.slider-slide-img').width())
@@ -309,16 +283,8 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
                      '</div>'+
                    '</div>'
         htmlText += recommendListHTMLTextSingle
-        console.log(artistsArray)
-        // if (artistsArray.length == 5){
-        // 	// $(".recommend-list").css('background-image', 'url(' + data.results[0]["artworkUrl100"] + ')');
-        // 	$(".recommend-list").css('background-image', 'url("'+data.results[0]["artworkUrl100"]+'"), -webkit-gradient(linear, left top, left bottom, from(#6cab26), to(#6ceb86));')
-        // }
         artistsArray.shift()
-
         return recursiveRecommendListUpdate(artistsArray, htmlText)
-        recommendListHTMLText += recommendListHTMLTextSingle
-        // console.log(recommendListHTMLText)
 	});
 }
 function onload_function(){
@@ -336,11 +302,8 @@ function onload_function(){
 	}
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
 	artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
-	// artistsArray = ["Bill Withers", "George Clinton", "Jimmy Hendrix", "Trombone Shorty", "Anamanaguchi"]	
-	// artistsArray = ["王力宏", "周杰伦", "莫文蔚", "john legend", "五月天"]
 	recommendListHTMLText = ""
 	recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
-
 }
 function pass_this() {
 	gameloop()
@@ -369,11 +332,7 @@ function play(input_mode){
 function select_choice (choice){
 	if (freeze == 1 ) {
 		return
-	}
-
-	
-
-	
+	}	
 	console.log(mode)
 	select = document.getElementById("button"+choice).getElementsByTagName("span")[0].innerHTML
 	correctPercent = (numCorrectGuess+ (select == correct)*1)/ ithgame
@@ -561,6 +520,7 @@ function gameloop(){
 // }
 function goBackToHome(){
 	audio_buffer[ithgame-1].pause()
+	// Update game data as the player returns
     secondGameScore.destroy({
 	  success: function(secondGameScore) {
 	  	console.log("first is destroyed")
@@ -576,37 +536,38 @@ function goBackToHome(){
 	playedAgain = true
     // var point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
 	finalGameScore.save({
-	  score: playerScore,
-	  accuracy: correctPercent, 
-	  playerName: username,
-	  playerEmail: userEmail, 
-	  seedArtist: seedArtist,
-	  difficultyIndex: ratio, 
-	  trackInfo: track_list,
-	  playerReturns: playedAgain,
-	  location: point
+		score: playerScore,
+		accuracy: correctPercent, 
+		playerName: username,
+		playerEmail: userEmail, 
+		seedArtist: seedArtist,
+		difficultyIndex: ratio, 
+		trackInfo: track_list,
+		playerReturns: playedAgain,
+		location: point
 	}, {
-	  success: function(finalGameScore) {
-	  	console.log("success final")
-	    // The object was saved successfully.
-	  },
-	  error: function(finalGameScore, error) {
-	    // The save failed.
-	    console.log("ehh")
-	    // error is a Parse.Error with an error code and message.
-	  }
+		success: function(finalGameScore) {
+			console.log("success final")
+		// The object was saved successfully.
+		},
+		error: function(finalGameScore, error) {
+		// The save failed.
+			console.log("ehh")
+		// error is a Parse.Error with an error code and message.
+		}
 	});
     firstDiffIndexQuery.destroy({
-	  success: function(firstDiffIndexQuery) {
-	  	console.log("firstDiffIndexQuery is destroyed")
-	    // The object was deleted from the Parse Cloud.
-	  },
-	  error: function(firstDiffIndexQuery, error) {
-	    // The delete failed.
-	    console.log("firstDiffIndexQuery is notttt destroyed")
-	    // error is a Parse.Error with an error code and message.
-	  }
+		success: function(firstDiffIndexQuery) {
+			console.log("firstDiffIndexQuery is destroyed")
+			// The object was deleted from the Parse Cloud.
+		},
+		error: function(firstDiffIndexQuery, error) {
+			// The delete failed.
+			console.log("firstDiffIndexQuery is notttt destroyed")
+			// error is a Parse.Error with an error code and message.
+		}
 	});
+	// Update the action value of the bandit
 	rew += 1
 	aR = rew / pC
 	secondDiffIndexQuery = new DifficultyIndex()
@@ -616,47 +577,45 @@ function goBackToHome(){
 		reward: rew, 
 		avgReward: aR
 	}, {
-	  success: function(secondDiffIndexQuery) {
-	  	console.log("success final secondDiffIndexQuery")
-	    // The object was saved successfully.
-	  },
-	  error: function(secondDiffIndexQuery, error) {
-	    // The save failed.
-	    console.log("ehh_update secondDiffIndexQuery")
-	    // error is a Parse.Error with an error code and message.
-	  }
+	success: function(secondDiffIndexQuery) {
+		console.log("success final secondDiffIndexQuery")
+		// The object was saved successfully.
+	},
+	error: function(secondDiffIndexQuery, error) {
+		// The save failed.
+		console.log("ehh_update secondDiffIndexQuery")
+		// error is a Parse.Error with an error code and message.
+	}
 	});
-
 	document.getElementById("game_page").style.display = "none"
     document.getElementById("login_page").style.display = "block"
     document.getElementById("gameover_page").style.display = "none"
 }
 function loaddata() {
+	// Insert a row to game data as the game starts
+	// record the game with playedAgain = false and no score object by default
 	playedAgain = false
-	// queryID = gameScore.id
-	// console.log(queryID)
-    // point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
     GameScore = Parse.Object.extend("GameScore");
 
 	firstGameScore = new GameScore();
 	firstGameScore.save({
-	  playerName: username,
-	  playerEmail: userEmail, 
-	  seedArtist: seedArtist,
-	  difficultyIndex: ratio, 
-	  trackInfo: track_list,
-	  playerReturns: playedAgain,
-	  location: point
+		playerName: username,
+		playerEmail: userEmail, 
+		seedArtist: seedArtist,
+		difficultyIndex: ratio, 
+		trackInfo: track_list,
+		playerReturns: playedAgain,
+		location: point
 	}, {
-	  success: function(firstGameScore) {
-	  	console.log("success_first")
-	    // The object was saved successfully.
-	  },
-	  error: function(firstGameScore, error) {
-	    // The save failed.
-	    console.log("ehh_1")
-	    // error is a Parse.Error with an error code and message.
-	  }
+	success: function(firstGameScore) {
+		console.log("success_first")
+		// The object was saved successfully.
+	},
+	error: function(firstGameScore, error) {
+		// The save failed.
+		console.log("ehh_1")
+		// error is a Parse.Error with an error code and message.
+	}
 	});
 	
 	console.log(track_list)
@@ -668,11 +627,6 @@ function loaddata() {
 		next_url = track_list[i]["previewUrl"]
 		audio_buffer[i] = new Audio(next_url)
 	}
-	// fake_number = getFourIndexFromArray(ithgame)
-	// play_index = getRandomInt(0,3)
-
-
-	// next_audio.preload = "auto"
 	clearInterval(interval)
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
@@ -683,17 +637,12 @@ function animation(){
 	if (ithgame > maxSongInList) {
 		gameover()
 	}
-	// if (cur_time.getTime() > d_end.getTime()){
-	// 	gameover()
-	// }
 	else{
 		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
 		unit_percent = Math.round((unit_d_end.getTime() - cur_time.getTime())/ singleSongPlayTimeInMs * 100)
-		// console.log("unit_percent: "+unit_percent)
 		if (percent >= 100) {
 			percent = 100
 		}
-		// console.log(percent)
 		percent = percent.toString()
 		document.getElementById("scorebar").style.width = unit_percent+"%"
 		if (percent < 30){
@@ -703,7 +652,6 @@ function animation(){
 		}
 		document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
 		$('#play-artwork-img').height($("#play-artwork-img").width())
-		
 	}
 	if (madeit == 1) {
 		// console.log(madeit_mult)
@@ -721,14 +669,14 @@ function gameover(){
 	correctPercent = numCorrectGuess / maxSongInList
 	console.log("done")
 	ongoing = false
-	console.log(track_list)
 	clearInterval(animation_interval)
 	clearInterval(interval)
     document.getElementById("game_page").style.display = "none"
     document.getElementById("gameover_page").style.display = "block"
     
+    // destroy the previous game data and generate a new one
+    // since the player finishes the game
     playerScore = score
-    // GameScore = Parse.Object.extend("GameScore");
     firstGameScore.destroy({
 	  success: function(firstGameScore) {
 	  	console.log("first is destroyed")
@@ -741,18 +689,16 @@ function gameover(){
 	  }
 	});
 	secondGameScore = new GameScore();
-
-    // var point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
 	secondGameScore.save({
-	  score: playerScore,
-	  accuracy: correctPercent, 
-	  playerName: username,
-	  playerEmail: userEmail, 
-	  seedArtist: seedArtist,
-	  difficultyIndex: ratio, 
-	  trackInfo: track_list,
-	  playerReturns: playedAgain,
-	  location: point
+		score: playerScore,
+		accuracy: correctPercent, 
+		playerName: username,
+		playerEmail: userEmail, 
+		seedArtist: seedArtist,
+		difficultyIndex: ratio, 
+		trackInfo: track_list,
+		playerReturns: playedAgain,
+		location: point
 	}, {
 	  success: function(secondGameScore) {
 	  	console.log("success_go")
@@ -791,14 +737,11 @@ function gameover(){
 	});
 
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
-	// for (var i = 0; i < song_you_played_array.length; i++) {
-	// gameEndAnimation = setInterval(appendNewSongToGameOver, 100)
 	toprec_index = 0
 	while (toprec_index < maxSongInList){
 		appendNewSongToGameOver()
 		toprec_index++
 	}
-	// console.log(toprec_index)
 }
 
 
