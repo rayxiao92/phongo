@@ -1,7 +1,7 @@
 var playlist = ""
 var correct = ""
 var ongoing = false
-var epsilon = 0.7
+var epsilon = 0.
 var point
 var geoX
 var geoY
@@ -626,6 +626,7 @@ function loaddata() {
 	for (i = 0; i < maxSongInList; i++) {
 		next_url = track_list[i]["previewUrl"]
 		audio_buffer[i] = new Audio(next_url)
+		audio_buffer[i].load()
 	}
 	clearInterval(interval)
 	gameloop()
