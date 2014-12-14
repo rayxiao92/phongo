@@ -84,7 +84,7 @@ var paneltyTimeInMs = 0
 var rewardTimeInMs = 0
 var animationRateInMs = 300
 var totalGameTimeInMs = 60000
-var maxSongInList = 10
+var maxSongInList = 8
 var delayMultipleForCorrectEffect = 2
 // Add view
 var mainView = myApp.addView('.view-main', {
@@ -102,6 +102,10 @@ function login(){
 	console.log("login is here")
 }
 
+function search_play(){
+	console.log(document.getElementById("searchbox_home").value)
+	genGame(document.getElementById("searchbox_home").value)
+}
 // This function generates a game episode using one artist's name
 function genGame(artistName) {
 	// UI initilization
@@ -208,11 +212,13 @@ function genGame(artistName) {
 	// Load main artist's tracks
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
 		// Get Appointed Artist's track
+		console.log(data)
 		musicTrackFromMainArtist = data.results
 		musicTrackFromRelatedArtist = []
 		// Get related Artist's name
 		// get appointed artist's id from echonest
 		request = $.getJSON('http://developer.echonest.com/api/v4/artist/search?api_key=J8CEMYYSDCWPWAAMD&format=json&name=' + artistName +'&results=10', function(data){
+
 			mainArtistId = data.response.artists[0]["id"]
 			mainArtistName = data.response["name"]
 			// get similar artists information
@@ -226,6 +232,7 @@ function genGame(artistName) {
 					// get the second related artist
 					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[1]["name"] +'&entityTrack=music&callback=?', function(data) {
 						musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
+						console.log(musicTrackFromMainArtist)
 						console.log(musicTrackFromRelatedArtist)
 						// generate playlist
 						genGameWithTwoArray(musicTrackFromMainArtist,musicTrackFromRelatedArtist,ratio)

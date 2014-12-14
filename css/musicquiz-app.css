@@ -491,6 +491,15 @@ span.text-content span {
 	color: #BBB;
 }
 
+
+/* Search & play */
+#searchbox_home {
+	border:none;
+	background: transparent;
+	color:white;
+	font-size: inherit;
+}
+
 @-webkit-keyframes blurFadeInOut{
 	0%{
 		opacity: 0;
