@@ -222,10 +222,10 @@ function genGame(artistName) {
 			mainArtistId = data.response.artists[0]["id"]
 			mainArtistName = data.response["name"]
 			// get similar artists information
-			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=20&start=0', function(data) {
+			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=15&start=0', function(data) {
 				relatedArtists = data.response.artists
 				relatedArtists = shuffleArray(relatedArtists)
-				minRatioList = Math.min(ratio * 10, relatedArtists.length)
+				minRatioList = Math.min(Math.round(ratio * maxSongInList), relatedArtists.length)
 				// get the first related artist
 				request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[0]["name"] +'&entityTrack=music&callback=?', function(data) {
 					musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
@@ -417,7 +417,7 @@ function select_choice (choice){
 }
 function gameloop(){
 	console.log(ratio)
-	if(ithgame == 10){
+	if(ithgame == maxSongInList){
 		gameover()
 		return
 	}
@@ -686,6 +686,9 @@ function gameover(){
     
     // destroy the previous game data and generate a new one
     // since the player finishes the game
+    for (i in relatedArtists) {
+    	console.log(i)
+    }
     playerScore = score
     firstGameScore.destroy({
 	  success: function(firstGameScore) {
@@ -892,14 +895,17 @@ function buildSongArrayQuery() {
 function getFourIndexFromArray (toInclude){
 	// generate wrong answers
 	var targetArray = new Array()
-	indexArray = [0,1,2,3,4,5,6,7,8,9]
-	for (i = 0; i< 10; i++) {
+	indexArray = []
+	for (i = 0; i< maxSongInList; i++) {
+		indexArray.push(i)
+	}
+	for (i = 0; i< maxSongInList; i++) {
 		if (indexArray[i] == toInclude) {
 			indexArray.splice(i,1)
 		}
 	}
 	indexArray = shuffleArray(indexArray)
-	for (i = 0; i < 6; i++){
+	for (i = 0; i < maxSongInList-4; i++){
 		indexArray.shift()
 	}
 	indexArray.push(toInclude)
