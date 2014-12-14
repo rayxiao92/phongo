@@ -25,7 +25,9 @@ var prepage_id = ""
 var next_audio = new Audio()
 var audio_buffer = new Array()
 var beep_audio = new Audio("smw_coin.wav")
+beep_audio.load()
 var wrong_audio = new Audio ("smw_yoshi_spit.wav")
+wrong_audio.load()
 var a = new Audio()
 var track_url;
 var track_list;
