@@ -141,9 +141,11 @@ function genGame(artistName) {
 	    	for (var i = 0; i < results.length; i++) { 
 	    		firstDiffIndexQuery = results[i];
 	    		ratio = firstDiffIndexQuery.get("difficultyIndex")
+	    		ratio = 0
 	    		if (Math.random() > epsilon) {
 			      	// e-greedy part: exploring
 			  		// randomly use a new ratio
+			  		ratio = 0
 			      	ratio = Math.round(Math.random()*10)/10
 			      	console.log(ratio + " explore")
 			      	var query = new Parse.Query(DifficultyIndex);
