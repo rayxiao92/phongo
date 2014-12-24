@@ -79,7 +79,7 @@ var ithgame = 0
 var score = 0
 var incorrect_guess = 0
 var streak_correct = 0
-var singleSongPlayTimeInMs = 30000
+var singleSongPlayTimeInMs = 10000
 var paneltyTimeInMs = 0
 var rewardTimeInMs = 0
 var animationRateInMs = 300
@@ -109,10 +109,12 @@ function search_play(){
 // This function generates a game episode using one artist's name
 function genGame(artistName) {
 	// UI initilization
+
 	document.getElementById("scoreboard").innerHTML = Math.round(score)
 	document.getElementById("gameover_page").style.display = "none"
 	document.getElementById("login_page").style.display = "none"
-	document.getElementById("game_page").style.display = "block"
+
+	document.getElementById("loading_page").style.display = "block"
 
 	// if genGame is clicked again after last click, 
 	// do not load twice
@@ -147,6 +149,7 @@ function genGame(artistName) {
 			  		// randomly use a new ratio
 			  		ratio = 0
 			      	ratio = Math.round(Math.random()*10)/10
+			      	ratio = 0
 			      	console.log(ratio + " explore")
 			      	var query = new Parse.Query(DifficultyIndex);
 			      	query.equalTo("difficultyIndex", ratio);
@@ -267,6 +270,7 @@ function genGameWithTwoArray(main, rel, ratio){
 	document.getElementById("scoreboard").innerHTML = Math.round(score)
 	document.getElementById("gameover_page").style.display = "none"
 	document.getElementById("login_page").style.display = "none"
+	document.getElementById("loading_page").style.display = "none"
 	document.getElementById("game_page").style.display = "block"
 	loaddata()	
 }
@@ -350,6 +354,7 @@ function select_choice (choice){
 	track_list[ithgame-1]["correct"] = (select == correct)
 	if (select == correct){
 		beep_audio.play()
+
 		for (i = 0; i < 4; i++) {
 			if (document.getElementById("button"+i).getElementsByTagName("span")[0].innerHTML == correct ){
 				document.getElementById("button"+i).style.color = "green"
@@ -362,15 +367,20 @@ function select_choice (choice){
 		freeze = 1
 		clearInterval(interval)
 		// gameloop()
-		// interval  = setInterval(gameloop, singleSongPlayTimeInMs); 	
-		score = score + streak_correct
+		// interval  = setInterval(gameloop, singleSongPlayTimeInMs); 
+		newScore = 20 - Math.round((cur_time.getTime() - unit_d_start.getTime())/1000)
+		score = score + newScore
 		madeit = 1
 		console.log(streak_correct)
 		document.getElementById("scorebar").style.color = "green"
 		document.getElementById("scoreboard").style.color = "#4CD964"
-		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(correctPercent*100) +'%'
+		document.getElementById("scoreboard").innerHTML = Math.round(score)
 		
 		cur_time = new Date()
+		
+		// console.log(10-Math.round((cur_time.getTime() - unit_d_start.getTime())/1000))
+
+
 		var diff_time = totalGameTimeInMs - (d_end.getTime() - cur_time.getTime())
 		console.log(diff_time)
 		console.log(rewardTimeInMs * streak_correct)
@@ -384,7 +394,7 @@ function select_choice (choice){
 		}
 		
 		var plusone = document.createElement('span')
-		plusone.innerHTML = " +" +streak_correct
+		plusone.innerHTML = " +" + newScore
 		plusone.className = "fadeaway"
 		document.getElementById("scoreboard").appendChild(plusone)
 		setTimeout(function(){
@@ -406,7 +416,7 @@ function select_choice (choice){
 				break
 			} 
 		}
-		document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(correctPercent*100) +'%'
+		document.getElementById("scoreboard").innerHTML = Math.round(score)
 		clearInterval(interval)
 		freeze = 1
 		setTimeout(function(){
@@ -635,7 +645,7 @@ function loaddata() {
 	d_start = new Date()
 	d_end = new Date(d_start.getTime() + totalGameTimeInMs)
 	for (i = 0; i < maxSongInList; i++) {
-		next_url = track_list[i]["previewUrl"]
+		next_url = track_list[i]["previewUrl"] + "?timeStamp=" + new Date().getTime();
 		audio_buffer[i] = new Audio(next_url)
 		audio_buffer[i].load()
 	}
@@ -668,8 +678,7 @@ function animation(){
 	if (madeit == 1) {
 		// console.log(madeit_mult)
 		if (madeit_mult > delayMultipleForCorrectEffect) {
-			document.getElementById("scoreboard").innerHTML = Math.round(score) + ' ' + Math.round(correctPercent*100) +'%'
-			document.getElementById("scoreboard").style.color = "white"
+			document.getElementById("scoreboard").innerHTML = Math.round(score)
 			madeit = 0
 			madeit_mult = 0
 		} else {
