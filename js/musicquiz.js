@@ -19,11 +19,12 @@ var firstDiffIndexQuery
 var secondDiffIndexQuery
 var interval;
 var playedAgain = 0
-var ratio = 0.9
+var ratio = 0
 var correctPercent = 0
 var prepage_id = ""
 var next_audio = new Audio()
 var audio_buffer = new Array()
+var realAudio = new Array()
 var beep_audio = new Audio("smw_coin.wav")
 beep_audio.load()
 var wrong_audio = new Audio ("smw_yoshi_spit.wav")
@@ -67,11 +68,13 @@ var toprec_index = 0
 // Export selectors engine
 var $$ = Dom7;
 var friendList;
-
+var globalIndex;
 var musicTrackFromRelatedArtist
 var musicTrackFromMainArtist
 
-
+var loadNextTrack
+var validNum = 0
+var startFlag = false
 // Some constants initialization
 var songarray = ""
 var mode = "arcade"
@@ -129,6 +132,11 @@ function genGame(artistName) {
 	track_list = []
 	streak_correct = 0
 	song_you_played_array = []
+	realAudio = []
+	audio_buffer = []
+	globalIndex = 0
+	validNum = 0
+	startFlag = false
 
 	DifficultyIndex = Parse.Object.extend("DifficultyIndex");
 
@@ -247,32 +255,87 @@ function genGame(artistName) {
 		});
 	});
 }
-// This function generates a playlist by mixing a list of songs from the main artist
-// and a list of songs from related artists using the given ratio
-function genGameWithTwoArray(main, rel, ratio){
-	track_list = []
-	// load playlist using the ratio given
-	for (i = 0; i< maxSongInList; i++) {
+function keepTrackOfAudio (audioItem, arrayItem, main, rel) {
+	audioItem.oncanplaythrough = function (){
+		console.log("good!")
+		validNum++
+		if (track_list.length < maxSongInList){
+			track_list = track_list.concat(arrayItem)
+			realAudio = realAudio.concat(audioItem)
+			console.log(track_list)			
+		} else {
+			if (startFlag == false) {
+				startFlag = true
+				false_option = []
+				false_option = false_option.concat(main)
+				false_option = false_option.concat(rel)
+				score = 0
+				document.getElementById("scoreboard").innerHTML = Math.round(score)
+				document.getElementById("gameover_page").style.display = "none"
+				document.getElementById("login_page").style.display = "none"
+				document.getElementById("loading_page").style.display = "none"
+				document.getElementById("game_page").style.display = "block"
+				loaddata()					
+			}
+
+		}
+
+	}	
+}
+function addValidTrack (main, rel, ratio, i) {
+	console.log(globalIndex)
+	console.log(track_list)
+	console.log(track_list.length)
+	console.log(maxSongInList)
+	var index;
+	
+	if (track_list.length >= maxSongInList) {
+		// stop
+
+	} else {
+		var targetArray;
+		
 		if (Math.random() > ratio) {
 			index = getRandomInt(0, main.length-1)
-			track_list = track_list.concat(main[index])
-			main.splice(index,1)
-		} else {
+			targetArray = main
+		} 
+		else {
 			index = getRandomInt(0, rel.length-1)
-			track_list = track_list.concat(rel[index])
-			rel.splice(index,1)
+			targetArray = rel
 		}
+		console.log(targetArray)
+		next_url = targetArray[index]["previewUrl"]
+		audio_buffer[globalIndex] = new Audio(next_url)
+		
+		keepTrackOfAudio(audio_buffer[globalIndex], targetArray[index], main, rel)
+		targetArray.splice(index,1)
+	// audio_buffer[globalIndex].oncanplaythrough = function (){
+	// 	console.log("good!")
+	// 	track_list = track_list.concat(targetArray[globalIndex])
+	// 	console.log(track_list)
+	// }
+		globalIndex++
 	}
-	false_option = []
-	false_option = false_option.concat(main)
-	false_option = false_option.concat(rel)
-	score = 0
-	document.getElementById("scoreboard").innerHTML = Math.round(score)
-	document.getElementById("gameover_page").style.display = "none"
-	document.getElementById("login_page").style.display = "none"
-	document.getElementById("loading_page").style.display = "none"
-	document.getElementById("game_page").style.display = "block"
-	loaddata()	
+}
+function addValidTrackWrapper (main, rel, ratio, globalIndex) {
+	loadNextTrack = setTimeout(addValidTrack(main, rel, ratio, globalIndex), 1000)
+}
+// This function generates a playlist by mixing a list of songs from the main artist
+// and a list of songs from related artists using the given ratio
+function genGameWithTwoArray(main, rel, ratio, i){
+	track_list = []
+	// load playlist using the ratio given
+	globalIndex = 0
+	var fullList = false;
+	// for (globalIndex = 0; globalIndex < )
+	addValidTrack(main, rel, ratio, globalIndex)
+	while (validNum < maxSongInList) {
+
+		addValidTrackWrapper (main, rel, ratio, globalIndex)
+	}
+		console.log("stop")
+		
+
 }
 function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
@@ -440,7 +503,7 @@ function gameloop(){
 	unit_d_end = new Date(unit_d_start.getTime() + singleSongPlayTimeInMs)
 	// puase previous music stream
 	if (ithgame > 0) {
-		audio_buffer[ithgame-1].pause()
+		realAudio[ithgame-1].pause()
 	}
 
 	// a.pause()
@@ -491,8 +554,8 @@ function gameloop(){
 
 	// "correct" stores the correct answer of hte song name
 	correct = track_list[ithgame]["trackName"]
-	audio_buffer[ithgame].volume = 0.3
-	audio_buffer[ithgame].play()
+	realAudio[ithgame].volume = 0.3
+	realAudio[ithgame].play()
 
 	ithgame ++
 }
@@ -540,7 +603,7 @@ function gameloop(){
 // 	a.play()
 // }
 function goBackToHome(){
-	audio_buffer[ithgame-1].pause()
+	realAudio[ithgame-1].pause()
 	// Update game data as the player returns
     secondGameScore.destroy({
 	  success: function(secondGameScore) {
@@ -644,11 +707,9 @@ function loaddata() {
 	numCorrectGuess = 0
 	d_start = new Date()
 	d_end = new Date(d_start.getTime() + totalGameTimeInMs)
-	for (i = 0; i < maxSongInList; i++) {
-		next_url = track_list[i]["previewUrl"] + "?timeStamp=" + new Date().getTime();
-		audio_buffer[i] = new Audio(next_url)
-		audio_buffer[i].load()
-	}
+
+	// Loading track urls
+
 	clearInterval(interval)
 	gameloop()
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
@@ -688,6 +749,7 @@ function animation(){
 }
 function gameover(){
 	correctPercent = numCorrectGuess / maxSongInList
+
 	console.log("done")
 	ongoing = false
 	clearInterval(animation_interval)
@@ -697,9 +759,6 @@ function gameover(){
     
     // destroy the previous game data and generate a new one
     // since the player finishes the game
-    for (i in relatedArtists) {
-    	console.log(i)
-    }
     playerScore = score
     firstGameScore.destroy({
 	  success: function(firstGameScore) {
