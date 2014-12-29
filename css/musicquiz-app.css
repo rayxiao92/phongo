@@ -227,7 +227,7 @@
 }
 .topbar {
 	width:100%;
-	padding-top: 20px;
+	/*padding-top: 20px;*/
 }
 .in-game-portrait {
 	display:block;
@@ -236,44 +236,56 @@
 	border-style: solid;
 	border-color: white;
 	border-width: 2px;
-	width:40px;
-	height: 40px;
+	width:30px;
+	height: 30px;
 }
 
 #scorebar {
 	margin:0 auto;
 	border-bottom:solid;
 	width: 100%;
-	border-width: 4px;
-	margin-bottom: 3px;
-	border-radius: 3px;
+	border-width: 2px;
+	margin-bottom: 0px;
+	border-radius: 0px;
 }
 .color-scorebar-green {
 	color: rgba(64,117,4,0.80);
 }
-
+.no-padding {
+	padding: 0px;
+}
 .time-container {
-	margin-top:14px;
-	padding:4px 1px 1px 1px;
+/*	margin-top:14px;*/
+/*	padding:2px;*/
+	/*padding:1px 1px 1px 1px;*/
 	border-radius: 10px;
 	width: 100%;
 	background-color: #434447;
 }
 .play-artwork {
-
-	margin-top: 10px;
+	margin-top: -10px;
+	/*margin-top: 10px;*/
 }
 #play-artwork-img {
 	display:block;
-	width:50%;
+	width:100%;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
-	  filter: blur(10px);
-  -webkit-filter: blur(10px);
-  -moz-filter: blur(10px);
-}
 
+}
+.bg-blur {
+	filter: blur(5px);
+	-webkit-filter: blur(5px);
+	-moz-filter: blur(5px);
+	z-index: 499;
+}
+.bg-halftrans {
+	background-color:rgba(34,34,34,0.2);
+/*		  filter: blur(10px);
+  -webkit-filter: blur(10px);
+  -moz-filter: blur(10px);*/
+}
 
 /*** useful shit ***/
 
@@ -378,7 +390,7 @@
 }
 
 .song-selection {
-	padding-top: 15px;
+	padding-top: 5px;
 }
 .login-content-score {
 	text-align: left;

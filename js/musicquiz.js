@@ -223,7 +223,7 @@ function genGame(artistName) {
 		}
 	});
 	// Load main artist's tracks
-	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entityTrack=music&callback=?', function(data){
+	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entity=musicTrack&callback=?', function(data){
 		// Get Appointed Artist's track
 		console.log(data)
 		musicTrackFromMainArtist = data.results
@@ -240,10 +240,10 @@ function genGame(artistName) {
 				relatedArtists = shuffleArray(relatedArtists)
 				minRatioList = Math.min(Math.round(ratio * maxSongInList), relatedArtists.length)
 				// get the first related artist
-				request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[0]["name"] +'&entityTrack=music&callback=?', function(data) {
+				request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[0]["name"] +'&entity=musicTrack&attribute=allArtistTerm&country=hk&callback=?', function(data) {
 					musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
 					// get the second related artist
-					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[1]["name"] +'&entityTrack=music&callback=?', function(data) {
+					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[1]["name"] +'&entity=musicTrack&attribute=allArtistTerm&country=hk&callback=?', function(data) {
 						musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
 						console.log(musicTrackFromMainArtist)
 						console.log(musicTrackFromRelatedArtist)
@@ -288,37 +288,30 @@ function addValidTrack (main, rel, ratio, i) {
 	console.log(track_list.length)
 	console.log(maxSongInList)
 	var index;
-	
-	if (track_list.length >= maxSongInList) {
-		// stop
-
-	} else {
-		var targetArray;
-		
-		if (Math.random() > ratio) {
-			index = getRandomInt(0, main.length-1)
-			targetArray = main
-		} 
-		else {
-			index = getRandomInt(0, rel.length-1)
-			targetArray = rel
-		}
-		console.log(targetArray)
-		next_url = targetArray[index]["previewUrl"]
-		audio_buffer[globalIndex] = new Audio(next_url)
-		
-		keepTrackOfAudio(audio_buffer[globalIndex], targetArray[index], main, rel)
-		targetArray.splice(index,1)
-	// audio_buffer[globalIndex].oncanplaythrough = function (){
-	// 	console.log("good!")
-	// 	track_list = track_list.concat(targetArray[globalIndex])
-	// 	console.log(track_list)
-	// }
-		globalIndex++
+	var targetArray;
+	// Decide whether to add main or related artist
+	if (Math.random() > ratio) {
+		index = getRandomInt(0, main.length-1)
+		targetArray = main
+	} 
+	else {
+		index = getRandomInt(0, rel.length-1)
+		targetArray = rel
 	}
+	console.log(targetArray)
+	next_url = targetArray[index]["previewUrl"]
+	audio_buffer[globalIndex] = new Audio(next_url)
+	
+	keepTrackOfAudio(audio_buffer[globalIndex], targetArray[index], main, rel)
+	targetArray.splice(index,1)
+	globalIndex++
+	// }
 }
 function addValidTrackWrapper (main, rel, ratio, globalIndex) {
-	loadNextTrack = setTimeout(addValidTrack(main, rel, ratio, globalIndex), 1000)
+	if (validNum < maxSongInList) {
+		addValidTrack(main, rel, ratio, globalIndex)
+		loadNextTrack = setTimeout(addValidTrackWrapper(main, rel, ratio, globalIndex), 500)
+	}
 }
 // This function generates a playlist by mixing a list of songs from the main artist
 // and a list of songs from related artists using the given ratio
@@ -328,14 +321,17 @@ function genGameWithTwoArray(main, rel, ratio, i){
 	globalIndex = 0
 	var fullList = false;
 	// for (globalIndex = 0; globalIndex < )
-	addValidTrack(main, rel, ratio, globalIndex)
-	while (validNum < maxSongInList) {
-
-		addValidTrackWrapper (main, rel, ratio, globalIndex)
-	}
-		console.log("stop")
+	addValidTrackWrapper(main, rel, ratio, globalIndex)
+	// while (validNum < maxSongInList) {
+	// 	addValidTrackWrapper (main, rel, ratio, globalIndex)
+	// }
+	console.log("stop")
 		
 
+}
+function get400pixel(link) {
+	var arrayLink =link.split("100x100")
+	return arrayLink[0] + "400x400" + arrayLink[1]
 }
 function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
@@ -355,7 +351,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	}
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
 		var recommendListHTMLTextSingle = '<div class="slider-slide " style=" margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
-                     '<img class= "slider-slide-img" src="'+ data.results[0]["artworkUrl100"] + '">'+
+                     '<img class= "slider-slide-img" src="'+ get400pixel(data.results[0]["artworkUrl100"]) + '">'+
                      '<div class="slider-slide-title">'+
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
                      '</div>'+
@@ -526,7 +522,7 @@ function gameloop(){
 	// console.log(cw)
 	$('#play-artwork-img').height(cw)
 	// console.log($("#play-artwork-img").height())
-	document.getElementById("play-artwork-img").src = track_list[ithgame]["artworkUrl100"]
+	document.getElementById("play-artwork-img").src = get400pixel(track_list[ithgame]["artworkUrl100"])
 
 	song_you_played_array.push(track_list[ithgame])
 
@@ -733,7 +729,7 @@ function animation(){
 		} else {
 			document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
 		}
-		document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
+		// document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
 		$('#play-artwork-img').height($("#play-artwork-img").width())
 	}
 	if (madeit == 1) {
