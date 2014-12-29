@@ -145,14 +145,14 @@
       <!-- Your main view, should have "view-main" class-->
       <div class="view view-home" id = "game_page" style= "display:none">
         <!-- Top Navbar-->
-        <div class = "play-artwork">
+        <div class = "play-artwork" id = "artwork-img-holder">
           <img id= "play-artwork-img" src="https://i.scdn.co/image/9f9455a3abd9b0e2306c8a0354ab8388a5b2ae6f">
         </div>
 
-        <div class="navbar border-no">
-          <div class = "bg-blur"></div>
+        <div class="navbar border-no bg-blur">
+          <div id = "blurImg"></div>
           <div class="navbar-inner bg-halftrans " >
-<div class = "row topbar" >
+            <div class = "row topbar" >
               <div class= "col-33">
                 <span id ="scoreboard" class = "color-white"></span>
               </div>
@@ -239,7 +239,7 @@
 
       <div class="view view-home" id = "login_page" style = "display:block">
         <!-- Top Navbar-->
-        <div class="navbar border-no">
+        <div class="navbar border-no bg-grey">
           <div class="navbar-inner">
               <div class="left">
            <!--         <a href="#" class="link color-white">
@@ -264,8 +264,8 @@
            <!--    <div class="content-block"> -->
 
     <!--             <div class = "content-login"> -->
-                  <div class = "recommend-list">
-
+                  <div class = "recommend-list" id = "recommend-list-id">
+                    <div id = "backgroundAlbum"></div>
                     <div class = "recommend-list-title div-center">
                       <span class = "color-pwhite" id = "quizPrompt">
                        Quizzes We Pick For You
@@ -278,8 +278,9 @@
                   </div>
 
                   <div class = "content-login">
-                                      <div class = "div center">
-                    <a href="#" id= "mainplay" onclick = "play(0);" class="button button-big playbutton">new!</a>
+                    <div class = "div center">
+                      <a href="#" id= "mainplay" onclick = "play(0);" class="button button-big playbutton">new!</a>
+                    </div> 
                   </div>
                     <div class="list-block buttom-border-no padding-top-no">
                       <ul>
@@ -307,12 +308,6 @@
                         </li>
                       </ul>
                     </div>
-
-                    <div class = "div center">
-                      Game originally built by Rui(Ray) Xiao at Tufts 2014 Hackathon
-                    </div>  
-                  </div>
-
 
 
                   <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">

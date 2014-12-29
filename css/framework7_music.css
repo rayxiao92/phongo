@@ -680,7 +680,8 @@ html:not(.watch-active-state) .toolbar a.link:active,
 .navbar {
   left: 0;
   top: 0;
-  background: #252629;
+  /*background: #252629;*/
+  background: transparent;
   /*original*/
   /*>background: #f7f7f8;<*/
   border-bottom: 1px solid #c4c4c4;

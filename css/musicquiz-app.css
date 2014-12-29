@@ -241,7 +241,8 @@
 }
 
 #scorebar {
-	margin:0 auto;
+/*	margin:0 auto;*/
+	margin-left: 0px;
 	border-bottom:solid;
 	width: 100%;
 	border-width: 2px;
@@ -258,12 +259,13 @@
 /*	margin-top:14px;*/
 /*	padding:2px;*/
 	/*padding:1px 1px 1px 1px;*/
-	border-radius: 10px;
+
 	width: 100%;
 	background-color: #434447;
 }
 .play-artwork {
-	margin-top: -10px;
+	margin-top: -20px;
+
 	/*margin-top: 10px;*/
 }
 #play-artwork-img {
@@ -273,15 +275,27 @@
 	margin-left: auto;
 	margin-right: auto;
 
+	/*On top of navbar, which is 500*/
+	
+}
+#blurImg {
+	margin-top: -44px;
+	padding: 22px;
+	z-index: 501;
+	filter: blur(10px);
+	-webkit-filter: blur(10px);
+	-moz-filter: blur(10px);	
 }
 .bg-blur {
-	filter: blur(5px);
-	-webkit-filter: blur(5px);
-	-moz-filter: blur(5px);
-	z-index: 499;
+	/*background-image: url('/media/freelancer-desk.jpg');*/
+/*	padding: 24px;*/
+	/*margin-top: -44px;*/
+	/* On top of play-artwork-img, which is 501 */
+	z-index: 502;
 }
 .bg-halftrans {
-	background-color:rgba(34,34,34,0.2);
+
+	background-color:rgba(25,26,29,0.95);
 /*		  filter: blur(10px);
   -webkit-filter: blur(10px);
   -moz-filter: blur(10px);*/
@@ -443,19 +457,51 @@ span.text-content span {
 .center-divs-child {
 	text-align: center;
 }
+
+.bg-grey {
+	background: rgba(35,36,39,0.99);
+}
 .recommend-section {
-	background-image: -o-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
-	background-image: -moz-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
-	background-image: -ms-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
-	background-image: linear-gradient(-179deg, #1D1448 0%, #252629 100%);
+	background-image: -o-linear-gradient(-89deg, #fafafa 0%, #252629 100%);
+	background-image: -moz-linear-gradient(-89deg, #fafafa 0%, #252629 100%);
+	background-image: -ms-linear-gradient(-89deg, #fafafa 0%, #252629 100%);
+	background-image: linear-gradient(-179deg, #fafafa 0%, #252629 100%);
 }
 /*recommend-list*/
 .recommend-list {
-	background-image: -o-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
+	background-image: -o-linear-gradient(-89deg, #404040 0%, #252629 100%);
+	background-image: -moz-linear-gradient(-89deg, #404040 0%, #252629 100%);
+	background-image: -ms-linear-gradient(-89deg, #404040 0%, #252629 100%);
+	background-image: linear-gradient(-179deg, #404040 0%, #252629 100%);
+/*	background-image: -o-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
 	background-image: -moz-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
 	background-image: -ms-linear-gradient(-89deg, #1D1448 0%, #252629 100%);
-	background-image: linear-gradient(-179deg, #1D1448 0%, #252629 100%);
+	background-image: linear-gradient(-179deg, #1D1448 0%, #252629 100%);*/
+/*	filter: blur(10px);
+	-webkit-filter: blur(10px);
+	-moz-filter: blur(10px);*/
 	overflow: hidden;
+	position:relative;
+}
+
+#backgroundAlbum {
+	filter: blur(10px);
+	-webkit-filter: blur(10px);
+	-moz-filter: blur(10px);
+	/*background-image: url("http://a1.mzstatic.com/us/r30/Music/v4/af/c6/c0/afc6c0bb-46c8-f0fd-17f0-33542a5c330b/075679936936.400x400-75.jpg"), linear-gradient(top bottom, #6cab26, #343537); /* W3C */*/
+	background-repeat: no-repeat;
+	background-size: 1080px auto;
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	bottom: 0px;
+	left: 0px;
+}
+
+#quizPrompt {
+/*	filter: blur(10px);
+	-webkit-filter: blur(10px);
+	-moz-filter: blur(10px);*/
 }
 .recommend-list-title {
 	padding:20px 0px;
@@ -472,7 +518,7 @@ span.text-content span {
 	background-color: #FFFFFF;
 }
 .recommend-list-slider{
-	padding-left: 30px;
+	padding-left: 10px;
 }
 .slider-slide-img {
 	width:100%;

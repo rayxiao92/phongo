@@ -25,6 +25,7 @@ var prepage_id = ""
 var next_audio = new Audio()
 var audio_buffer = new Array()
 var realAudio = new Array()
+var realImage = new Array()
 var beep_audio = new Audio("smw_coin.wav")
 beep_audio.load()
 var wrong_audio = new Audio ("smw_yoshi_spit.wav")
@@ -261,6 +262,10 @@ function keepTrackOfAudio (audioItem, arrayItem, main, rel) {
 		validNum++
 		if (track_list.length < maxSongInList){
 			track_list = track_list.concat(arrayItem)
+			var artworkImg = new Image();
+			artworkImg.src = get400pixel(arrayItem["artworkUrl100"])
+			artworkImg.onload = function (){console.log("image loaded");}
+			realImage = realImage.concat(artworkImg)
 			realAudio = realAudio.concat(audioItem)
 			console.log(track_list)			
 		} else {
@@ -333,6 +338,51 @@ function get400pixel(link) {
 	var arrayLink =link.split("100x100")
 	return arrayLink[0] + "400x400" + arrayLink[1]
 }
+function getAverageRGB(imgEl) {
+
+    var blockSize = 5, // only visit every 5 pixels
+        defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
+        canvas = document.createElement('canvas'),
+        context = canvas.getContext && canvas.getContext('2d'),
+        data, width, height,
+        i = -4,
+        length,
+        rgb = {r:0,g:0,b:0},
+        count = 0;
+
+    if (!context) {
+        return defaultRGB;
+    }
+
+    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
+    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
+
+    context.drawImage(imgEl, 0, 0);
+
+    try {
+        data = context.getImageData(0, 0, width, height);
+    } catch(e) {
+        /* security error, img on diff domain */
+        return defaultRGB;
+    }
+
+    length = data.data.length;
+
+    while ( (i += blockSize * 4) < length ) {
+        ++count;
+        rgb.r += data.data[i];
+        rgb.g += data.data[i+1];
+        rgb.b += data.data[i+2];
+    }
+
+    // ~~ used to floor values
+    rgb.r = ~~(rgb.r/count);
+    rgb.g = ~~(rgb.g/count);
+    rgb.b = ~~(rgb.b/count);
+
+    return rgb;
+
+}
 function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
 		console.log(htmlText)
@@ -340,15 +390,17 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		mySlider2 = myApp.slider('.slider-2', {
 			pagination:'.slider-2 .slider-pagination',
 			speed: 200,
-			spaceBetween: 20,
-			slidesPerView: 3
+			spaceBetween: 10,
+			slidesPerView: 2
 		});
+
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
 		$('.slider-slide-img').height($('.slider-slide-img').width())
 		document.getElementById("loading_page").style.display = "none"
 		document.getElementById("login_page").style.display = "block"		
 		return htmlText;
 	}
+
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
 		var recommendListHTMLTextSingle = '<div class="slider-slide " style=" margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
                      '<img class= "slider-slide-img" src="'+ get400pixel(data.results[0]["artworkUrl100"]) + '">'+
@@ -356,7 +408,20 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
                      '</div>'+
                    '</div>'
+
         htmlText += recommendListHTMLTextSingle
+        if (artistsArray.length == 2) {
+        	console.log("got change background image")
+        	var img = new Image
+        	img.src = data.results[0]["artworkUrl100"]
+        	img.onload = function(){
+        		var rgb = getAverageRGB(img)
+        		console.log(rgb)
+				document.getElementById("backgroundAlbum").style.background = "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(34,35,37,1) 100%)"
+			
+        	}
+        	// url('" + data.results[0]["artworkUrl100"] + "'), linear-gradient(top bottom, #6cab26, #6ceb86);"
+		}
         artistsArray.shift()
         return recursiveRecommendListUpdate(artistsArray, htmlText)
 	});
@@ -427,7 +492,7 @@ function select_choice (choice){
 		clearInterval(interval)
 		// gameloop()
 		// interval  = setInterval(gameloop, singleSongPlayTimeInMs); 
-		newScore = 20 - Math.round((cur_time.getTime() - unit_d_start.getTime())/1000)
+		newScore = 21 - Math.round((cur_time.getTime() - unit_d_start.getTime())/1000)
 		score = score + newScore
 		madeit = 1
 		console.log(streak_correct)
@@ -518,12 +583,22 @@ function gameloop(){
 	// Animate new choices
 	console.log(fake_number)
 
+
+	// console.log($("#play-artwork-img").height())
+	// document.getElementById("play-artwork-img").src = get400pixel(track_list[ithgame]["artworkUrl100"])
+	
+	var imgHolder = document.getElementById("artwork-img-holder")
+	while ( imgHolder.firstChild ) imgHolder.removeChild( imgHolder.firstChild );
+	// imgHolder.removeChild(imgHolder.firstChild)
+	realImage[ithgame].id = "play-artwork-img"
+	imgHolder.appendChild(realImage[ithgame])
+
+	// Set same height and width
 	var cw = $("#play-artwork-img").width();
 	// console.log(cw)
 	$('#play-artwork-img').height(cw)
-	// console.log($("#play-artwork-img").height())
-	document.getElementById("play-artwork-img").src = get400pixel(track_list[ithgame]["artworkUrl100"])
-
+	document.getElementById("blurImg").style.background = "url('" + get400pixel(track_list[ithgame]["artworkUrl100"]) + "') no-repeat;"
+	// document.getElementById("play-artwork-img").appendChild(realImage[ithgame])
 	song_you_played_array.push(track_list[ithgame])
 
 	false_option = shuffleArray(false_option)
@@ -722,13 +797,15 @@ function animation(){
 		if (percent >= 100) {
 			percent = 100
 		}
+		unit_percent = 100 - unit_percent
 		percent = percent.toString()
+		
 		document.getElementById("scorebar").style.width = unit_percent+"%"
-		if (percent < 30){
-			document.getElementById("scorebar").style.color = "red"
-		} else {
-			document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
-		}
+		// if (percent < 30){
+		// 	document.getElementById("scorebar").style.color = "red"
+		// } else {
+		// 	document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
+		// }
 		// document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
 		$('#play-artwork-img').height($("#play-artwork-img").width())
 	}
