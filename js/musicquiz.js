@@ -1,7 +1,8 @@
 var playlist = ""
 var correct = ""
 var ongoing = false
-var epsilon = 0.
+var epsilon = 0
+var max_streak_correct = 0
 var point
 var geoX
 var geoY
@@ -132,8 +133,10 @@ function genGame(artistName) {
 	// track_list stores the music information in this episode
 	track_list = []
 	streak_correct = 0
+	max_streak_correct = 0
 	song_you_played_array = []
 	realAudio = []
+	realImage = []
 	audio_buffer = []
 	globalIndex = 0
 	validNum = 0
@@ -487,6 +490,9 @@ function select_choice (choice){
 			} 
 		}
 		streak_correct++
+		if (streak_correct > max_streak_correct) {
+			max_streak_correct = streak_correct
+		}
 		numCorrectGuess++
 		freeze = 1
 		clearInterval(interval)
@@ -527,6 +533,7 @@ function select_choice (choice){
 		}, 2000)
 	} else {
 		wrong_audio.play()
+
 		streak_correct = 0
 		madeit = 1
 		incorrect_guess ++
@@ -799,7 +806,7 @@ function animation(){
 		}
 		unit_percent = 100 - unit_percent
 		percent = percent.toString()
-		
+
 		document.getElementById("scorebar").style.width = unit_percent+"%"
 		// if (percent < 30){
 		// 	document.getElementById("scorebar").style.color = "red"
@@ -868,30 +875,35 @@ function gameover(){
 	});
 
 
-	// var GameScore = Parse.Object.extend("GameScore");
-	var query = new Parse.Query(GameScore);
-	query.equalTo("playerEmail", userEmail);
-	query.find({
-		success: function(results) {
-			console.log("Successfully retrieved " + results.length + " scores.");
-			// Do something with the returned Parse.Object values
-			maxScore = score
-			if(results.length > 0){
-			    for (var i = 0; i < results.length; i++) {
-					object = results[i];
-					// console.log(object.get('score'))
-					if (object.get('score') > maxScore){
-						maxScore = object.get('score')
-					}
-			    }
-			}
-			document.getElementById("scoretitle").innerHTML = "You got " + score +". Max is " + maxScore	    	
-		},
-		error: function(error) {
-			alert("Error: " + error.code + " " + error.message);
-		}
-	});
-
+	// // var GameScore = Parse.Object.extend("GameScore");
+	// var query = new Parse.Query(GameScore);
+	// query.equalTo("playerEmail", userEmail);
+	// query.find({
+	// 	success: function(results) {
+	// 		console.log("Successfully retrieved " + results.length + " scores.");
+	// 		// Do something with the returned Parse.Object values
+	// 		maxScore = score
+	// 		if(results.length > 0){
+	// 		    for (var i = 0; i < results.length; i++) {
+	// 				object = results[i];
+	// 				// console.log(object.get('score'))
+	// 				if (object.get('score') > maxScore){
+	// 					maxScore = object.get('score')
+	// 				}
+	// 		    }
+	// 		}
+	// 		document.getElementById("scoretitle").innerHTML = "You got " + score +". Max is " + maxScore	    	
+	// 	},
+	// 	error: function(error) {
+	// 		alert("Error: " + error.code + " " + error.message);
+	// 	}
+	// });
+	document.getElementById("scoretitle").innerHTML = score
+	document.getElementById("game-over-portrait").src = profilePicLink
+	document.getElementById("game-over-name-title").innerHTML = username
+	document.getElementById("streakBonus").innerHTML = max_streak_correct * 10
+	document.getElementById("levelBonus").innerHTML = 0
+	document.getElementById("totalScore").innerHTML = score + max_streak_correct * 10
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
 	toprec_index = 0
 	while (toprec_index < maxSongInList){
@@ -911,7 +923,7 @@ function appendNewSongToGameOver(){
                          '<div class="item-inner"> ' +
                             '<div class="item-title-row"> ' +
                               '<div class="item-title color-white">' + song_you_played_array[toprec_index]["trackName"] + '</div> ' +
-                              '<div class="item-after"> ' + "button" +'</div> ' +
+                              '<div class="item-after"><div class = "button border-white color-white" onclick = "goToITunes(' + song_you_played_array[toprec_index]["trackViewUrl"] +')"> Get</div></div> ' +
                             '</div> ' +
                             // '<div class="item-title-row"> ' +
                             '<div class="item-subtitle color-grey">' + song_you_played_array[toprec_index]["artistName"] + '</div> ' +

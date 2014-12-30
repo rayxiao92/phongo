@@ -308,10 +308,14 @@
                         </li>
                       </ul>
                     </div>
+                  <div class = "content-login">
+                    <div class = "div center">
+                      provided courtesy of iTunes
+                    </div>  
+                    <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
+                    </fb:login-button>
+                  </div>
 
-
-                  <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
-                  </fb:login-button>
 
                 </div>
                 <!--Probably dont need this-->
@@ -466,7 +470,7 @@
       </div>
      <div class="view view-home" id = "gameover_page" style="display:none">
         <!-- Top Navbar-->
-        <div class="navbar border-no">
+        <div class="navbar border-no bg-grey">
           <div class="navbar-inner">
               <div class="left">
            <!--         <a href="#" class="link color-white">
@@ -490,10 +494,47 @@
                   <div class = "recommend-list">
                     <div class = "content-login">
                       <div class ="login-content-title div-center color-pwhite">
-                        Gameover! 
+                        GAMEOVER! 
                       </div>
-                      <div class ="login-content-score div-center color-pwhite" id ="scoretitle">
+                      <div class =" div-center color-pwhite" >
+                        <img id="game-over-portrait">
                       </div>
+                      <div class ="login-content-score div-center color-pwhite" id ="game-over-name-title">
+                      </div>
+                      <div class="login-content-score div-center color-pwhite" >
+                        <div class="row" style="font-size:12px;
+                                              ">
+                            <div class="col-25">
+                              <span>score</span>
+                            </div>
+                            <div class="col-25">
+                              <span>streak bonus</span>
+                            </div>
+                            <div class="col-25">
+                              <span>level bonus</span>
+                            </div>
+                            <div class="col-25">
+                              <span>total XP</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-25 game-over-score-box game-over-score-box-green"  id="scoretitle">
+                              haha
+                            </div>
+                            <div class="col-25 game-over-score-box game-over-score-box-yellow" id = "streakBonus">
+                              haha
+                            </div>
+                            <div class="col-25 game-over-score-box game-over-score-box-pink" id = "levelBonus">
+                              haha
+                            </div>
+                            <div class="col-25 game-over-score-box" id = "totalScore">
+                              haha
+                            </div>
+                        </div>
+                      </div>
+  <!--                     <div class ="login-content-score div-center color-pwhite" id ="scoretitle"> -->
+
+                      
                       <div class = "div center">
 
                         <a href="#" id= "mainplay" onclick = "goBackToHome();" class="button button-big playbutton">Quick Start</a>
@@ -501,7 +542,7 @@
                         <!-- <a href="#" id= "mainplay" onclick = "" class="button button-big  thick-border  color-pwhite">Replay</a> -->
                       </div>
                     </div>
-                    <div class = "recommend-list-title div-center">
+ <!--                    <div class = "recommend-list-title div-center">
                       <span class = "color-pwhite" id = "quizPrompt">
                        Quizzes We Pick For You
                       </span>
@@ -509,9 +550,9 @@
                     <div class="slider-container slider-2 recommend-list-slider" id = "sliderContainer">
                       <div class="slider-wrapper" id ="sliderRecommend">
                       </div>
-                    </div>
+                    </div> -->
                   </div>  
-                  <div class="list-block buttom-border-no padding-top-no">
+<!--                   <div class="list-block buttom-border-no padding-top-no">
                     <ul>
                         <li class="item-content sup-list">
                           <div class="item-media"><i class="fa fa-list-ol"></i></div>
@@ -524,7 +565,7 @@
                           <div class="item-inner">
                             <div class="item-title-row">
                               <div class="item-title"><input placeholder = "Name your artist"id = "searchbox_home"></input></div>
-                             <!--  <div class="item-after">lol</div> -->
+                              <div class="item-after">lol</div>
                             </div>
                             <div class="item-subtitle color-grey"><div class= "button border-white color-white" onclick = "search_play()">Play</div></div>
                           </div>
@@ -536,13 +577,16 @@
                           </div>
                         </li>
                     </ul>
-                  </div>
+                  </div> -->
                   <div class = "recommend-section">
-                    <div class = "recommend-list-title div-center">
-                        <span class = "color-pwhite" id = "quizPrompt">
-                         Songs you played
+                    <div class = "login-content-title div-center">
+                        <span class = "color-pwhite" >
+                         QUIZZES
                         </span>
                     </div>
+                    <div class = "div-center color-pwhite">
+                     provided courtesy of iTunes
+                    </div>  
                     <div class="list-block media-list bg-trans " id = "GameOverSongList">
                       <ul>
                       </ul>
@@ -551,9 +595,7 @@
         
              
 
-                  <div class = "div center">
-                    Game originally built by Rui(Ray) Xiao at Tufts 2014 Hackathon
-                  </div>  
+
 
                   <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
                   </fb:login-button>
