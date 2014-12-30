@@ -912,7 +912,10 @@ function gameover(){
 	}
 }
 
-
+function goToITunes(link) {
+	console.log(link)
+	window.open(link)
+}
 function appendNewSongToGameOver(){
 
     // console.log(document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML)
@@ -923,7 +926,7 @@ function appendNewSongToGameOver(){
                          '<div class="item-inner"> ' +
                             '<div class="item-title-row"> ' +
                               '<div class="item-title color-white">' + song_you_played_array[toprec_index]["trackName"] + '</div> ' +
-                              '<div class="item-after"><div class = "button border-white color-white" onclick = "goToITunes(' + song_you_played_array[toprec_index]["trackViewUrl"] +')"> Get</div></div> ' +
+                              '<div class="item-after"><div class = "button border-white color-white"   onclick = "goToITunes(\''+song_you_played_array[toprec_index]["trackViewUrl"] + '\' )"> Get</div></div> ' +
                             '</div> ' +
                             // '<div class="item-title-row"> ' +
                             '<div class="item-subtitle color-grey">' + song_you_played_array[toprec_index]["artistName"] + '</div> ' +
