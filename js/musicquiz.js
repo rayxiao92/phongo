@@ -444,16 +444,14 @@ function onload_function(){
 	}
 	// init parse
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	    Parse.FacebookUtils.init({ // this line replaces FB.init({
+	Parse.FacebookUtils.init({ // this line replaces FB.init({
       appId      : '1454555321479877', // Facebook App ID
       status     : true,  // check Facebook Login status
       cookie     : true,  // enable cookies to allow Parse to access the session
       xfbml      : true,  // initialize Facebook social plugins on the page
       version    : 'v2.2' // point to the latest Facebook Graph API version
-    // });
- 
+    });
     // Run code after the Facebook SDK is loaded.
-  };
 	var currentUser = Parse.User.current();
 	changePage("loading_page")
 	if (currentUser) {

@@ -208,7 +208,7 @@
 	color:#EEDCDA;
 }
 .loginpage-input-box::-webkit-input-placeholder {
-	color:rgb(151,151,151);
+	color:rgb(121,121,121);
 }
 .home-page-background {
 	background:url('../IMG_0709.JPG') 50% , linear-gradient(-179deg, #FFFFFF 0%, #252629 100%) ;
@@ -515,15 +515,15 @@ span.text-content span {
 .loginpage-rightside-bar {
 	border-right-style: solid;
 	border-right-width:1px;
-	border-right-color: rgb(151,151,151)
+	border-right-color: rgb(121,121,121)
 }
 .loginpage-signup-div {
-	color:rgb(151,151,151);
+	color:rgb(121,121,121);
 }
 .loginpage-div-box {
 	font-size: 14px;
 	width: 70%;
-	color: rgb(151,151,151);
+	color: rgb(121,121,121);
 	padding: 12px;
 	border-radius: 8px;
 	border-style: none;
