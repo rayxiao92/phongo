@@ -20,26 +20,24 @@
   <body onload= "buildSongArrayQuery()">
 <script>
   window.fbAsyncInit = function() {
-  // FB.init({
-  //   appId      : '1454555321479877',
-  //   status     : true,  // check Facebook Login status
-  //   cookie     : true,  // enable cookies to allow the server to access 
-  //                       // the session
-  //   xfbml      : true,  // parse social plugins on this page
-  //   version    : 'v2.1' // use version 2.1
-  // });
-
-
+  FB.init({
+    appId      : '1454555321479877',
+    status     : true,  // check Facebook Login status
+    cookie     : true,  // enable cookies to allow the server to access 
+                        // the session
+    xfbml      : true,  // parse social plugins on this page
+    version    : 'v2.1' // use version 2.1
+  });
 
  
-  window.fbAsyncInit = function() {
+  // window.fbAsyncInit = function() {
     Parse.FacebookUtils.init({ // this line replaces FB.init({
       appId      : '1454555321479877', // Facebook App ID
       status     : true,  // check Facebook Login status
       cookie     : true,  // enable cookies to allow Parse to access the session
       xfbml      : true,  // initialize Facebook social plugins on the page
       version    : 'v2.2' // point to the latest Facebook Graph API version
-    });
+    // });
  
     // Run code after the Facebook SDK is loaded.
   };
@@ -453,7 +451,7 @@
                 <div class = "row no-gutter">
                   <div class = "col-50">
                     <a class = "color-white" onclick = "signup()">Sign Up</a>
-                    
+
                   </div>
                   <div class = "col-50">
                     <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
