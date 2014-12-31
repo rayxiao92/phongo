@@ -1007,7 +1007,7 @@ function appendNewSongToGameOver(){
 		    } else {
 		      console.log("User logged in through Facebook!");
 		    }
-		    changePage("home_page")
+		    onload_function()
 		  },
 		  error: function(user, error) {
 		    alert("User cancelled the Facebook login or did not fully authorize.");
