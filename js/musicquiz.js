@@ -1002,9 +1002,10 @@ function appendNewSongToGameOver(){
       Parse.FacebookUtils.logIn(null, {
 		  success: function(user) {
 		    if (!user.existed()) {
-		      alert("User signed up and logged in through Facebook!");
+		      console.log("User signed up and logged in through Facebook!");
+		      changePage("home_page")
 		    } else {
-		      alert("User logged in through Facebook!");
+		      console.log("User logged in through Facebook!");
 		    }
 		  },
 		  error: function(user, error) {
