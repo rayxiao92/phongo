@@ -116,10 +116,7 @@ function genGame(artistName) {
 	// UI initilization
 
 	document.getElementById("scoreboard").innerHTML = Math.round(score)
-	document.getElementById("gameover_page").style.display = "none"
-	document.getElementById("login_page").style.display = "none"
-
-	document.getElementById("loading_page").style.display = "block"
+	changePage("loading_page")
 
 	// if genGame is clicked again after last click, 
 	// do not load twice
@@ -279,10 +276,7 @@ function keepTrackOfAudio (audioItem, arrayItem, main, rel) {
 				false_option = false_option.concat(rel)
 				score = 0
 				document.getElementById("scoreboard").innerHTML = Math.round(score)
-				document.getElementById("gameover_page").style.display = "none"
-				document.getElementById("login_page").style.display = "none"
-				document.getElementById("loading_page").style.display = "none"
-				document.getElementById("game_page").style.display = "block"
+				changePage("game_page")
 				loaddata()					
 			}
 
@@ -341,66 +335,21 @@ function get400pixel(link) {
 	var arrayLink =link.split("100x100")
 	return arrayLink[0] + "400x400" + arrayLink[1]
 }
-function getAverageRGB(imgEl) {
 
-    var blockSize = 5, // only visit every 5 pixels
-        defaultRGB = {r:0,g:0,b:0}, // for non-supporting envs
-        canvas = document.createElement('canvas'),
-        context = canvas.getContext && canvas.getContext('2d'),
-        data, width, height,
-        i = -4,
-        length,
-        rgb = {r:0,g:0,b:0},
-        count = 0;
-
-    if (!context) {
-        return defaultRGB;
-    }
-
-    height = canvas.height = imgEl.naturalHeight || imgEl.offsetHeight || imgEl.height;
-    width = canvas.width = imgEl.naturalWidth || imgEl.offsetWidth || imgEl.width;
-
-    context.drawImage(imgEl, 0, 0);
-
-    try {
-        data = context.getImageData(0, 0, width, height);
-    } catch(e) {
-        /* security error, img on diff domain */
-        return defaultRGB;
-    }
-
-    length = data.data.length;
-
-    while ( (i += blockSize * 4) < length ) {
-        ++count;
-        rgb.r += data.data[i];
-        rgb.g += data.data[i+1];
-        rgb.b += data.data[i+2];
-    }
-
-    // ~~ used to floor values
-    rgb.r = ~~(rgb.r/count);
-    rgb.g = ~~(rgb.g/count);
-    rgb.b = ~~(rgb.b/count);
-
-    return rgb;
-
-}
 function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
 		console.log(htmlText)
 		document.getElementById("sliderRecommend").innerHTML = htmlText
 		mySlider2 = myApp.slider('.slider-2', {
 			pagination:'.slider-2 .slider-pagination',
-			speed: 200,
+			speed: 100,
 			spaceBetween: 10,
-			slidesPerView: 2
+			slidesPerView: 3
 		});
 
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
 		$('.slider-slide-img').height($('.slider-slide-img').width())
-		document.getElementById("loading_page").style.display = "none"
-		document.getElementById("login_page").style.display = "block"		
+		// changePage("home_page")	
 		return htmlText;
 	}
 
@@ -418,8 +367,6 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
         	var img = new Image
         	img.src = data.results[0]["artworkUrl100"]
         	img.onload = function(){
-        		var rgb = getAverageRGB(img)
-        		console.log(rgb)
 				document.getElementById("backgroundAlbum").style.background = "linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(34,35,37,1) 100%)"
 			
         	}
@@ -430,6 +377,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	});
 }
 function onload_function(){
+	// Get geolocation
 	if (navigator.geolocation) {
 		console.log(navigator.geolocation)
 		navigator.geolocation.getCurrentPosition(function (position) {
@@ -442,7 +390,19 @@ function onload_function(){
 	} else{
 		console.log("lol")
 	}
+	// init parse
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
+	var currentUser = Parse.User.current();
+	changePage("loading_page")
+	if (currentUser) {
+	    // do stuff with the user
+	    console.log("someone's in")
+	} else {
+	    // show the signup or login page
+	    console.log("need signup")
+	    changePage("login_page")
+	}
+	// init artist array
 	artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
 	recommendListHTMLText = ""
 	recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
@@ -452,7 +412,9 @@ function pass_this() {
 	clearInterval(interval)
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 }
-
+function cleanpw() {
+	document.getElementById("loginpage-password").value=""
+}
 function play(input_mode){
 	if (loaded == 1){
 		beep_audio.play()
@@ -463,14 +425,19 @@ function play(input_mode){
 		}
 		score = 0
 		document.getElementById("scoreboard").innerHTML = Math.round(score)
-		document.getElementById("gameover_page").style.display = "none"
-	    document.getElementById("login_page").style.display = "none"
-	    document.getElementById("game_page").style.display = "block"
+		changePage("game_page")
     	loaddata()	
 	}
 
 }
-
+function changePage(targetPage) {
+	document.getElementById("home_page").style.display = "none"
+	document.getElementById("gameover_page").style.display = "none"
+	document.getElementById("loading_page").style.display = "none"
+	document.getElementById("game_page").style.display = "none"
+	document.getElementById("login_page").style.display = "none"
+	document.getElementById(targetPage).style.display = "block"
+}
 function select_choice (choice){
 	if (freeze == 1 ) {
 		return
@@ -582,7 +549,11 @@ function gameloop(){
 		document.getElementById("button"+i_).style.borderColor = "white"
 	}
 
-
+	document.getElementById("gameover-navbar-title").innerHTML = seedArtist
+	document.getElementById("gameover-replay").onclick = function () {
+		realAudio[ithgame-1].pause();
+		genGame(seedArtist);
+	}
 	// Build new music source
 	// this_url = next_url
 	// a = next_audio
@@ -749,9 +720,7 @@ function goBackToHome(){
 		// error is a Parse.Error with an error code and message.
 	}
 	});
-	document.getElementById("game_page").style.display = "none"
-    document.getElementById("login_page").style.display = "block"
-    document.getElementById("gameover_page").style.display = "none"
+	changePage("home_page")
 }
 function loaddata() {
 	// Insert a row to game data as the game starts
@@ -834,8 +803,7 @@ function gameover(){
 	ongoing = false
 	clearInterval(animation_interval)
 	clearInterval(interval)
-    document.getElementById("game_page").style.display = "none"
-    document.getElementById("gameover_page").style.display = "block"
+	changePage("gameover_page")
     
     // destroy the previous game data and generate a new one
     // since the player finishes the game

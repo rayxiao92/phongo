@@ -152,7 +152,7 @@
         <div class="navbar border-no bg-blur">
           <div id = "blurImg"></div>
           <div class="navbar-inner bg-halftrans " >
-            <div class = "row topbar" >
+            <div class = "row topbar font-size" >
               <div class= "col-33">
                 <span id ="scoreboard" class = "color-white"></span>
               </div>
@@ -160,7 +160,15 @@
                 <img src = "..." id = "profilePicture"class = "in-game-portrait ">
               </div>
               <div class= "col-33">
-                <span id ="timeleft" class = "color-white">asdf</span>
+                <div class = "timeleft color-white">
+                  1
+                  <i class="fa fa-check  "></i>
+                  3
+                  <i class="fa fa-close  "></i>
+                </div>
+                
+                <!-- <i class="fa fa-pause timeleft color-white"></i> -->
+                <!-- span id ="timeleft" class = "color-white">asdf</span> -->
               </div>                            
             </div>
           </div>
@@ -237,7 +245,7 @@
         </div>
       </div> 
 
-      <div class="view view-home" id = "login_page" style = "display:block">
+      <div class="view view-home" id = "home_page" style = "display:block">
         <!-- Top Navbar-->
         <div class="navbar border-no bg-grey">
           <div class="navbar-inner">
@@ -247,10 +255,14 @@
                   </a> -->
               </div>
               <div id = "navbartitle" class="center color-white">
-                Quizzie
+                <p class="buttons-row theme-gray">
+                    <a href="#" class="button "><i class="fa fa-globe"></i></a>
+                    <a href="#" class="button active"><i class="fa fa-music"></i></a>
+                    <a href="#" class="button"><i class="fa fa-users"></i></a>
+                </p>
               </div>
               <div class="right color-white">
-          <!--       <a onclick = "login()" >Login</a> -->
+                <a onclick = "login()" ><i class="fa fa-list color-gray"></i></a>
               </div>
           </div>
         </div>
@@ -272,14 +284,16 @@
                       </span>
                     </div>
                     <div class="slider-container slider-2 recommend-list-slider" id = "sliderContainer">
-                      <div class="slider-wrapper" id ="sliderRecommend">                                            
+
+                      <div class="slider-wrapper" id ="sliderRecommend">
+
                       </div>
                     </div>
                   </div>
 
                   <div class = "content-login">
                     <div class = "div center">
-                      <a href="#" id= "mainplay" onclick = "play(0);" class="button button-big playbutton">new!</a>
+                      <a href="#" id= "login-main-play" onclick = "play(0);" class="button button-big playbutton">new!</a>
                     </div> 
                   </div>
                     <div class="list-block buttom-border-no padding-top-no">
@@ -312,8 +326,7 @@
                     <div class = "div center">
                       provided courtesy of iTunes
                     </div>  
-                    <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
-                    </fb:login-button>
+
                   </div>
 
 
@@ -392,6 +405,91 @@
         </div>
       </div>
     </div>
+     <div class="view view-home" id = "login_page" style = "display:none">
+        <!-- Top Navbar-->
+<!--         <div class="navbar border-no">
+          <div class="navbar-inner">
+              <div class="left">
+                   <a href="#" class="link color-white">
+                      <i class="icon icon-bars color-white"></i>
+                  </a>
+              </div>
+              <div id = "navbartitle" class="center color-white">
+            
+              </div>
+              <div class="right color-white">
+              
+              </div>
+          </div>
+        </div> -->
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-fixed toolbar-fixed">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page" >
+            <!-- Scrollable page content-->
+            <div class= "home-page-background"></div>
+            <div class="page-content bg-album" >
+              <div class = "fadein div-center loading-page-logo" >
+                <img src="MusicQuiz_logo_text.png" width = "160px">
+              </div>
+              <div class = "loginpage-div-box div-center">
+                <div class = "row no-gutter">
+                  <div class = "col-15 loginpage-rightside-bar">
+                    <i class = "fa fa-envelope-o" ></i>
+                  </div>
+                  <div class = "col-85">
+                    <input class = "loginpage-input-box" type="text" autofocus placeholder = "email"></input>
+                  </div>              
+                </div>
+              </div>
+              <div class = "loginpage-div-box div-center">
+                <div class = "row no-gutter">
+                  <div class = "col-15 loginpage-rightside-bar">
+                    <i class = "fa fa-lock" ></i>
+                  </div>
+                  <div class = "col-85">
+                    <input class = "loginpage-input-box" id = "loginpage-password" type="password" placeholder = "password" onclick = "cleanpw()"></input>
+                  </div>
+                </div>
+              </div>
+              <!-- <div class = "loginpage-div-box div-center"> -->
+              <div class = "div-center loginpage-login-button">LOGIN</div>
+              <div class = "div-center loginpage-signup-div">
+                <div class = "row no-gutter">
+                  <div class = "col-50">
+                    <a class = "color-white">Sign Up</a>
+                  </div>
+                  <div class = "col-50">
+                    <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
+                    </fb:login-button>
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+         
+            </div>
+            <!--    <div class="content-block"> -->
+            <!-- <div class = "content-login"> -->
+
+          </div>
+          <!-- Bottom Toolbar-->
+          <div class="toolbar border-no">
+            <div class="toolbar-inner">
+              <table class="toolbar-inner-table">
+                <tr>
+                  <td class="toolbar-inner-left">
+                    <!--<a href="#" class="link color-blue">Link 1</a>-->
+                  </td>
+                  <td class="toolbar-inner-request-table">
+                  </td>
+                  <td class="toolbar-inner-right">
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="view view-home" id = "select_theme_page" style= "display:none">
         <!-- Top Navbar-->
         <div class="navbar bg-trans border-no">
@@ -473,15 +571,15 @@
         <div class="navbar border-no bg-grey">
           <div class="navbar-inner">
               <div class="left">
-           <!--         <a href="#" class="link color-white">
-                      <i class="icon icon-bars color-white"></i>
-                  </a> -->
+                   <a href="#" class="link color-white" onclick = "goBackToHome();" >
+                      <i class="fa fa-chevron-left color-white"></i>Home
+                  </a>
               </div>
-              <div id = "navbartitle" class="center color-white">
+              <div id = "gameover-navbar-title" class="center color-white">
                 Quizzie
               </div>
               <div class="right color-white">
-                
+                <a><i class="fa fa-list color-white"></i></a>
               </div>
           </div>
         </div>
@@ -499,7 +597,8 @@
                       <div class =" div-center color-pwhite" >
                         <img id="game-over-portrait">
                       </div>
-                      <div class ="login-content-score div-center color-pwhite" id ="game-over-name-title">
+                      <div class ="login-content-username div-center color-pwhite" id ="game-over-name-title">
+                        username
                       </div>
                       <div class="login-content-score div-center color-pwhite" >
                         <div class="row" style="font-size:12px;
@@ -532,12 +631,9 @@
                             </div>
                         </div>
                       </div>
-  <!--                     <div class ="login-content-score div-center color-pwhite" id ="scoretitle"> -->
-
-                      
                       <div class = "div center">
 
-                        <a href="#" id= "mainplay" onclick = "goBackToHome();" class="button button-big playbutton">Quick Start</a>
+                        <a href="#" id= "gameover-replay" class="button button-big playbutton">Restart</a>
                
                         <!-- <a href="#" id= "mainplay" onclick = "" class="button button-big  thick-border  color-pwhite">Replay</a> -->
                       </div>
@@ -592,13 +688,6 @@
                       </ul>
                     </div>
                   </div>
-        
-             
-
-
-
-                  <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
-                  </fb:login-button>
                 </div>
           </div>
         </div>
