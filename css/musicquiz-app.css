@@ -211,9 +211,9 @@
 	color:rgb(151,151,151);
 }
 .home-page-background {
-	background-image:url('../IMG_0709.JPG');
-
-	/*background-image:url('http://a2.mzstatic.com/us/r30/Features/v4/c3/07/80/c307800e-f505-cd3a-15ff-921514424cf7/dj.hlocweys.400x400-75.jpg');*/
+	background:url('../IMG_0709.JPG') 50% , linear-gradient(-179deg, #FFFFFF 0%, #252629 100%) ;
+	/*background-image:*/
+	 /*background-image:url('http://a2.mzstatic.com/us/r30/Features/v4/c3/07/80/c307800e-f505-cd3a-15ff-921514424cf7/dj.hlocweys.400x400-75.jpg');*/
 	background-color:rgba(30,30,30,0.1);
 	background-repeat:no-repeat;
 	background-size:cover;

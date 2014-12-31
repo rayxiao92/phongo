@@ -20,13 +20,29 @@
   <body onload= "buildSongArrayQuery()">
 <script>
   window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1454555321479877',
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
-  });
+  // FB.init({
+  //   appId      : '1454555321479877',
+  //   status     : true,  // check Facebook Login status
+  //   cookie     : true,  // enable cookies to allow the server to access 
+  //                       // the session
+  //   xfbml      : true,  // parse social plugins on this page
+  //   version    : 'v2.1' // use version 2.1
+  // });
+
+
+
+ 
+  window.fbAsyncInit = function() {
+    Parse.FacebookUtils.init({ // this line replaces FB.init({
+      appId      : '1454555321479877', // Facebook App ID
+      status     : true,  // check Facebook Login status
+      cookie     : true,  // enable cookies to allow Parse to access the session
+      xfbml      : true,  // initialize Facebook social plugins on the page
+      version    : 'v2.2' // point to the latest Facebook Graph API version
+    });
+ 
+    // Run code after the Facebook SDK is loaded.
+  };
   // FB.Event.subscribe('auth.login', function () {
 
   // });
@@ -102,7 +118,8 @@
     <!-- Left panel with reveal effect-->
     <div class="panel panel-right panel-reveal">
       <div class="content-block">   
-        <div class="left-panel-portrait">
+        <a onclick = "logout()">logout</a>
+        <!-- <div class="left-panel-portrait">
           <img class="left-panel-portrait-img"  src = "port.jpg"/>
         </div>
         <div class="left-panel-username">
@@ -131,7 +148,7 @@
               </td>
             </tr>                        
           </table>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- Right panel with cover effect-->
@@ -262,7 +279,7 @@
                 </p>
               </div>
               <div class="right color-white">
-                <a onclick = "login()" ><i class="fa fa-list color-gray"></i></a>
+                <a data-panel="right" class="open-panel"><i class="fa fa-list color-gray"></i></a>
               </div>
           </div>
         </div>
@@ -353,38 +370,16 @@
           </div>
         </div>
       </div>
-     <div class="view view-home" id = "loading_page" style = "display:none">
-        <!-- Top Navbar-->
-<!--         <div class="navbar border-no">
-          <div class="navbar-inner">
-              <div class="left">
-                   <a href="#" class="link color-white">
-                      <i class="icon icon-bars color-white"></i>
-                  </a>
-              </div>
-              <div id = "navbartitle" class="center color-white">
-            
-              </div>
-              <div class="right color-white">
-              
-              </div>
-          </div>
-        </div> -->
-        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-fixed toolbar-fixed">
-          <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page" >
-            <!-- Scrollable page content-->
-            <div class="page-content bg-pred fadein" style = "padding-top:100px; padding-left:auto; padding-right:auto;  text-align: center;">
-              <img src="MusicQuiz_logo_text.png" width = "50%"  >
-              
-           <!--    <div class="content-block"> -->
-
-    <!--             <div class = "content-login"> -->
-
-                <!--Probably dont need this-->
-         <!--      </div>
-            </div> -->
+    <div class="view view-home" id = "loading_page" style = "display:none">
+      <div class="pages navbar-fixed toolbar-fixed">
+        <!-- Page, data-page contains page name-->
+        <div data-page="index" class="page" >
+          <!-- Scrollable page content-->
+          <div class="page-content bg-pred ">
+            <div class= "home-page-background"></div>
+            <div class = "fadein div-center loading-page-logo" >
+              <img src="MusicQuiz_logo_text.png" width = "160px">
+            </div>
           </div>
         </div>
         <!-- Bottom Toolbar-->
@@ -405,7 +400,7 @@
         </div>
       </div>
     </div>
-     <div class="view view-home" id = "login_page" style = "display:none">
+    <div class="view view-home" id = "login_page" style = "display:none">
         <!-- Top Navbar-->
 <!--         <div class="navbar border-no">
           <div class="navbar-inner">
@@ -438,7 +433,7 @@
                     <i class = "fa fa-envelope-o" ></i>
                   </div>
                   <div class = "col-85">
-                    <input class = "loginpage-input-box" type="text" autofocus placeholder = "email"></input>
+                    <input class = "loginpage-input-box" id = "loginpage-username" type="text" autofocus placeholder = "email"></input>
                   </div>              
                 </div>
               </div>
@@ -453,11 +448,12 @@
                 </div>
               </div>
               <!-- <div class = "loginpage-div-box div-center"> -->
-              <div class = "div-center loginpage-login-button">LOGIN</div>
+              <div id = "loginpage-login-button-id" class = "div-center loginpage-login-button" onclick = "login()">LOGIN</div>
               <div class = "div-center loginpage-signup-div">
                 <div class = "row no-gutter">
                   <div class = "col-50">
-                    <a class = "color-white">Sign Up</a>
+                    <a class = "color-white" onclick = "signup()">Sign Up</a>
+                    
                   </div>
                   <div class = "col-50">
                     <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
@@ -579,7 +575,7 @@
                 Quizzie
               </div>
               <div class="right color-white">
-                <a><i class="fa fa-list color-white"></i></a>
+                <a data-panel="right" class="open-panel"><i class="fa fa-list color-white"></i></a>
               </div>
           </div>
         </div>

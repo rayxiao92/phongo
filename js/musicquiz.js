@@ -105,8 +105,60 @@ var mainView = myApp.addView('.view-main', {
 *************************************/
 function login(){
 	console.log("login is here")
+	document.getElementById("loginpage-login-button-id").innerHTML = '<span class="preloader preloader-white" style="width:14px; height:14px; "></span>'
+	userName = document.getElementById("loginpage-username").value
+	userPW = document.getElementById("loginpage-password").value
+	Parse.User.logIn(userName, userPW, {
+	  success: function(user) {
+	  	console.log("good login")
+	  	document.getElementById("loginpage-login-button-id").innerHTML = 'LOGIN'
+	  	document.getElementById("loginpage-password").value = ""
+	  	onload_function()
+	    // Do stuff after successful login.
+	  },
+	  error: function(user, error) {
+	  	console.log(error)
+	  	document.getElementById("loginpage-login-button-id").innerHTML = 'LOGIN'
+	  	document.getElementById("loginpage-password").value = ""
+	    // The login failed. Check error to see why.
+	  }
+	});
 }
+function logout() {
+	console.log("logout~")
+	myApp.closePanel()
+	Parse.User.logOut();
+	changePage("login_page")
+}
+function cleanpw() {
+	document.getElementById("loginpage-password").value=""
+}
+function signupFB() {
 
+}
+function signup() {
+	console.log("sign up!")
+	var user = new Parse.User();
+	userName = document.getElementById("loginpage-username").value
+	userPW = document.getElementById("loginpage-password").value
+	user.set("username", userName);
+	user.set("password", userPW);
+	user.set("email", userName);
+	 
+	// other fields can be set just like with Parse.Object
+	// user.set("phone", "415-392-0202");
+	 
+	user.signUp(null, {
+	  success: function(user) {
+	  	console.log("good!!!")
+	    // Hooray! Let them use the app now.
+	  },
+	  error: function(user, error) {
+	    // Show the error message somewhere and let the user try again.
+	    alert("Error: " + error.code + " " + error.message);
+	  }
+	});	
+}
 function search_play(){
 	console.log(document.getElementById("searchbox_home").value)
 	genGame(document.getElementById("searchbox_home").value)
@@ -349,7 +401,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
 		$('.slider-slide-img').height($('.slider-slide-img').width())
-		// changePage("home_page")	
+		changePage("home_page")	
 		return htmlText;
 	}
 
@@ -397,24 +449,27 @@ function onload_function(){
 	if (currentUser) {
 	    // do stuff with the user
 	    console.log("someone's in")
+	    // init artist array
+	    artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
+		recommendListHTMLText = ""
+		recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
+
 	} else {
 	    // show the signup or login page
 	    console.log("need signup")
 	    changePage("login_page")
 	}
 	// init artist array
-	artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
-	recommendListHTMLText = ""
-	recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
+	// artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
+	// recommendListHTMLText = ""
+	// recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
 }
 function pass_this() {
 	gameloop()
 	clearInterval(interval)
 	interval  = setInterval(gameloop, singleSongPlayTimeInMs);
 }
-function cleanpw() {
-	document.getElementById("loginpage-password").value=""
-}
+
 function play(input_mode){
 	if (loaded == 1){
 		beep_audio.play()
@@ -935,6 +990,19 @@ function appendNewSongToGameOver(){
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       testAPI();
+
+      Parse.FacebookUtils.logIn(null, {
+		  success: function(user) {
+		    if (!user.existed()) {
+		      alert("User signed up and logged in through Facebook!");
+		    } else {
+		      alert("User logged in through Facebook!");
+		    }
+		  },
+		  error: function(user, error) {
+		    alert("User cancelled the Facebook login or did not fully authorize.");
+		  }
+		});
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
       document.getElementById('status').innerHTML = 'Please log ' +
