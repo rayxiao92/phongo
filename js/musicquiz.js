@@ -151,10 +151,6 @@ function turnToSignUp(param) {
 	document.getElementById("signup-navbar-id").style.display = "block"
 	document.getElementById("signup-navbar-id").style.background = "rgba(35,36,39,0.99)"
 
-	if (param == "fb") {
-
-	}
-
 	// document.getElementById("loginpage-navbar-left").onclick = function () {
 	// 	console.log("wtf")
 	// 	return backToLoginPage1();
@@ -487,7 +483,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	});
 }
 function onload_function(){
-
+	console.log("facebookutils")
     // Run code after the Facebook SDK is loaded.
 	var currentUser = Parse.User.current();
 	if (currentUser) {
@@ -1049,12 +1045,18 @@ function appendNewSongToGameOver(){
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
       testAPI();
-
+	    Parse.FacebookUtils.init({ // this line replaces FB.init({
+	        appId      : '1454555321479877', // Facebook App ID
+	        status     : true,  // check Facebook Login status
+	        cookie     : true,  // enable cookies to allow Parse to access the session
+	        xfbml      : true,  // initialize Facebook social plugins on the page
+	        version    : 'v2.2' // point to the latest Facebook Graph API version
+	    });
       Parse.FacebookUtils.logIn(null, {
 		  success: function(user) {
 		    if (!user.existed()) {
 		      console.log("User signed up and logged in through Facebook!");
-		      signup("fb")
+		      turnToSignUp()
 		    } else {
 		      console.log("User logged in through Facebook!");
 		    }

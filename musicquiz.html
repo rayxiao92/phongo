@@ -20,12 +20,19 @@
   <body onload= "buildSongArrayQuery()">
 <script>
   window.fbAsyncInit = function() {
-  Parse.FacebookUtils.init({ // this line replaces FB.init({
+    FB.init({ // this line replaces FB.init({
       appId      : '1454555321479877', // Facebook App ID
       status     : true,  // check Facebook Login status
       cookie     : true,  // enable cookies to allow Parse to access the session
       xfbml      : true,  // initialize Facebook social plugins on the page
       version    : 'v2.2' // point to the latest Facebook Graph API version
+    });
+    Parse.FacebookUtils.init({ // this line replaces FB.init({
+        appId      : '1454555321479877', // Facebook App ID
+        status     : true,  // check Facebook Login status
+        cookie     : true,  // enable cookies to allow Parse to access the session
+        xfbml      : true,  // initialize Facebook social plugins on the page
+        version    : 'v2.2' // point to the latest Facebook Graph API version
     });
 
  
@@ -47,9 +54,9 @@
   //
   // These three cases are handled in the callback function.
 
-  FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
-  });
+    FB.getLoginStatus(function(response) {
+      statusChangeCallback(response);
+    });
 
   };
    
