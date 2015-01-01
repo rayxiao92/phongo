@@ -52,7 +52,7 @@ var myApp = new Framework7({
     swipebackPage: true
 });
 var profilePicLink = ""
-var albumSlider;
+var myslider2;
 var loginSlider;
 var seedArtist
 var next_audio_buffer = ""
@@ -91,7 +91,8 @@ var delayMultipleForCorrectEffect = 2
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
-    dynamicNavbar: true
+    dynamicNavbar: true, 
+    swipePanel: 'right'
 });
 
 
@@ -137,37 +138,46 @@ function signupFB() {
 }
 function backToLoginPage1() {
 	console.log("here!!!back")
-	document.getElementById("loginpage-navbar-id").style.display = "none"
-	document.getElementById("loginpage-navbar-id").style.background = "transparent"
+	document.getElementById("signup-navbar-id").style.display = "none"
+	document.getElementById("signup-navbar-id").style.background = "transparent"
 	// document.getElementById("loginpage-navbar-title").innerHTML = ''
 	// document.getElementById("loginpage-navbar-left").innerHTML = ''
-	loginSlider.slidePrev();
+	changePage("login_page")
 }
-function turnToSignUp() {
-	loginSlider.slideNext();
-	document.getElementById("loginpage2-username").value = document.getElementById("loginpage-username").value
-	document.getElementById("loginpage-navbar-title").innerHTML = 'SIGN UP'
-	document.getElementById("loginpage-navbar-id").style.display = "block"
-	document.getElementById("loginpage-navbar-id").style.background = "rgba(35,36,39,0.99)"
+function turnToSignUp(param) {
+	changePage("signup_page")
+	document.getElementById("signup-username").value = document.getElementById("loginpage-username").value
+	document.getElementById("signup-navbar-title").innerHTML = 'SIGN UP'
+	document.getElementById("signup-navbar-id").style.display = "block"
+	document.getElementById("signup-navbar-id").style.background = "rgba(35,36,39,0.99)"
 
+	if (param == "fb") {
+
+	}
 
 	// document.getElementById("loginpage-navbar-left").onclick = function () {
 	// 	console.log("wtf")
 	// 	return backToLoginPage1();
 	// }
 }
-function signup() {
+function panel_home(){
+	console.log("homemmmm")
+	myApp.closePanel()
+	changePage('home_page')
+}
+function signup(para) {
+
 	console.log("sign up!")
 	var user = new Parse.User();
-	userName = document.getElementById("loginpage2-username").value
-	userPW = document.getElementById("loginpage2-password").value
-	userOwnName = document.getElementById("loginpage2-name").value
-	userBirthday = document.getElementById("loginpage2-userBirthday").value
-	userGender = document.getElementById("loginpage2-userGender").value
+	userName = document.getElementById("signup-username").value
+	userPW = document.getElementById("signup-password").value
+	userOwnName = document.getElementById("signup-name").value
+	userBirthday = document.getElementById("signup-userBirthday").value
+	userGender = document.getElementById("signup-userGender").value
 	userArtist = []
-	userArtist[0] = document.getElementById("loginpage2-artist1").value
-	userArtist[1] = document.getElementById("loginpage2-artist2").value
-	userArtist[2] = document.getElementById("loginpage2-artist3").value
+	userArtist[0] = document.getElementById("signup-artist1").value
+	userArtist[1] = document.getElementById("signup-artist2").value
+	userArtist[2] = document.getElementById("signup-artist3").value
 	user.set("username", userName);
 	user.set("password", userPW);
 	user.set("email", userName);
@@ -193,10 +203,9 @@ function signup() {
 	user.set("realname", userOwnName)
 	user.set("XP", 0)
 	user.set("level", 0)
-	user.set("XP", userGender)
+	user.set("gender", userGender)
 	// other fields can be set just like with Parse.Object
 	// user.set("phone", "415-392-0202");
-	 
 	user.signUp(null, {
 	  success: function(user) {
 	  	console.log("good!!!")
@@ -442,7 +451,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
 		console.log(htmlText)
 		document.getElementById("sliderRecommend").innerHTML = htmlText
-		albumSlider = myApp.slider('.slider-2', {
+		myslider2 = myApp.slider('.slider-2', {
 			pagination:'.slider-2 .slider-pagination',
 			spaceBetween: 10,
 			slidesPerView: 2
@@ -455,7 +464,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	}
 
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
-		var recommendListHTMLTextSingle = '<div class="slider-slide   onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
+		var recommendListHTMLTextSingle = '<div class="slider-slide"   onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
                      '<img class= "slider-slide-img" src="'+ get400pixel(data.results[0]["artworkUrl100"]) + '">'+
                      '<div class="slider-slide-title">'+
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
@@ -538,6 +547,7 @@ function changePage(targetPage) {
 	document.getElementById("gameover_page").style.display = "none"
 	document.getElementById("loading_page").style.display = "none"
 	document.getElementById("game_page").style.display = "none"
+	document.getElementById("signup_page").style.display = "none"
 	document.getElementById("login_page").style.display = "none"
 	document.getElementById(targetPage).style.display = "block"
 }
@@ -841,15 +851,15 @@ function loaddata() {
 		playerReturns: playedAgain,
 		location: point
 	}, {
-	success: function(firstGameScore) {
-		console.log("success_first")
-		// The object was saved successfully.
-	},
-	error: function(firstGameScore, error) {
-		// The save failed.
-		console.log("ehh_1")
-		// error is a Parse.Error with an error code and message.
-	}
+		success: function(firstGameScore) {
+			console.log("success_first")
+			// The object was saved successfully.
+		},
+		error: function(firstGameScore, error) {
+			// The save failed.
+			console.log("ehh_1")
+			// error is a Parse.Error with an error code and message.
+		}
 	});
 	
 	console.log(track_list)
@@ -971,6 +981,7 @@ function gameover(){
 	// });
 	document.getElementById("scoretitle").innerHTML = score
 	document.getElementById("game-over-portrait").src = profilePicLink
+	document.getElementById("panel-portrait").src = profilePicLink
 	document.getElementById("game-over-name-title").innerHTML = username
 	document.getElementById("streakBonus").innerHTML = max_streak_correct * 10
 	document.getElementById("levelBonus").innerHTML = 0
@@ -1043,7 +1054,7 @@ function appendNewSongToGameOver(){
 		  success: function(user) {
 		    if (!user.existed()) {
 		      console.log("User signed up and logged in through Facebook!");
-		      
+		      signup("fb")
 		    } else {
 		      console.log("User logged in through Facebook!");
 		    }
@@ -1084,6 +1095,9 @@ function appendNewSongToGameOver(){
 		console.log('Successful login for: ' + response.name);
 		username = response.name
 		userEmail = response.email
+		document.getElementById("signup-username").value = userEmail
+		document.getElementById("signup-name").value = username
+
 		profilePicLink = "http://graph.facebook.com/"+ response.id +"/picture?type=large"
 		document.getElementById("profilePicture").src = profilePicLink
 		console.log(response)
@@ -1116,14 +1130,13 @@ function getRandomInt (min, max) {
 
 function buildSongArrayQuery() {
 
-	loginSlider = myApp.slider('.slider-login', {
-			onlyExternal: true,
-			pagination:'.slider-login .slider-pagination',
-			speed: 400,
-			spaceBetween: 10,
-			slidesPerView: 1,
-
-	});
+	// loginSlider = myApp.slider('.slider-login', {
+	// 		onlyExternal: true,
+	// 		pagination:'.slider-login .slider-pagination',
+	// 		speed: 400,
+	// 		spaceBetween: 10,
+	// 		slidesPerView: 1,
+	// });
 	// Get geolocation
 	if (navigator.geolocation) {
 		console.log(navigator.geolocation)

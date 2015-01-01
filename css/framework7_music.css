@@ -2959,7 +2959,8 @@ html.retina.ios-gt-7 input.modal-text-input {
   overflow: auto;
   -webkit-overflow-scrolling: touch;
   position: absolute;
-  width: 260px;
+  width: 189px;
+
   top: 0;
   height: 100%;
   -webkit-transform: translate3d(0, 0, 0);
@@ -2970,14 +2971,14 @@ html.retina.ios-gt-7 input.modal-text-input {
 }
 .panel.panel-left.panel-cover {
   z-index: 6000;
-  left: -260px;
+  left: -189px;
 }
 .panel.panel-left.panel-reveal {
   left: 0;
 }
 .panel.panel-right.panel-cover {
   z-index: 6000;
-  right: -260px;
+  right: -189px;
 }
 .panel.panel-right.panel-reveal {
   right: 0;
@@ -3005,30 +3006,30 @@ body.with-panel-right-reveal .panel-overlay {
   display: block;
 }
 body.with-panel-left-reveal .views {
-  -webkit-transform: translate3d(260px, 0, 0);
-  -ms-transform: translate3d(260px, 0, 0);
-  transform: translate3d(260px, 0, 0);
+  -webkit-transform: translate3d(189px, 0, 0);
+  -ms-transform: translate3d(189px, 0, 0);
+  transform: translate3d(189px, 0, 0);
 }
 body.with-panel-left-reveal .panel-overlay {
-  margin-left: 260px;
+  margin-left: 189px;
 }
 body.with-panel-left-cover .panel-left {
-  -webkit-transform: translate3d(260px, 0, 0);
-  -ms-transform: translate3d(260px, 0, 0);
-  transform: translate3d(260px, 0, 0);
+  -webkit-transform: translate3d(189px, 0, 0);
+  -ms-transform: translate3d(189px, 0, 0);
+  transform: translate3d(189px, 0, 0);
 }
 body.with-panel-right-reveal .views {
-  -webkit-transform: translate3d(-260px, 0, 0);
-  -ms-transform: translate3d(-260px, 0, 0);
-  transform: translate3d(-260px, 0, 0);
+  -webkit-transform: translate3d(-189px, 0, 0);
+  -ms-transform: translate3d(-189px, 0, 0);
+  transform: translate3d(-189px, 0, 0);
 }
 body.with-panel-right-reveal .panel-overlay {
-  margin-left: -260px;
+  margin-left: -189px;
 }
 body.with-panel-right-cover .panel-right {
-  -webkit-transform: translate3d(-260px, 0, 0);
-  -ms-transform: translate3d(-260px, 0, 0);
-  transform: translate3d(-260px, 0, 0);
+  -webkit-transform: translate3d(-189px, 0, 0);
+  -ms-transform: translate3d(-189px, 0, 0);
+  transform: translate3d(-189px, 0, 0);
 }
 body.panel-closing .views {
   -webkit-transition-duration: 400ms;
