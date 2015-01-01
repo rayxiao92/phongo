@@ -20,14 +20,13 @@
   <body onload= "buildSongArrayQuery()">
 <script>
   window.fbAsyncInit = function() {
-  FB.init({
-    appId      : '1454555321479877',
-    status     : true,  // check Facebook Login status
-    cookie     : true,  // enable cookies to allow the server to access 
-                        // the session
-    xfbml      : true,  // parse social plugins on this page
-    version    : 'v2.1' // use version 2.1
-  });
+  Parse.FacebookUtils.init({ // this line replaces FB.init({
+      appId      : '1454555321479877', // Facebook App ID
+      status     : true,  // check Facebook Login status
+      cookie     : true,  // enable cookies to allow Parse to access the session
+      xfbml      : true,  // initialize Facebook social plugins on the page
+      version    : 'v2.2' // point to the latest Facebook Graph API version
+    });
 
  
   // window.fbAsyncInit = function() {
@@ -260,7 +259,7 @@
                       <i class="icon icon-bars color-white"></i>
                   </a> -->
               </div>
-              <div id = "navbartitle" class="center color-white">
+              <div id = "home-navbar-title" class="center color-white">
                 <p class="buttons-row theme-gray">
                     <a href="#" class="button "><i class="fa fa-globe"></i></a>
                     <a href="#" class="button active"><i class="fa fa-music"></i></a>
@@ -359,7 +358,7 @@
           </div>
         </div>
       </div>
-    <div class="view view-home" id = "loading_page" style = "display:none">
+    <div class="view view-home" id = "loading_page" style = "display:block">
       <div class="pages navbar-fixed toolbar-fixed">
         <!-- Page, data-page contains page name-->
         <div data-page="index" class="page" >
@@ -389,23 +388,25 @@
         </div>
       </div>
     </div>
-    <div class="view view-home" id = "login_page" style = "display:block">
+    <div class="view view-home" id = "login_page" style = "display:none">
         <!-- Top Navbar-->
-<!--         <div class="navbar border-no">
-          <div class="navbar-inner">
-              <div class="left">
-                   <a href="#" class="link color-white">
-                      <i class="icon icon-bars color-white"></i>
-                  </a>
+        <div class="navbar border-no " id="loginpage-navbar-id">
+          <div class="navbar-inner" >
+              <div class="left" id="loginpage-navbar-left">
+        <!--         <a onclick = "backToLoginPage1()" class="link color-white">
+                  <i class="fa fa-chevron-left color-white">
+                  </i>
+                  Back
+                </a> -->
               </div>
-              <div id = "navbartitle" class="center color-white">
+              <div id = "loginpage-navbar-title" class="center color-white">
             
               </div>
               <div class="right color-white">
               
               </div>
           </div>
-        </div> -->
+        </div>
         <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
         <div class="pages navbar-fixed toolbar-fixed">
           <!-- Page, data-page contains page name-->
@@ -413,45 +414,136 @@
             <!-- Scrollable page content-->
             <div class= "home-page-background"></div>
             <div class="page-content bg-album" >
-              <div class = "fadein div-center loading-page-logo" >
-                <img src="MusicQuiz_logo_text.png" width = "160px">
-              </div>
-              <div class = "loginpage-div-box div-center">
-                <div class = "row no-gutter">
-                  <div class = "col-15 loginpage-rightside-bar">
-                    <i class = "fa fa-envelope-o" ></i>
-                  </div>
-                  <div class = "col-85">
-                    <input class = "loginpage-input-box" id = "loginpage-username" type="text" autofocus placeholder = "email"></input>
-                  </div>              
-                </div>
-              </div>
-              <div class = "loginpage-div-box div-center">
-                <div class = "row no-gutter">
-                  <div class = "col-15 loginpage-rightside-bar">
-                    <i class = "fa fa-lock" ></i>
-                  </div>
-                  <div class = "col-85">
-                    <input class = "loginpage-input-box" id = "loginpage-password" type="password" placeholder = "password" onclick = "cleanpw()"></input>
-                  </div>
-                </div>
-              </div>
-              <!-- <div class = "loginpage-div-box div-center"> -->
-              <div id = "loginpage-login-button-id" class = "div-center loginpage-login-button" onclick = "login()">LOGIN</div>
-              <div class = "div-center loginpage-signup-div">
-                <div class = "row no-gutter">
-                  <div class = "col-50">
-                    <a class = "color-white" onclick = "signup()">Sign Up</a>
+              <div class="slider-login slider-container">
+                <div class="slider-wrapper">
+                  <div class="slider-slide">
+                    <div class = "fadein div-center loading-page-logo" >
+                      <img src="MusicQuiz_logo_text.png" width = "160px">
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-envelope" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage-username" type="text" autofocus placeholder = "email"></input>
+                        </div>              
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-lock" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage-password" type="password" placeholder = "password" onclick = "cleanpw()"></input>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <div class = "loginpage-div-box div-center"> -->
+                    <div id = "loginpage-login-button-id" class = "div-center loginpage-login-button cherry-button-red" onclick = "login()">LOGIN</div>
+                    <div class = "div-center loginpage-signup-div">
+                      <div class = "row no-gutter">
+                        <div class = "col-50">
+                          <a class = "color-white" onclick = "turnToSignUp()">Sign Up</a>
 
+                        </div>
+                        <div class = "col-50">
+                          <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
+                          </fb:login-button>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class = "col-50">
-                    <fb:login-button scope="public_profile,email, user_friends" onlogin="checkLoginState();">
-                    </fb:login-button>
+                  <div class="slider-slide">
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-envelope" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-username" type="text" autofocus placeholder = "email"></input>
+                        </div>              
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-lock" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-password" type="password" placeholder = "password" onclick = "cleanpw()"></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-user" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-name" type="text" placeholder = "your name"></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-female" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-userGender" type="text" placeholder = "gender"></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-birthday-cake" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-userBirthday" type="date" ></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-music" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-artist1" type="text" placeholder = "your artist 1"></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-music" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-artist2" type="text" placeholder = "your artist 2"></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "loginpage-div-box div-center">
+                      <div class = "row no-gutter">
+                        <div class = "col-15 loginpage-rightside-bar">
+                          <i class = "fa fa-music" ></i>
+                        </div>
+                        <div class = "col-85">
+                          <input class = "loginpage-input-box" id = "loginpage2-artist3" type="text" placeholder = "your artist 3"></input>
+                        </div>
+                      </div>
+                    </div>
+                    <div class = "div-center loginpage-login-button cherry-button-red" onclick = "backToLoginPage1()">
+                    Actually...I have an account</div>
+                    <div id = "loginpage2-login-button-id" class = "div-center loginpage-login-button cherry-button-green" onclick = "signup()">
+                      SIGN UP
+                    </div>
                   </div>
                 </div>
               </div>
-              <!-- </div> -->
-         
             </div>
             <!--    <div class="content-block"> -->
             <!-- <div class = "content-login"> -->
@@ -475,7 +567,7 @@
           </div>
         </div>
       </div>
-      <div class="view view-home" id = "select_theme_page" style= "display:none">
+      <div class="view view-home" id = "select_page" style= "display:none">
         <!-- Top Navbar-->
         <div class="navbar bg-trans border-no">
           <div class="navbar-inner">
@@ -485,7 +577,7 @@
                       <i class="icon icon-bars color-white"></i>
                   </a>
               </div>
-              <div id = "navbartitle" class="center color-white">
+              <div id = "select-navbar-title" class="center color-white">
                 SpotiQuiz
               </div>
               <div class="right color-white">
@@ -692,54 +784,7 @@
             </table>
           </div>
         </div>
-      </div>
-      <div class="view view-home" id = "gameovers_page" style= "display:none">
-        <!-- Top Navbar-->
-        <div class="navbar bg-trans border-no">
-          <div class="navbar-inner">
-              <div class="left">
-           <!--         <a href="#" class="link color-white">
-                      <i class="icon icon-bars color-white"></i>
-                  </a> -->
-              </div>
-              <div id = "navbartitle" class="center color-white">
-              </div>
-              <div class="right color-white">
-
-              </div>
-          </div>
-        </div>
-        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-        <div class="pages navbar-through toolbar-through">
-          <!-- Page, data-page contains page name-->
-          <div data-page="index" class="page" >
-            <!-- Scrollable page content-->
-            <div class="page-content bg-pred" >
-              <div class="content-block ">
-
-
-                <!--Probably dont need this-->
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- Bottom Toolbar-->
-        <div class="toolbar border-no">
-          <div class="toolbar-inner">
-            <table class="toolbar-inner-table">
-              <tr>
-                <td class="toolbar-inner-left">
-                  <!--<a href="#" class="link color-blue">Link 1</a>-->
-                </td>
-                <td class="toolbar-inner-request-table">
-                </td>
-                <td class="toolbar-inner-right">
-                </td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      </div>        
+      </div>      
     </div>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.js"></script>

@@ -52,11 +52,8 @@ var myApp = new Framework7({
     swipebackPage: true
 });
 var profilePicLink = ""
-var mySlider2 = myApp.slider('.slider-2', {
-  pagination:'.slider-2 .slider-pagination',
-  spaceBetween: 20,
-  slidesPerView: 2
-});
+var albumSlider;
+var loginSlider;
 var seedArtist
 var next_audio_buffer = ""
 var username = ""
@@ -113,6 +110,8 @@ function login(){
 	  	console.log("good login")
 	  	document.getElementById("loginpage-login-button-id").innerHTML = 'LOGIN'
 	  	document.getElementById("loginpage-password").value = ""
+	  	console.log(user)
+
 	  	onload_function()
 	    // Do stuff after successful login.
 	  },
@@ -136,21 +135,72 @@ function cleanpw() {
 function signupFB() {
 
 }
+function backToLoginPage1() {
+	console.log("here!!!back")
+	document.getElementById("loginpage-navbar-id").style.display = "none"
+	document.getElementById("loginpage-navbar-id").style.background = "transparent"
+	// document.getElementById("loginpage-navbar-title").innerHTML = ''
+	// document.getElementById("loginpage-navbar-left").innerHTML = ''
+	loginSlider.slidePrev();
+}
+function turnToSignUp() {
+	loginSlider.slideNext();
+	document.getElementById("loginpage2-username").value = document.getElementById("loginpage-username").value
+	document.getElementById("loginpage-navbar-title").innerHTML = 'SIGN UP'
+	document.getElementById("loginpage-navbar-id").style.display = "block"
+	document.getElementById("loginpage-navbar-id").style.background = "rgba(35,36,39,0.99)"
+
+
+	// document.getElementById("loginpage-navbar-left").onclick = function () {
+	// 	console.log("wtf")
+	// 	return backToLoginPage1();
+	// }
+}
 function signup() {
 	console.log("sign up!")
 	var user = new Parse.User();
-	userName = document.getElementById("loginpage-username").value
-	userPW = document.getElementById("loginpage-password").value
+	userName = document.getElementById("loginpage2-username").value
+	userPW = document.getElementById("loginpage2-password").value
+	userOwnName = document.getElementById("loginpage2-name").value
+	userBirthday = document.getElementById("loginpage2-userBirthday").value
+	userGender = document.getElementById("loginpage2-userGender").value
+	userArtist = []
+	userArtist[0] = document.getElementById("loginpage2-artist1").value
+	userArtist[1] = document.getElementById("loginpage2-artist2").value
+	userArtist[2] = document.getElementById("loginpage2-artist3").value
 	user.set("username", userName);
 	user.set("password", userPW);
 	user.set("email", userName);
-	 
+
+
+	for (var i = 0; i < 3; i++) {
+		var artistUnit = []
+		artistUnit["name"] = userArtist[i]
+		artistUnit["impression"] = 0
+		artistUnit["round"] = 0
+		artistUnit["ctr"] = 0
+		artistUnit["score"] = 0
+		artistUnit["correct"] = 0
+		artistUnit["accuracy"] = 0
+		artistUnit["returnReward"] = 0
+		artistUnit["round"] = 0
+		artistUnit["XP"] = 0
+		artistUnit["level"] = 0
+		userArtist = userArtist.concat(artistUnit)
+	}
+	user.set("artist", userArtist)
+	user.set("birthday", userBirthday)
+	user.set("realname", userOwnName)
+	user.set("XP", 0)
+	user.set("level", 0)
+	user.set("XP", userGender)
 	// other fields can be set just like with Parse.Object
 	// user.set("phone", "415-392-0202");
 	 
 	user.signUp(null, {
 	  success: function(user) {
 	  	console.log("good!!!")
+	  	onload_function()
 	    // Hooray! Let them use the app now.
 	  },
 	  error: function(user, error) {
@@ -392,11 +442,10 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	if(artistsArray.length == 0){
 		console.log(htmlText)
 		document.getElementById("sliderRecommend").innerHTML = htmlText
-		mySlider2 = myApp.slider('.slider-2', {
+		albumSlider = myApp.slider('.slider-2', {
 			pagination:'.slider-2 .slider-pagination',
-			speed: 100,
 			spaceBetween: 10,
-			slidesPerView: 3
+			slidesPerView: 2
 		});
 
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
@@ -406,7 +455,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	}
 
 	request = $.getJSON('https://itunes.apple.com/search?term=' + artistsArray[0] + '&entity=musicTrack&callback=?' , function(data){
-		var recommendListHTMLTextSingle = '<div class="slider-slide " style=" margin-right: 30px; width: calc((100% - 60px) / 3);"  onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
+		var recommendListHTMLTextSingle = '<div class="slider-slide   onclick = "genGame(\''+artistsArray[0]+ '\' )">'+
                      '<img class= "slider-slide-img" src="'+ get400pixel(data.results[0]["artworkUrl100"]) + '">'+
                      '<div class="slider-slide-title">'+
                       '<span class= "slider-slide-title-text">' + artistsArray[0] + '</span>'+
@@ -429,38 +478,29 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	});
 }
 function onload_function(){
-	// Get geolocation
-	if (navigator.geolocation) {
-		console.log(navigator.geolocation)
-		navigator.geolocation.getCurrentPosition(function (position) {
-			geoX = position.coords.latitude 
-			geoY = position.coords.longitude
-			console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
-		}, function(){
-			console.log("error")
-		})
-	} else{
-		console.log("lol")
-	}
-	// init parse
-	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
-	Parse.FacebookUtils.init({ // this line replaces FB.init({
-      appId      : '1454555321479877', // Facebook App ID
-      status     : true,  // check Facebook Login status
-      cookie     : true,  // enable cookies to allow Parse to access the session
-      xfbml      : true,  // initialize Facebook social plugins on the page
-      version    : 'v2.2' // point to the latest Facebook Graph API version
-    });
+
     // Run code after the Facebook SDK is loaded.
 	var currentUser = Parse.User.current();
-	changePage("loading_page")
 	if (currentUser) {
+		var query = new Parse.Query(Parse.User);
+        query.get(currentUser.id, {
+          success: function(userAgain) {
+          	document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You, " + userAgain._serverData.realname
+          	artistsArray = []
+          	for (var i in userAgain._serverData.artist) {
+          		artistsArray = artistsArray.concat(userAgain._serverData.artist[i])
+          	}
+			recommendListHTMLText = ""
+			recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
+
+          }, error: function(userAgain, error) {
+		    console.log("bad login")
+		    // error is a Parse.Error with an error code and message.
+		  }
+        });
 	    // do stuff with the user
 	    console.log("someone's in")
 	    // init artist array
-	    artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
-		recommendListHTMLText = ""
-		recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
 
 	} else {
 	    // show the signup or login page
@@ -1047,7 +1087,7 @@ function appendNewSongToGameOver(){
 		profilePicLink = "http://graph.facebook.com/"+ response.id +"/picture?type=large"
 		document.getElementById("profilePicture").src = profilePicLink
 		console.log(response)
-		document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You" + " "+ response.name
+		
       console.log("hahahhaha")
     });
     FB.api('/me/friends', function(friend_response) {
@@ -1075,24 +1115,30 @@ function getRandomInt (min, max) {
 
 
 function buildSongArrayQuery() {
-	/* This is the old version */
-	// request = $.getJSON('http://charts.spotify.com/api/tracks/most_streamed/global/daily/latest?callback=?', function(data){
-	// 	// track_list = shuffleArray(JSON.parse(data)["tracks"])
-	// 	// console.log(request)
-	// 	console.log(data)
-	// 	// var array = JSON.parse(playlist)
-	// 	for(i = 0; i < 50; i++){
-	// 		track_url = data["tracks"][i]["track_url"]
-	// 		track_id = track_url.split("https://play.spotify.com/track/")
-	// 		console.log(track_id[1])
-	// 		songarray += track_id[1]
-	// 		if (i < 49){
-	// 			songarray += ','
-	// 		}
-	// 	}
-	// 	console.log(songarray)
-	// 	onload_function()	
-	// });	
+
+	loginSlider = myApp.slider('.slider-login', {
+			onlyExternal: true,
+			pagination:'.slider-login .slider-pagination',
+			speed: 400,
+			spaceBetween: 10,
+			slidesPerView: 1,
+
+	});
+	// Get geolocation
+	if (navigator.geolocation) {
+		console.log(navigator.geolocation)
+		navigator.geolocation.getCurrentPosition(function (position) {
+			geoX = position.coords.latitude 
+			geoY = position.coords.longitude
+			console.log("Latitude: " + position.coords.latitude + ", Longitude: " + position.coords.longitude);
+		}, function(){
+			console.log("error")
+		})
+	} else{
+		console.log("lol")
+	}
+	// init parse
+	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
 	onload_function()
 }
 
