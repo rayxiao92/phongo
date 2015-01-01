@@ -1058,6 +1058,7 @@ function appendNewSongToGameOver(){
 		      console.log("User signed up and logged in through Facebook!");
 		      turnToSignUp()
 		    } else {
+		    	onload_function()
 		      console.log("User logged in through Facebook!");
 		    }
 		  },
