@@ -1060,7 +1060,6 @@ function appendNewSongToGameOver(){
 		    } else {
 		      console.log("User logged in through Facebook!");
 		    }
-		    onload_function()
 		  },
 		  error: function(user, error) {
 		    alert("User cancelled the Facebook login or did not fully authorize.");
