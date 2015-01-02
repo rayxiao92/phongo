@@ -219,7 +219,7 @@ function signup() {
 		  }
 		});	
 	} else {
-		document.getElementById("singup-green-button").remove()
+		
 		currentUser.set("email", userName);
 		currentUser.set("artist", userArtist)
 		currentUser.set("birthday", userBirthday)
@@ -515,7 +515,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	});
 }
 function onload_function(){
-	console.log("login-responsive")
+	console.log("no-return-for-facebook-user")
     // Run code after the Facebook SDK is loaded.
 	currentUser = Parse.User.current();
 	if (currentUser) {
@@ -1078,6 +1078,7 @@ function appendNewSongToGameOver(){
 		    if (!user.existed()) {
 		      console.log("User signed up and logged in through Facebook!");
 		      currentUser = user;
+		      document.getElementById("singup-green-button").remove()
 		      turnToSignUp()
 		    } else {
 		    	onload_function()
