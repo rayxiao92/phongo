@@ -151,11 +151,13 @@ function turnToSignUp(param) {
 	document.getElementById("signup-navbar-title").innerHTML = 'SIGN UP'
 	document.getElementById("signup-navbar-id").style.display = "block"
 	document.getElementById("signup-navbar-id").style.background = "rgba(35,36,39,0.99)"
-
-	// document.getElementById("loginpage-navbar-left").onclick = function () {
-	// 	console.log("wtf")
-	// 	return backToLoginPage1();
-	// }
+}
+function turnToFBSignUp(param) {
+	changePage("signup_page")
+	document.getElementById("signup-username").value = document.getElementById("loginpage-username").value
+	document.getElementById("signup-navbar-title").innerHTML = 'SIGN UP'
+	document.getElementById("signup-navbar-id").style.display = "block"
+	document.getElementById("signup-navbar-id").style.background = "rgba(35,36,39,0.99)"
 }
 function panel_home(){
 	console.log("homemmmm")
