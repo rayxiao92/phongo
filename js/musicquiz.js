@@ -513,7 +513,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 	});
 }
 function onload_function(){
-	console.log("responsive-button-version")
+	console.log("login-responsive")
     // Run code after the Facebook SDK is loaded.
 	currentUser = Parse.User.current();
 	if (currentUser) {
