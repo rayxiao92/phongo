@@ -217,6 +217,7 @@ function signup() {
 		  }
 		});	
 	} else {
+		document.getElementById("singup-green-button").remove()
 		currentUser.set("email", userName);
 		currentUser.set("artist", userArtist)
 		currentUser.set("birthday", userBirthday)
