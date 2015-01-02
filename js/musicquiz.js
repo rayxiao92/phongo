@@ -160,6 +160,9 @@ function turnToFBSignUp(param) {
 	document.getElementById("signup-navbar-id").style.background = "rgba(35,36,39,0.99)"
 }
 function panel_home(){
+	if (document.getElementById("gameover_page").style.display == "block") {
+		updatereward2()
+	}
 	console.log("homemmmm")
 	myApp.closePanel()
 	changePage('home_page')
@@ -523,6 +526,8 @@ function onload_function(){
       	for (var i in currentUser._serverData.artist) {
       		artistsArray = artistsArray.concat(currentUser._serverData.artist[i])
       	}
+      	username = currentUser._serverData.username
+      	userEmail = currentUser._serverData.email
 		recommendListHTMLText = ""
 		recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
 	    console.log("someone's in")
@@ -533,10 +538,6 @@ function onload_function(){
 	    console.log("need signup")
 	    changePage("login_page")
 	}
-	// init artist array
-	// artistsArray = ["Wiz Khalifa", "Beyonce", "周杰伦", "OneRepublic", "B.o.b"]
-	// recommendListHTMLText = ""
-	// recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
 }
 function pass_this() {
 	gameloop()
@@ -655,6 +656,11 @@ function select_choice (choice){
 	}
 
 }
+function gameoverReplay() {
+		realAudio[ithgame-1].pause();
+		updatereward2()
+		genGame(seedArtist);	
+}
 function gameloop(){
 	console.log(ratio)
 	if(ithgame == maxSongInList){
@@ -681,8 +687,7 @@ function gameloop(){
 
 	document.getElementById("gameover-navbar-title").innerHTML = seedArtist
 	document.getElementById("gameover-replay").onclick = function () {
-		realAudio[ithgame-1].pause();
-		genGame(seedArtist);
+		gameoverReplay()
 	}
 	// Build new music source
 	// this_url = next_url
@@ -784,21 +789,13 @@ function gameloop(){
 function goBackToHome(){
 	realAudio[ithgame-1].pause()
 	// Update game data as the player returns
-    secondGameScore.destroy({
-	  success: function(secondGameScore) {
-	  	console.log("first is destroyed")
-	    // The object was deleted from the Parse Cloud.
-	  },
-	  error: function(secondGameScore, error) {
-	    // The delete failed.
-	    console.log("first is notttt destroyed")
-	    // error is a Parse.Error with an error code and message.
-	  }
-	});
-	finalGameScore = new GameScore();
+	updatereward2()
+	changePage("home_page")
+}
+function updatereward2(){
 	playedAgain = true
     // var point = new Parse.GeoPoint({latitude: geoX, longitude: geoY});
-	finalGameScore.save({
+	firstGameScore.save({
 		score: playerScore,
 		accuracy: correctPercent, 
 		playerName: username,
@@ -809,48 +806,35 @@ function goBackToHome(){
 		playerReturns: playedAgain,
 		location: point
 	}, {
-		success: function(finalGameScore) {
+		success: function(firstGameScore) {
 			console.log("success final")
 		// The object was saved successfully.
 		},
-		error: function(finalGameScore, error) {
+		error: function(firstGameScore, error) {
 		// The save failed.
 			console.log("ehh")
 		// error is a Parse.Error with an error code and message.
 		}
 	});
-    firstDiffIndexQuery.destroy({
-		success: function(firstDiffIndexQuery) {
-			console.log("firstDiffIndexQuery is destroyed")
-			// The object was deleted from the Parse Cloud.
-		},
-		error: function(firstDiffIndexQuery, error) {
-			// The delete failed.
-			console.log("firstDiffIndexQuery is notttt destroyed")
-			// error is a Parse.Error with an error code and message.
-		}
-	});
 	// Update the action value of the bandit
 	rew += 1
 	aR = rew / pC
-	secondDiffIndexQuery = new DifficultyIndex()
-	secondDiffIndexQuery.save({
+	firstDiffIndexQuery.save({
 		difficultyIndex: ratio,
 		playedCount: pC,
 		reward: rew, 
 		avgReward: aR
 	}, {
-	success: function(secondDiffIndexQuery) {
+	success: function(firstDiffIndexQuery) {
 		console.log("success final secondDiffIndexQuery")
 		// The object was saved successfully.
 	},
-	error: function(secondDiffIndexQuery, error) {
+	error: function(firstDiffIndexQuery, error) {
 		// The save failed.
 		console.log("ehh_update secondDiffIndexQuery")
 		// error is a Parse.Error with an error code and message.
 	}
 	});
-	changePage("home_page")
 }
 function loaddata() {
 	// Insert a row to game data as the game starts
@@ -938,19 +922,18 @@ function gameover(){
     // destroy the previous game data and generate a new one
     // since the player finishes the game
     playerScore = score
-    firstGameScore.destroy({
-	  success: function(firstGameScore) {
-	  	console.log("first is destroyed")
-	    // The object was deleted from the Parse Cloud.
-	  },
-	  error: function(firstGameScore, error) {
-	    // The delete failed.
-	    console.log("first is notttt destroyed")
-	    // error is a Parse.Error with an error code and message.
-	  }
-	});
-	secondGameScore = new GameScore();
-	secondGameScore.save({
+ //    firstGameScore.destroy({
+	//   success: function(firstGameScore) {
+	//   	console.log("first is destroyed")
+	//     // The object was deleted from the Parse Cloud.
+	//   },
+	//   error: function(firstGameScore, error) {
+	//     // The delete failed.
+	//     console.log("first is notttt destroyed")
+	//     // error is a Parse.Error with an error code and message.
+	//   }
+	// });
+	firstGameScore.save({
 		score: playerScore,
 		accuracy: correctPercent, 
 		playerName: username,
@@ -961,41 +944,18 @@ function gameover(){
 		playerReturns: playedAgain,
 		location: point
 	}, {
-	  success: function(secondGameScore) {
-	  	console.log("success_go")
+	  success: function(firstGameScore) {
+	  	console.log("success_reward_1")
 	    // The object was saved successfully.
 	  },
-	  error: function(secondGameScore, error) {
+	  error: function(firstGameScore, error) {
 	    // The save failed.
-	    console.log("ehh_go")
+	    console.log("ehh_go_1")
 	    // error is a Parse.Error with an error code and message.
 	  }
 	});
 
 
-	// // var GameScore = Parse.Object.extend("GameScore");
-	// var query = new Parse.Query(GameScore);
-	// query.equalTo("playerEmail", userEmail);
-	// query.find({
-	// 	success: function(results) {
-	// 		console.log("Successfully retrieved " + results.length + " scores.");
-	// 		// Do something with the returned Parse.Object values
-	// 		maxScore = score
-	// 		if(results.length > 0){
-	// 		    for (var i = 0; i < results.length; i++) {
-	// 				object = results[i];
-	// 				// console.log(object.get('score'))
-	// 				if (object.get('score') > maxScore){
-	// 					maxScore = object.get('score')
-	// 				}
-	// 		    }
-	// 		}
-	// 		document.getElementById("scoretitle").innerHTML = "You got " + score +". Max is " + maxScore	    	
-	// 	},
-	// 	error: function(error) {
-	// 		alert("Error: " + error.code + " " + error.message);
-	// 	}
-	// });
 	document.getElementById("scoretitle").innerHTML = score
 	document.getElementById("game-over-portrait").src = profilePicLink
 	document.getElementById("panel-portrait").src = profilePicLink
@@ -1005,10 +965,12 @@ function gameover(){
 	document.getElementById("totalScore").innerHTML = score + max_streak_correct * 10
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
 	toprec_index = 0
+	var ul_list = ""
 	while (toprec_index < maxSongInList){
-		appendNewSongToGameOver()
+		ul_list += appendNewSongToGameOver()
 		toprec_index++
 	}
+	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML = ul_list  
 }
 
 function goToITunes(link) {
@@ -1016,38 +978,22 @@ function goToITunes(link) {
 	window.open(link)
 }
 function appendNewSongToGameOver(){
-
-    // console.log(document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML)
-    // document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML 
-    var ul_list = '<li class=" bg-trans "> ' +
-                        '<div class="swipeout-content bg-trans item-content" id = "recommend' + toprec_index+'"> ' +
-                         '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["artworkUrl100"] +'" width="50"></div> ' +
-                         '<div class="item-inner"> ' +
-                            '<div class="item-title-row"> ' +
-                              '<div class="item-title color-white">' + song_you_played_array[toprec_index]["trackName"] + '</div> ' +
-                              '<div class="item-after"><div class = "button border-white color-white"   onclick = "goToITunes(\''+song_you_played_array[toprec_index]["trackViewUrl"] + '\' )"> Get</div></div> ' +
-                            '</div> ' +
-                            // '<div class="item-title-row"> ' +
-                            '<div class="item-subtitle color-grey">' + song_you_played_array[toprec_index]["artistName"] + '</div> ' +
-                              // '<div class="item-after">' + song_you_played_array[toprec_index]["fit"] + "%" + '</div> ' +
-                            // '</div> ' +
-                            // '<div class="item-text">' + song_you_played_array[toprec_index]["album"]["name"] + '</div> ' +
-                          '</div> ' +
-                        '</div> ' +
-                        // '<div class="swipeout-actions-right bg-trans"> ' +
-                        //   '<a href="#"  class="action1 bg-red"></a> ' +
-                        //   '<a href="#"  class="swipeout-delete swipeout-overswipe nextdish">Nope! </a>' +
-                        // '</div> ' +
-                        // '<div class="swipeout-actions-left"> ' +
-                        //   '<a href="#"  class="action1 bg-green">hmmm</a> ' +
-                        // '</div> ' +
-                      '</li> '
-    document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML += ul_list  
-    // toprec_index++
-    // if (toprec_index >= song_you_played_array.length) {
-    // 	clearInterval(gameEndAnimation)
-    // }
-
+    return '<li class=" bg-trans "> ' +
+            '<div class="swipeout-content bg-trans item-content" id = "recommend' + toprec_index+'"> ' +
+             '<div class="item-media"><img src=" ' + song_you_played_array[toprec_index]["artworkUrl100"] +'" width="50"></div> ' +
+             '<div class="item-inner"> ' +
+                '<div class="item-title-row"> ' +
+                  '<div class="item-title color-white">' + song_you_played_array[toprec_index]["trackName"] + '</div> ' +
+                  '<div class="item-after"><div class = "button border-white color-white"   onclick = "goToITunes(\''+song_you_played_array[toprec_index]["trackViewUrl"] + '\' )"> Get</div></div> ' +
+                '</div> ' +
+                // '<div class="item-title-row"> ' +
+                '<div class="item-subtitle color-grey">' + song_you_played_array[toprec_index]["artistName"] + '</div> ' +
+                  // '<div class="item-after">' + song_you_played_array[toprec_index]["fit"] + "%" + '</div> ' +
+                // '</div> ' +
+                // '<div class="item-text">' + song_you_played_array[toprec_index]["album"]["name"] + '</div> ' +
+              '</div> ' +
+            '</div> ' +
+          '</li> '
 }
 /*************************************
 **                                  **
