@@ -113,7 +113,7 @@ function login(){
 	  	document.getElementById("loginpage-login-button-id").innerHTML = 'LOGIN'
 	  	document.getElementById("loginpage-password").value = ""
 	  	console.log(user)
-
+	  	changePage("loading_page")
 	  	onload_function()
 	    // Do stuff after successful login.
 	  },
@@ -272,7 +272,12 @@ function genGame(artistName) {
 
 	DifficultyIndex = Parse.Object.extend("DifficultyIndex");
 
-
+	windowHeight = $(window).height()
+	windowWidth = $(window).width()
+	console.log(windowWidth)
+	console.log(windowHeight)
+	$(".game-button").height((windowHeight - windowWidth ) / 4 - 3); 
+	$(".game-button").css("line-height", (windowHeight - windowWidth ) / 4 - 3+"px"); 
 	// Go to the database and find the arm with best reward
 	var query = new Parse.Query(DifficultyIndex);
 	query.descending("avgReward");
@@ -511,25 +516,14 @@ function onload_function(){
     // Run code after the Facebook SDK is loaded.
 	currentUser = Parse.User.current();
 	if (currentUser) {
-		var query = new Parse.Query(Parse.User);
-        query.get(currentUser.id, {
-          success: function(userAgain) {
-          	document.getElementById("quizPrompt").innerHTML = "Quizzes We Pick For You, " + userAgain._serverData.realname
-          	artistsArray = []
-          	for (var i in userAgain._serverData.artist) {
-          		artistsArray = artistsArray.concat(userAgain._serverData.artist[i])
-          	}
-			recommendListHTMLText = ""
-			recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
-
-          }, error: function(userAgain, error) {
-		    console.log("bad login")
-		    // error is a Parse.Error with an error code and message.
-		  }
-        });
-	    // do stuff with the user
+       artistsArray = []
+      	for (var i in currentUser._serverData.artist) {
+      		artistsArray = artistsArray.concat(currentUser._serverData.artist[i])
+      	}
+		recommendListHTMLText = ""
+		recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
 	    console.log("someone's in")
-	    // init artist array
+
 
 	} else {
 	    // show the signup or login page
