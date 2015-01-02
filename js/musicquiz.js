@@ -8,6 +8,7 @@ var geoX
 var geoY
 var pC
 var rew
+var currentUser
 var false_option =[]
 var playerScore = 0
 var queryID = ""
@@ -161,10 +162,9 @@ function panel_home(){
 	myApp.closePanel()
 	changePage('home_page')
 }
-function signup(para) {
+function signup() {
 
 	console.log("sign up!")
-	var user = new Parse.User();
 	userName = document.getElementById("signup-username").value
 	userPW = document.getElementById("signup-password").value
 	userOwnName = document.getElementById("signup-name").value
@@ -174,11 +174,8 @@ function signup(para) {
 	userArtist[0] = document.getElementById("signup-artist1").value
 	userArtist[1] = document.getElementById("signup-artist2").value
 	userArtist[2] = document.getElementById("signup-artist3").value
-	user.set("username", userName);
-	user.set("password", userPW);
-	user.set("email", userName);
 
-
+	
 	for (var i = 0; i < 3; i++) {
 		var artistUnit = []
 		artistUnit["name"] = userArtist[i]
@@ -194,25 +191,52 @@ function signup(para) {
 		artistUnit["level"] = 0
 		userArtist = userArtist.concat(artistUnit)
 	}
-	user.set("artist", userArtist)
-	user.set("birthday", userBirthday)
-	user.set("realname", userOwnName)
-	user.set("XP", 0)
-	user.set("level", 0)
-	user.set("gender", userGender)
-	// other fields can be set just like with Parse.Object
-	// user.set("phone", "415-392-0202");
-	user.signUp(null, {
-	  success: function(user) {
-	  	console.log("good!!!")
-	  	onload_function()
-	    // Hooray! Let them use the app now.
-	  },
-	  error: function(user, error) {
-	    // Show the error message somewhere and let the user try again.
-	    alert("Error: " + error.code + " " + error.message);
-	  }
-	});	
+
+	if (currentUser == null) {
+		currentUser = new Parse.User()
+		currentUser.set("username", userName);
+		currentUser.set("password", userPW);		
+		currentUser.set("email", userName);
+		currentUser.set("artist", userArtist)
+		currentUser.set("birthday", userBirthday)
+		currentUser.set("realname", userOwnName)
+		currentUser.set("XP", 0)
+		currentUser.set("level", 0)
+		currentUser.set("gender", userGender)
+		// other fields can be set just like with Parse.Object
+		// user.set("phone", "415-392-0202");
+		currentUser.signUp(null, {
+		  success: function(user) {
+		  	console.log("good!!!signup")
+		  	onload_function()
+		    // Hooray! Let them use the app now.
+		  },
+		  error: function(user, error) {
+		    // Show the error message somewhere and let the user try again.
+		    alert("Error: " + error.code + " " + error.message);
+		  }
+		});	
+	} else {
+		currentUser.set("email", userName);
+		currentUser.set("artist", userArtist)
+		currentUser.set("birthday", userBirthday)
+		currentUser.set("realname", userOwnName)
+		currentUser.set("XP", 0)
+		currentUser.set("level", 0)
+		currentUser.set("gender", userGender)
+		currentUser.save(null, {
+		  success: function(user) {
+		  	console.log("good!!!save")
+		  	onload_function()
+		    // Hooray! Let them use the app now.
+		  },
+		  error: function(user, error) {
+		    // Show the error message somewhere and let the user try again.
+		    alert("Error: " + error.code + " " + error.message);
+		  }
+		});			
+	}
+
 }
 function search_play(){
 	console.log(document.getElementById("searchbox_home").value)
@@ -485,7 +509,7 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 function onload_function(){
 	console.log("facebookutils")
     // Run code after the Facebook SDK is loaded.
-	var currentUser = Parse.User.current();
+	currentUser = Parse.User.current();
 	if (currentUser) {
 		var query = new Parse.Query(Parse.User);
         query.get(currentUser.id, {
@@ -1056,6 +1080,7 @@ function appendNewSongToGameOver(){
 		  success: function(user) {
 		    if (!user.existed()) {
 		      console.log("User signed up and logged in through Facebook!");
+		      currentUser = user;
 		      turnToSignUp()
 		    } else {
 		    	onload_function()
