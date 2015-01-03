@@ -12,6 +12,7 @@ var currentUser
 var false_option =[]
 var playerScore = 0
 var queryID = ""
+var notYetOver 
 var gameScore
 var firstGameScore;
 var secondGameScore;
@@ -275,6 +276,7 @@ function genGame(artistName) {
 	globalIndex = 0
 	validNum = 0
 	startFlag = false
+	notYetOver = true;
 
 	DifficultyIndex = Parse.Object.extend("DifficultyIndex");
 
@@ -526,7 +528,7 @@ function onload_function(){
       	for (var i in currentUser._serverData.artist) {
       		artistsArray = artistsArray.concat(currentUser._serverData.artist[i])
       	}
-      	username = currentUser._serverData.username
+      	username = currentUser._serverData.realname
       	userEmail = currentUser._serverData.email
 		recommendListHTMLText = ""
 		recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
@@ -663,7 +665,8 @@ function gameoverReplay() {
 }
 function gameloop(){
 	console.log(ratio)
-	if(ithgame == maxSongInList){
+	if(ithgame >= maxSongInList){
+		console.log("gameloop")
 		gameover()
 		return
 	}
@@ -878,27 +881,24 @@ function loaddata() {
 }
 function animation(){
 	cur_time = new Date()
-	if (ithgame > maxSongInList) {
-		gameover()
-	}
-	else{
-		percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
-		unit_percent = Math.round((unit_d_end.getTime() - cur_time.getTime())/ singleSongPlayTimeInMs * 100)
-		if (percent >= 100) {
-			percent = 100
-		}
-		unit_percent = 100 - unit_percent
-		percent = percent.toString()
 
-		document.getElementById("scorebar").style.width = unit_percent+"%"
-		// if (percent < 30){
-		// 	document.getElementById("scorebar").style.color = "red"
-		// } else {
-		// 	document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
-		// }
-		// document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
-		$('#play-artwork-img').height($("#play-artwork-img").width())
+	percent = Math.round((d_end.getTime() - cur_time.getTime())/ totalGameTimeInMs * 100)
+	unit_percent = Math.round((unit_d_end.getTime() - cur_time.getTime())/ singleSongPlayTimeInMs * 100)
+	if (percent >= 100) {
+		percent = 100
 	}
+	unit_percent = 100 - unit_percent
+	percent = percent.toString()
+
+	document.getElementById("scorebar").style.width = unit_percent+"%"
+	// if (percent < 30){
+	// 	document.getElementById("scorebar").style.color = "red"
+	// } else {
+	// 	document.getElementById("scorebar").style.color = "rgba(64,117,4,0.80);"
+	// }
+	// document.getElementById("play-artwork-img").setAttribute("style","-webkit-filter:blur(" + unit_percent/10 + "px)")
+	$('#play-artwork-img').height($("#play-artwork-img").width())
+
 	if (madeit == 1) {
 		// console.log(madeit_mult)
 		if (madeit_mult > delayMultipleForCorrectEffect) {
@@ -911,6 +911,7 @@ function animation(){
 	}
 }
 function gameover(){
+	
 	correctPercent = numCorrectGuess / maxSongInList
 
 	console.log("done")
@@ -921,48 +922,51 @@ function gameover(){
     
     // destroy the previous game data and generate a new one
     // since the player finishes the game
-    playerScore = score
- //    firstGameScore.destroy({
-	//   success: function(firstGameScore) {
-	//   	console.log("first is destroyed")
-	//     // The object was deleted from the Parse Cloud.
-	//   },
-	//   error: function(firstGameScore, error) {
-	//     // The delete failed.
-	//     console.log("first is notttt destroyed")
-	//     // error is a Parse.Error with an error code and message.
-	//   }
-	// });
-	firstGameScore.save({
-		score: playerScore,
-		accuracy: correctPercent, 
-		playerName: username,
-		playerEmail: userEmail, 
-		seedArtist: seedArtist,
-		difficultyIndex: ratio, 
-		trackInfo: track_list,
-		playerReturns: playedAgain,
-		location: point
-	}, {
-	  success: function(firstGameScore) {
-	  	console.log("success_reward_1")
-	    // The object was saved successfully.
-	  },
-	  error: function(firstGameScore, error) {
-	    // The save failed.
-	    console.log("ehh_go_1")
-	    // error is a Parse.Error with an error code and message.
-	  }
-	});
+    rawScore = score
+    totalScore = score + max_streak_correct * 10
+    playerScore = rawScore
+
+    if (notYetOver == false) {
+		notYetOver = true;
+		firstGameScore.save({
+			score: totalScore,
+			accuracy: correctPercent, 
+			playerName: username,
+			playerEmail: userEmail, 
+			seedArtist: seedArtist,
+			difficultyIndex: ratio, 
+			trackInfo: track_list,
+			playerReturns: playedAgain,
+			location: point
+		}, {
+		  success: function(firstGameScore) {
+		  	console.log("success_reward_1")
+		    // The object was saved successfully.
+		  },
+		  error: function(firstGameScore, error) {
+		    // The save failed.
+		    console.log("ehh_go_1")
+		    // error is a Parse.Error with an error code and message.
+		  }
+		});
+		if( currentUser._serverData.XP == null) {
+			currentUser.set("XP", totalScore)
+		} else {
+			currentUser.set("XP", currentUser._serverData.XP + totalScore)
+		}
+		currentUser.save();
+	}
 
 
-	document.getElementById("scoretitle").innerHTML = score
+
+	document.getElementById("scoretitle").innerHTML = rawScore
 	document.getElementById("game-over-portrait").src = profilePicLink
 	document.getElementById("panel-portrait").src = profilePicLink
 	document.getElementById("game-over-name-title").innerHTML = username
 	document.getElementById("streakBonus").innerHTML = max_streak_correct * 10
 	document.getElementById("levelBonus").innerHTML = 0
-	document.getElementById("totalScore").innerHTML = score + max_streak_correct * 10
+
+	document.getElementById("totalScore").innerHTML = totalScore
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML  = ""
 	toprec_index = 0
 	var ul_list = ""
@@ -970,6 +974,7 @@ function gameover(){
 		ul_list += appendNewSongToGameOver()
 		toprec_index++
 	}
+	clearInterval(interval)
 	document.getElementById("GameOverSongList").getElementsByTagName("ul")[0].innerHTML = ul_list  
 }
 
