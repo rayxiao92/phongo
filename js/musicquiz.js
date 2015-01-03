@@ -491,8 +491,9 @@ function recursiveRecommendListUpdate(artistsArray, htmlText){
 		});
 
 		// $("#sliderRecommend").css('transition: 0ms; -webkit-transition: 0ms; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);')
-		$('.slider-slide-img').height($('.slider-slide-img').width())
+		
 		changePage("home_page")	
+		$('.slider-slide-img').height($('.slider-slide-img').width()+"px")
 		return htmlText;
 	}
 
@@ -532,6 +533,7 @@ function onload_function(){
       	userEmail = currentUser._serverData.email
 		recommendListHTMLText = ""
 		recommendListHTMLText = recursiveRecommendListUpdate(artistsArray, recommendListHTMLText)
+		
 	    console.log("someone's in")
 
 
@@ -926,8 +928,8 @@ function gameover(){
     totalScore = score + max_streak_correct * 10
     playerScore = rawScore
 
-    if (notYetOver == false) {
-		notYetOver = true;
+    if (notYetOver == true) {
+		notYetOver = false;
 		firstGameScore.save({
 			score: totalScore,
 			accuracy: correctPercent, 
@@ -950,11 +952,25 @@ function gameover(){
 		  }
 		});
 		if( currentUser._serverData.XP == null) {
-			currentUser.set("XP", totalScore)
+			updatedXP = totalScore
 		} else {
-			currentUser.set("XP", currentUser._serverData.XP + totalScore)
+			updatedXP = currentUser._serverData.XP + totalScore
 		}
-		currentUser.save();
+
+		// later can be solved by cloud function
+		currentUser.save({
+			XP: updatedXP
+		}, {
+		  success: function(firstGameScore) {
+		  	console.log("success_XP")
+		    // The object was saved successfully.
+		  },
+		  error: function(firstGameScore, error) {
+		    // The save failed.
+		    console.log("failed XP")
+		    // error is a Parse.Error with an error code and message.
+		  }
+		});
 	}
 
 

@@ -679,10 +679,12 @@ span.text-content span {
 	padding-left: 10px;
 }
 .slider-slide-img {
-	width:100%;
-	height: auto !important;
+	display: block;
+	width: 100%;
+	height: auto;
 }
-
+.slider-slide-img-box { 
+}
 .slider-slide-title{
 	margin:10px 0px 15px; 
 	padding-top: 5px;
