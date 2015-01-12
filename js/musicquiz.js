@@ -261,7 +261,7 @@ function genGame(artistName) {
 	if (ongoing == true){
 		return
 	}
-
+	beep_audio.play()
 	// Variable initialization
 	ongoing = true
 	seedArtist = artistName
@@ -370,8 +370,11 @@ function genGame(artistName) {
 	// Load main artist's tracks
 	request = $.getJSON('https://itunes.apple.com/search?term='+ artistName +'&entity=musicTrack&callback=?', function(data){
 		// Get Appointed Artist's track
-		console.log(data)
+		// console.log(data)
 		musicTrackFromMainArtist = data.results
+		mimi = data.results.slice(0)
+		// console.log(mimi)
+		// console.log(musicTrackFromMainArtist)
 		musicTrackFromRelatedArtist = []
 		// Get related Artist's name
 		// get appointed artist's id from echonest
@@ -382,18 +385,22 @@ function genGame(artistName) {
 			// get similar artists information
 			request = $.getJSON('http://developer.echonest.com/api/v4/artist/similar?api_key=J8CEMYYSDCWPWAAMD&id=' + mainArtistId + '&format=json&results=15&start=0', function(data) {
 				relatedArtists = data.response.artists
+
 				relatedArtists = shuffleArray(relatedArtists)
 				minRatioList = Math.min(Math.round(ratio * maxSongInList), relatedArtists.length)
 				// get the first related artist
 				request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[0]["name"] +'&entity=musicTrack&attribute=allArtistTerm&country=hk&callback=?', function(data) {
 					musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
 					// get the second related artist
+					// console.log(mimi)
+					// console.log(musicTrackFromMainArtist)
+					genGameWithTwoArray(mimi,musicTrackFromRelatedArtist,ratio)
 					request = $.getJSON('https://itunes.apple.com/search?term=' + relatedArtists[1]["name"] +'&entity=musicTrack&attribute=allArtistTerm&country=hk&callback=?', function(data) {
 						musicTrackFromRelatedArtist = musicTrackFromRelatedArtist.concat(data.results)
-						console.log(musicTrackFromMainArtist)
-						console.log(musicTrackFromRelatedArtist)
+						// console.log(musicTrackFromMainArtist)
+						// console.log(musicTrackFromRelatedArtist)
 						// generate playlist
-						genGameWithTwoArray(musicTrackFromMainArtist,musicTrackFromRelatedArtist,ratio)
+						
 					});
 				});
 			});
@@ -408,10 +415,11 @@ function keepTrackOfAudio (audioItem, arrayItem, main, rel) {
 			track_list = track_list.concat(arrayItem)
 			var artworkImg = new Image();
 			artworkImg.src = get400pixel(arrayItem["artworkUrl100"])
-			artworkImg.onload = function (){console.log("image loaded");}
+			artworkImg.onload = function (){
+				console.log("image loaded");
+			}
 			realImage = realImage.concat(artworkImg)
-			realAudio = realAudio.concat(audioItem)
-			console.log(track_list)			
+			realAudio = realAudio.concat(audioItem)		
 		} else {
 			if (startFlag == false) {
 				startFlag = true
@@ -423,16 +431,10 @@ function keepTrackOfAudio (audioItem, arrayItem, main, rel) {
 				changePage("game_page")
 				loaddata()					
 			}
-
 		}
-
 	}	
 }
 function addValidTrack (main, rel, ratio, i) {
-	console.log(globalIndex)
-	console.log(track_list)
-	console.log(track_list.length)
-	console.log(maxSongInList)
 	var index;
 	var targetArray;
 	// Decide whether to add main or related artist
@@ -444,17 +446,16 @@ function addValidTrack (main, rel, ratio, i) {
 		index = getRandomInt(0, rel.length-1)
 		targetArray = rel
 	}
-	console.log(targetArray)
 	next_url = targetArray[index]["previewUrl"]
 	audio_buffer[globalIndex] = new Audio(next_url)
-	
+	console.log("avt")
 	keepTrackOfAudio(audio_buffer[globalIndex], targetArray[index], main, rel)
 	targetArray.splice(index,1)
 	globalIndex++
 	// }
 }
 function addValidTrackWrapper (main, rel, ratio, globalIndex) {
-	if (validNum < maxSongInList) {
+	if (validNum < maxSongInList && globalIndex < main.length) {
 		addValidTrack(main, rel, ratio, globalIndex)
 		loadNextTrack = setTimeout(addValidTrackWrapper(main, rel, ratio, globalIndex), 500)
 	}
@@ -463,6 +464,10 @@ function addValidTrackWrapper (main, rel, ratio, globalIndex) {
 // and a list of songs from related artists using the given ratio
 function genGameWithTwoArray(main, rel, ratio, i){
 	track_list = []
+
+	// console.log("genGameWithTwoArray")
+	// console.log(main)
+	// console.log(rel)
 	// load playlist using the ratio given
 	globalIndex = 0
 	var fullList = false;
@@ -471,7 +476,7 @@ function genGameWithTwoArray(main, rel, ratio, i){
 	// while (validNum < maxSongInList) {
 	// 	addValidTrackWrapper (main, rel, ratio, globalIndex)
 	// }
-	console.log("stop")
+	// console.log("stop")
 		
 
 }
@@ -846,7 +851,7 @@ function loaddata() {
 	// record the game with playedAgain = false and no score object by default
 	playedAgain = false
     GameScore = Parse.Object.extend("GameScore");
-
+    alert("get to load data")
 	firstGameScore = new GameScore();
 	firstGameScore.save({
 		playerName: username,

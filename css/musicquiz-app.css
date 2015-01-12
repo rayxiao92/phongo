@@ -609,8 +609,8 @@ span.text-content span {
 	background-image: linear-gradient(-180deg, #A8F451 0%, #528A12 62%);
 }
 .loading-page-logo {
-	padding-top:calc((100%-240px)/5); 
-	padding-bottom: calc((100%-240px)/5);
+	padding-top:calc(100%-240px)/5; 
+	padding-bottom: calc(100%-240px)/5;
 	padding-left:auto; 
 	padding-right:auto;  
 	text-align: center;
@@ -648,7 +648,7 @@ span.text-content span {
 	filter: blur(10px);
 	-webkit-filter: blur(10px);
 	-moz-filter: blur(10px);
-	/*background-image: url("http://a1.mzstatic.com/us/r30/Music/v4/af/c6/c0/afc6c0bb-46c8-f0fd-17f0-33542a5c330b/075679936936.400x400-75.jpg"), linear-gradient(top bottom, #6cab26, #343537); /* W3C */*/
+	/*background-image: url("http://a1.mzstatic.com/us/r30/Music/v4/af/c6/c0/afc6c0bb-46c8-f0fd-17f0-33542a5c330b/075679936936.400x400-75.jpg"), linear-gradient(top bottom, #6cab26, #343537); /* W3C */
 	background-repeat: no-repeat;
 	background-size: 1080px auto;
 	position: absolute;
