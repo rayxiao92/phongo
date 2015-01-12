@@ -95,6 +95,7 @@ var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
     dynamicNavbar: true, 
     swipePanel: 'right'
+
 });
 
 
@@ -284,8 +285,9 @@ function genGame(artistName) {
 	windowWidth = $(window).width()
 	console.log(windowWidth)
 	console.log(windowHeight)
-	$(".game-button").height((windowHeight - windowWidth ) / 4 - 3); 
-	$(".game-button").css("line-height", (windowHeight - windowWidth ) / 4 - 3+"px"); 
+	$(".game-button").height((windowHeight - windowWidth - 20 ) / 4 - 3); 
+	$(".game-button").width( windowWidth - 40); 
+	$(".game-button").css("line-height", (windowHeight - windowWidth - 20 ) / 4 - 3+"px"); 
 	// Go to the database and find the arm with best reward
 	var query = new Parse.Query(DifficultyIndex);
 	query.descending("avgReward");
@@ -408,7 +410,7 @@ function genGame(artistName) {
 	});
 }
 function keepTrackOfAudio (audioItem, arrayItem, main, rel) {
-	audioItem.oncanplaythrough = function (){
+	audioItem.addEventListener("canplaythrough", function (){
 		console.log("good!")
 		validNum++
 		if (track_list.length < maxSongInList){
@@ -432,7 +434,7 @@ function keepTrackOfAudio (audioItem, arrayItem, main, rel) {
 				loaddata()					
 			}
 		}
-	}	
+	});
 }
 function addValidTrack (main, rel, ratio, i) {
 	var index;
@@ -449,11 +451,83 @@ function addValidTrack (main, rel, ratio, i) {
 	next_url = targetArray[index]["previewUrl"]
 	audio_buffer[globalIndex] = new Audio(next_url)
 	console.log("avt")
-	keepTrackOfAudio(audio_buffer[globalIndex], targetArray[index], main, rel)
+	// keepTrackOfAudio(audio_buffer[globalIndex], targetArray[index], main, rel)
+	
+		if (track_list.length < maxSongInList){
+			track_list = track_list.concat(targetArray[index])
+			var artworkImg = new Image();
+			artworkImg.src = get400pixel(targetArray[index]["artworkUrl100"])
+			artworkImg.onload = function (){
+				console.log("image loaded");
+			}
+			realImage = realImage.concat(artworkImg)
+			realAudio = realAudio.concat(audio_buffer[globalIndex])		
+		} else {
+			if (startFlag == false) {
+				startFlag = true
+				false_option = []
+				false_option = false_option.concat(main)
+				false_option = false_option.concat(rel)
+				score = 0
+				document.getElementById("scoreboard").innerHTML = Math.round(score)
+				changePage("game_page")
+				loaddata()					
+			}
+		}
 	targetArray.splice(index,1)
 	globalIndex++
 	// }
 }
+// function addValidTrack (main, rel, ratio, i) {
+// 	var index;
+// 	var targetArray;
+// 	// Decide whether to add main or related artist
+// 	if (Math.random() > ratio) {
+// 		index = getRandomInt(0, main.length-1)
+// 		targetArray = main
+// 	} 
+// 	else {
+// 		index = getRandomInt(0, rel.length-1)
+// 		targetArray = rel
+// 	}
+// 	next_url = targetArray[index]["previewUrl"]
+// 	console.log("avt")
+
+// 	window.plugins.LowLatencyAudio.preloadFX( "audio_buffer"+globalIndex.toString(), next_url,
+// 		function(msg){
+// 			console.log("successfully loaded")
+// 			validNum++
+// 			if (track_list.length < maxSongInList){
+// 				track_list = track_list.concat(targetArray[index])
+// 				var artworkImg = new Image();
+// 				artworkImg.src = get400pixel(targetArray[index]["artworkUrl100"])
+// 				artworkImg.onload = function (){
+// 					console.log("image loaded");
+// 				}
+// 				realImage = realImage.concat(artworkImg)
+// 				realAudio = realAudio.concat("audio_buffer"+globalIndex.toString())		
+// 			} else {
+// 				if (startFlag == false) {
+// 					startFlag = true
+// 					false_option = []
+// 					false_option = false_option.concat(main)
+// 					false_option = false_option.concat(rel)
+// 					score = 0
+// 					document.getElementById("scoreboard").innerHTML = Math.round(score)
+// 					changePage("game_page")
+// 					loaddata()					
+// 				}
+// 			}			
+//     	}, 
+//     	function(msg){
+//      	   console.log( 'error: ' + msg );
+//     	}
+//     );
+// 	// keepTrackOfAudio(audio_buffer[globalIndex], targetArray[index], main, rel)
+// 	targetArray.splice(index,1)
+// 	globalIndex++
+// 	// }
+// }
 function addValidTrackWrapper (main, rel, ratio, globalIndex) {
 	if (validNum < maxSongInList && globalIndex < main.length) {
 		addValidTrack(main, rel, ratio, globalIndex)
@@ -1149,7 +1223,18 @@ function buildSongArrayQuery() {
 	}
 	// init parse
 	Parse.initialize("VV7IDop8RNDD1WiJzGeeHMD1SZuh4nGlC7tR1Ffn", "EMXyRtQm0WzmmfoHJPAVv0j0sFdNjJ7R3HMCxBDG");
+	
+	// function onDeviceReady() {
+ //    	hotjs.Audio.init();
+ //    // in your code, replace 'window.plugins.xxx()' with 'hotjs.Audio.xxx()'
+	// }
 	onload_function()
+	// if( window.plugins && window.plugins.LowLatencyAudio ) {
+	// 	console.log("success onloaded")
+	// 	onload_function()
+	// } else {
+	// 	console.log("onloaded fail")
+	// }
 }
 
 function getFourIndexFromArray (toInclude){
